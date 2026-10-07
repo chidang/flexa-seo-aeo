@@ -10,17 +10,11 @@
  *   - optionally surface configurable recovery actions
  *   - NEVER block or delay deactivation
  *
- * Usage (in your plugin bootstrap):
- *
- *   require_once __DIR__ . '/vendor/deactivation-intelligence/src/class-deactivation-intelligence.php';
- *
- *   Deactivation_Intelligence::init( array(
- *       'product'     => 'flexa',
- *       'tier'        => 'free',
- *       'version'     => FLEXA_VERSION,
- *       'plugin_file' => plugin_basename( __FILE__ ), // e.g. flexa/flexa.php
- *       'api_url'     => 'https://api.example.com',
- *   ) );
+ * Do NOT require this file from a host plugin. Require `loader.php` beside it
+ * and call `deactivation_intelligence_init()`: several Flexa plugins each bundle
+ * a copy of this global class, only one can define it, and the loader is what
+ * makes that the newest copy rather than the alphabetically-first plugin. See
+ * loader.php for the usage snippet and the reasoning.
  *
  * @package DeactivationIntelligence
  */
@@ -31,6 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'Deactivation_Intelligence' ) ) :
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- the unprefixed name is this shared SDK's contract: every Flexa plugin bundles a copy and they all talk to one class, which loader.php resolves to the newest copy on the site. A per-plugin prefix would give each its own class and a site with two of them would run two SDKs.
 	class Deactivation_Intelligence {
 
 		/**
@@ -69,6 +64,9 @@ if ( ! class_exists( 'Deactivation_Intelligence' ) ) :
 		 *     @type string $version     Plugin version string.
 		 *     @type string $plugin_file Basename of the plugin whose deactivation to intercept.
 		 *     @type string $api_url     Base URL of the central API (no trailing slash).
+		 *     @type string $support_url Optional. Help/support page. When set, the modal
+		 *                               shows a "Get help" link so a user hitting a problem
+		 *                               has somewhere to go other than Deactivate.
 		 *     @type bool   $collect_environment Whether to send wp/php/locale. Default true.
 		 * }
 		 */
@@ -79,6 +77,7 @@ if ( ! class_exists( 'Deactivation_Intelligence' ) ) :
 				'version'             => '',
 				'plugin_file'         => '',
 				'api_url'             => '',
+				'support_url'         => '',
 				'collect_environment' => true,
 			);
 			$config = wp_parse_args( $args, $defaults );
@@ -183,7 +182,12 @@ if ( ! class_exists( 'Deactivation_Intelligence' ) ) :
 				return;
 			}
 
-			$handle   = 'deactivation-intelligence-' . $this->config['product'];
+			// One handle for every product, not one per product. All instances
+			// now resolve to the same winning copy (see loader.php), so a
+			// per-product handle would emit N identical <script> tags and run
+			// the same file N times. Sharing it means one tag, with every
+			// product's config localized before it executes.
+			$handle   = 'deactivation-intelligence';
 			$src_dir  = plugin_dir_url( __FILE__ ) . '../assets/';
 			$dist_dir = __DIR__ . '/../assets/';
 
@@ -208,6 +212,15 @@ if ( ! class_exists( 'Deactivation_Intelligence' ) ) :
 		}
 
 		/**
+		 * Version of the copy that actually got loaded. Defined by loader.php,
+		 * which is the only place that knows it; '' when a host required this
+		 * file directly, bypassing the loader.
+		 */
+		public static function sdk_version() {
+			return defined( 'DEACTIVATION_INTELLIGENCE_VERSION' ) ? (string) DEACTIVATION_INTELLIGENCE_VERSION : '';
+		}
+
+		/**
 		 * Config handed to the browser. Includes reasons, i18n strings, endpoints,
 		 * and (best-effort) recovery actions fetched + cached server-side.
 		 */
@@ -216,6 +229,7 @@ if ( ! class_exists( 'Deactivation_Intelligence' ) ) :
 				'product'        => $this->config['product'],
 				'tier'           => $this->config['tier'],
 				'version'        => $this->config['version'],
+				'sdkVersion'     => self::sdk_version(),
 				'installationId' => $this->installation_id(),
 				'pluginFile'     => $this->config['plugin_file'],
 				'endpoints'      => array(
@@ -230,10 +244,30 @@ if ( ! class_exists( 'Deactivation_Intelligence' ) ) :
 					'php_version' => PHP_VERSION,
 					'locale'      => get_locale(),
 				) : new stdClass(),
+				'supportUrl'     => $this->support_url(),
 				'recoveryActions' => $this->fetch_recovery_config(),
 				'reasons'        => $this->reasons(),
 				'i18n'           => $this->strings(),
 			);
+		}
+
+		/**
+		 * The host plugin's support URL, or '' when it has none.
+		 *
+		 * Validated here rather than in the browser so a mistyped or hostile
+		 * value never reaches the DOM: anything that is not an absolute http(s)
+		 * URL is dropped, and the link is simply not rendered.
+		 */
+		private function support_url() {
+			$url = trim( (string) $this->config['support_url'] );
+			if ( '' === $url ) {
+				return '';
+			}
+			$scheme = wp_parse_url( $url, PHP_URL_SCHEME );
+			if ( ! in_array( $scheme, array( 'http', 'https' ), true ) ) {
+				return '';
+			}
+			return esc_url_raw( $url, array( 'http', 'https' ) );
 		}
 
 		/**

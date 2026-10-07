@@ -33,11 +33,12 @@
         : document.querySelector('a[id^="deactivate-"]');
       if (!link) return;
 
-      // Several Flexa plugins can each bundle and load their own copy of this
-      // script. Every copy iterates all configs on the page, so a single
-      // Deactivate link would otherwise receive one click handler per loaded
-      // copy and open that many stacked modals (needing one Cancel each). Bind
-      // each link exactly once, whichever copy reaches it first.
+      // Every execution of this script iterates all configs on the page, so a
+      // single Deactivate link would otherwise receive one click handler per
+      // execution and open that many stacked modals (needing one Cancel each).
+      // The PHP side now enqueues one shared handle, so a second execution
+      // should not happen, but a plugin still carrying a pre-loader copy of the
+      // SDK can add its own tag. Bind each link exactly once either way.
       if (link.getAttribute("data-di-bound")) return;
       link.setAttribute("data-di-bound", "1");
 
@@ -75,6 +76,7 @@
       '<div class="di-followup" hidden></div>' +
       '<div class="di-recovery" hidden></div>' +
       '<div class="di-actions">' +
+      '<a class="di-support" hidden></a>' +
       '<button type="button" class="di-btn di-btn-ghost di-cancel"></button>' +
       '<button type="submit" class="di-btn di-btn-primary di-submit"></button>' +
       "</div></form>";
@@ -83,6 +85,28 @@
     modal.querySelector(".di-subtitle").textContent = i18n.subtitle;
     modal.querySelector(".di-cancel").textContent = i18n.cancel;
     modal.querySelector(".di-submit").textContent = i18n.skip; // becomes "Deactivate" once a reason is chosen
+
+    // Support link. Always visible when the host plugin configured one, unlike
+    // the recovery actions below, which the server scopes to a chosen reason.
+    // Someone who is leaving because they are stuck should not have to pick a
+    // reason first to find out that help exists.
+    var supportLink = modal.querySelector(".di-support");
+    if (cfg.supportUrl) {
+      supportLink.hidden = false;
+      supportLink.href = safeUrl(cfg.supportUrl);
+      supportLink.target = "_blank";
+      supportLink.rel = "noopener";
+      supportLink.textContent = i18n.getHelp;
+      supportLink.addEventListener("click", function () {
+        // A known event type, NOT a recovery event: no server-configured action
+        // was offered here, so counting it in the recovery funnel would inflate
+        // the click side of recovery_rate with nothing on the offered side.
+        send(cfg, cfg.endpoints.events, {
+          event_type: "support_clicked",
+          event_data: selectedReason ? { reason: selectedReason } : undefined,
+        });
+      });
+    }
 
     // Reason radios.
     var reasonsWrap = modal.querySelector(".di-reasons");

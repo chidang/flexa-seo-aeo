@@ -136,9 +136,34 @@
 
 .di-actions {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 8px;
   margin-top: 22px;
+}
+
+/* Pushed to the far left of the action row: available without competing with
+   Cancel/Deactivate, and quieter than both so it never reads as the primary
+   choice. */
+.di-support {
+  margin-right: auto;
+  font-size: 13px;
+  color: #2271b1;
+  text-decoration: none;
+}
+
+.di-support:hover {
+  text-decoration: underline;
+}
+
+.di-support:focus-visible {
+  outline: 2px solid #2271b1;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.di-support[hidden] {
+  display: none;
 }
 
 .di-btn {
@@ -183,6 +208,15 @@
   }
   .di-actions {
     flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  /* Stacked on phones: the row reverses, so margin-right:auto would strand it.
+     Put it back under the buttons where a secondary link belongs. */
+  .di-support {
+    margin-right: 0;
+    order: -1;
+    text-align: center;
+    padding-top: 4px;
   }
   .di-btn {
     width: 100%;
