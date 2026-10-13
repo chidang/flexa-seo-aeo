@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-28T05:01:29+00:00\n"
+"POT-Creation-Date: 2026-10-13T23:16:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: flexa-seo-aeo\n"
@@ -36,99 +36,99 @@ msgstr ""
 msgid "Flexa SEO requires PHP 8.2 or higher. The plugin has been disabled."
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:287
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:321
 msgid "I no longer need it"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:288
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:322
 msgid "It's missing a feature I need"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:289
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:323
 msgid "Something isn't working"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:290
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:324
 msgid "It conflicts with another plugin/theme"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:291
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:325
 msgid "It's too difficult to use"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:292
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:326
 msgid "It's affecting performance"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:293
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:327
 msgid "I found a better alternative"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:294
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:328
 msgid "I'm troubleshooting"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:295
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:329
 msgid "Other"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:302
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:336
 msgid "Before you go…"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:303
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:337
 msgid "What made you deactivate this plugin?"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:304
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:338
 msgid "Skip & deactivate"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:305
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:339
 msgid "Cancel"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:306
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:340
 msgid "Deactivate"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:307
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:341
 msgid "Deactivate anyway"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:308
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:342
 msgid "Get help"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:309
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:343
 msgid "Notify me if you add it"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:310
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:344
 msgid "What feature are you looking for?"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:311
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:345
 msgid "What went wrong?"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:312
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:346
 msgid "Which plugin or theme is it conflicting with?"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:313
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:347
 msgid "What was difficult to use?"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:314
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:348
 msgid "What alternative are you using?"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:315
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:349
 msgid "Anything you would like to share?"
 msgstr ""
 
-#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:316
+#: libraries/deactivation-intelligence/src/class-deactivation-intelligence.php:350
 msgid "Optional"
 msgstr ""
 
@@ -163,8 +163,8 @@ msgstr ""
 msgid "Leave blank to use the default title template."
 msgstr ""
 
-#: src/Admin/PostMetabox.php:56 src/Services/Aeo/Readiness.php:154
-#: src/Services/Aeo/Readiness.php:166 editor/sidebar.js:354
+#: src/Admin/PostMetabox.php:56 src/Services/Aeo/Readiness.php:167
+#: src/Services/Aeo/Readiness.php:179 editor/sidebar.js:354
 msgid "Meta description"
 msgstr ""
 
@@ -232,157 +232,157 @@ msgstr ""
 msgid "You cannot edit this post."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:132
+#: src/Services/Aeo/Readiness.php:140
 msgid ""
 "JSON-LD is emitted for this post so engines can lift facts out as structured "
 "data."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:133
+#: src/Services/Aeo/Readiness.php:141
 msgid ""
 "Enable AEO Core → Structured data so this post ships an Article/WebPage JSON-"
 "LD graph."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:136
+#: src/Services/Aeo/Readiness.php:144
 msgid "Enable structured data"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:138 src/Services/Aeo/SiteAudit.php:489
+#: src/Services/Aeo/Readiness.php:146 src/Services/Aeo/SiteAudit.php:489
 msgid "Structured data"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:157
+#: src/Services/Aeo/Readiness.php:170
 msgid ""
 "Add a meta description — answer engines often quote it verbatim as the "
 "summary."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:163
+#: src/Services/Aeo/Readiness.php:176
 msgid "A concise summary is in place for engines to quote."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:164
+#: src/Services/Aeo/Readiness.php:177
 msgid ""
 "Aim for roughly 50–160 characters so the summary is neither truncated nor "
 "thin."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:177 src/Services/Aeo/Readiness.php:189
+#: src/Services/Aeo/Readiness.php:190 src/Services/Aeo/Readiness.php:202
 msgid "Answer-first opening"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:180
+#: src/Services/Aeo/Readiness.php:193
 msgid ""
 "Open with a 2–3 sentence summary that answers the topic directly — engines "
 "favour the lede."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:186
+#: src/Services/Aeo/Readiness.php:199
 msgid ""
 "The post opens with a self-contained summary an engine can quote as the "
 "answer."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:187
+#: src/Services/Aeo/Readiness.php:200
 msgid ""
 "Tighten the opening paragraph to a self-contained 40–360 character answer."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:213
+#: src/Services/Aeo/Readiness.php:226
 msgid ""
 "Question-style headings map cleanly onto the prompts users actually ask."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:214
+#: src/Services/Aeo/Readiness.php:227
 msgid ""
 "Phrase a few headings as the questions readers ask (e.g. “How does…”, “What "
 "is…?”)."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:216 src/Services/Aeo/SiteAudit.php:620
+#: src/Services/Aeo/Readiness.php:229 src/Services/Aeo/SiteAudit.php:620
 msgid "Question-style headings"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:225
+#: src/Services/Aeo/Readiness.php:238
 msgid "FAQ blocks were detected and are emitted as FAQPage structured data."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:226
+#: src/Services/Aeo/Readiness.php:239
 msgid ""
 "Add a core Details/FAQ block — each question becomes a citable FAQPage entry."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:228 src/Services/Aeo/SiteAudit.php:623
+#: src/Services/Aeo/Readiness.php:241 src/Services/Aeo/SiteAudit.php:623
 msgid "FAQ / Q&A blocks"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:238 src/Services/Aeo/Readiness.php:252
-#: src/Services/Aeo/Readiness.php:261
+#: src/Services/Aeo/Readiness.php:251 src/Services/Aeo/Readiness.php:265
+#: src/Services/Aeo/Readiness.php:274
 msgid "Listed in llms.txt"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:241
+#: src/Services/Aeo/Readiness.php:254
 msgid ""
 "Turn on AEO Core → llms.txt so this content is advertised to language models."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:242
+#: src/Services/Aeo/Readiness.php:255
 msgid "Enable llms.txt"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:255
+#: src/Services/Aeo/Readiness.php:268
 msgid ""
 "This post is excluded from llms.txt (its type is off or it is set to "
 "noindex)."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:264
+#: src/Services/Aeo/Readiness.php:277
 msgid "This post is advertised in /llms.txt for language models to discover."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:277
+#: src/Services/Aeo/Readiness.php:290
 msgid ""
 "A token-cheap Markdown alternate is exposed to AI crawlers via a Link header."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:280
+#: src/Services/Aeo/Readiness.php:293
 msgid ""
 "Enable both Agent Readiness and the Markdown export so crawlers can find and "
 "fetch it."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:283
+#: src/Services/Aeo/Readiness.php:296
 msgid ""
 "Enable AEO Core → Agent Readiness to serve a clean Markdown rendering for AI "
 "agents."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:289
+#: src/Services/Aeo/Readiness.php:302
 msgid "Enable Markdown alternate"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:298
+#: src/Services/Aeo/Readiness.php:311
 msgid "Markdown alternate"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:307
+#: src/Services/Aeo/Readiness.php:320
 msgid ""
 "There is enough substance here for an engine to treat the page as "
 "authoritative."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:310
+#: src/Services/Aeo/Readiness.php:323
 msgid ""
 "Thin content is rarely cited — expand toward 300+ words of genuine detail."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:313
+#: src/Services/Aeo/Readiness.php:326
 msgid ""
 "This post is very short; engines seldom quote pages with little content."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:316 src/Services/Aeo/SiteAudit.php:622
+#: src/Services/Aeo/Readiness.php:329 src/Services/Aeo/SiteAudit.php:622
 msgid "Content depth"
 msgstr ""
 
