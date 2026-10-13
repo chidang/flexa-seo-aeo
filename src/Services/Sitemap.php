@@ -31,6 +31,14 @@ final class Sitemap {
 	private const NOINDEX_META = '_flexa_seo_aeo_noindex';
 
 	/**
+	 * Memoized {@see self::noindexed_ids()} result. One sitemap request builds
+	 * an index plus several sub-sitemap pages, all of which want the same list.
+	 *
+	 * @var list<int>|null
+	 */
+	private ?array $noindexed_ids = null;
+
+	/**
 	 * Public post types the site owner opted into, intersected with what is
 	 * actually registered + public right now.
 	 *
@@ -238,7 +246,7 @@ final class Sitemap {
 					'no_found_rows'          => true,
 					'update_post_meta_cache' => false,
 					'update_post_term_cache' => false,
-					'meta_query'             => $this->noindex_exclusion(), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+					'post__not_in'           => $this->noindexed_ids(),
 				]
 			);
 
@@ -325,29 +333,62 @@ final class Sitemap {
 			'ignore_sticky_posts'    => true,
 			'no_found_rows'          => true,
 			'update_post_term_cache' => false,
-			'meta_query'             => $this->noindex_exclusion(), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'post__not_in'           => $this->noindexed_ids(),
 		];
 	}
 
 	/**
-	 * meta_query fragment that drops posts flagged noindex via the per-post
-	 * override, while keeping posts that were never touched.
+	 * IDs of the posts flagged `noindex` through the per-post override.
 	 *
-	 * @return array<int|string, mixed>
+	 * Resolved as a lookup of its own rather than as a meta_query on the sitemap
+	 * query itself. The natural meta_query here reads "no row at all, OR a row
+	 * that is not 1", and WP cannot pool those two clauses onto one join: an OR
+	 * relation only shares a table alias between positive operators (see
+	 * WP_Meta_Query::find_compatible_table_alias), and neither NOT EXISTS nor
+	 * != qualifies. Every sub-sitemap page therefore LEFT JOINed postmeta twice,
+	 * which is what made this query a problem on large sites.
+	 *
+	 * A bare NOT EXISTS would be one join but the wrong answer: saving a post in
+	 * the block editor writes the unchecked box as an empty row, so most posts
+	 * on a live site *do* have a row and would silently vanish from the sitemap.
+	 *
+	 * The flagged set is small (you noindex a handful of pages, not a library)
+	 * and identical for every page of every sub-sitemap, so one indexed lookup
+	 * answers all of them and the sitemap queries themselves need no join.
+	 *
+	 * @return list<int>
 	 */
-	private function noindex_exclusion(): array {
-		return [
-			'relation' => 'OR',
+	private function noindexed_ids(): array {
+		if ( null !== $this->noindexed_ids ) {
+			return $this->noindexed_ids;
+		}
+
+		$types = $this->post_types();
+		if ( [] === $types ) {
+			$this->noindexed_ids = [];
+
+			return [];
+		}
+
+		/** @var list<int> $ids */
+		$ids = get_posts(
 			[
-				'key'     => self::NOINDEX_META,
-				'compare' => 'NOT EXISTS',
-			],
-			[
-				'key'     => self::NOINDEX_META,
-				'value'   => '1',
-				'compare' => '!=',
-			],
-		];
+				'post_type'              => $types,
+				'post_status'            => 'publish',
+				'fields'                 => 'ids',
+				'posts_per_page'         => -1,
+				'no_found_rows'          => true,
+				'ignore_sticky_posts'    => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'meta_key'               => self::NOINDEX_META, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'             => '1',                // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+			]
+		);
+
+		$this->noindexed_ids = array_values( array_map( 'intval', $ids ) );
+
+		return $this->noindexed_ids;
 	}
 
 	private function count_posts( string $post_type ): int {

@@ -462,6 +462,16 @@ final class Metas {
 		return (string) get_bloginfo( 'name' );
 	}
 
+	/**
+	 * The description the frontend falls back to for a post when it carries no
+	 * explicit override: its excerpt, else the opening of its content. Public so
+	 * the readiness scorer can measure the string this site actually emits
+	 * instead of deriving its own, which is how the two drifted apart.
+	 */
+	public function fallback_description( WP_Post $post ): string {
+		return $this->excerpt( $post );
+	}
+
 	private function excerpt( WP_Post $post ): string {
 		return $this->condense( has_excerpt( $post ) ? $post->post_excerpt : $post->post_content );
 	}

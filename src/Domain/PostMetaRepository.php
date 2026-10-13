@@ -33,8 +33,51 @@ final class PostMetaRepository {
 		'og_image'       => [ '_yoast_wpseo_opengraph-image', 'rank_math_facebook_image', '_seopress_social_fb_img' ],
 	];
 
+	/**
+	 * Fields stored as booleans. False means "no override", which is written by
+	 * removing the row, never by storing an empty one.
+	 *
+	 * @var list<string>
+	 */
+	private const BOOL_FIELDS = [ 'noindex', 'nofollow' ];
+
 	public function register(): void {
 		add_action( 'init', [ $this, 'register_post_meta' ] );
+		add_filter( 'update_post_metadata', [ $this, 'skip_falsy_flag' ], 10, 4 );
+	}
+
+	/**
+	 * Keep an unchecked flag out of the database entirely.
+	 *
+	 * {@see self::save()} already deletes rather than stores a false, but the
+	 * block editor writes registered meta straight through the REST meta
+	 * endpoint, where core stores a false as an empty row. Those rows are not
+	 * harmless: anything asking "which posts are flagged?" then has to tell a
+	 * row meaning no from a row meaning yes, which is what pushed the sitemap
+	 * query into joining postmeta twice (see Services\Sitemap::noindexed_ids()).
+	 * Dropping the row on the way in keeps "a row exists" and "the flag is set"
+	 * the same statement.
+	 *
+	 * @param  mixed  $check      Short-circuit value; null means "carry on".
+	 * @param  int    $post_id    Post being written to.
+	 * @param  string $meta_key   Meta key being written.
+	 * @param  mixed  $meta_value Value being written.
+	 * @return mixed  True once handled here, otherwise $check untouched.
+	 */
+	public function skip_falsy_flag( mixed $check, int $post_id, string $meta_key, mixed $meta_value ): mixed {
+		if ( null !== $check || $meta_value ) {
+			return $check;
+		}
+
+		foreach ( self::BOOL_FIELDS as $field ) {
+			if ( PostMeta::META_KEYS[ $field ] === $meta_key ) {
+				delete_post_meta( $post_id, $meta_key );
+
+				return true;
+			}
+		}
+
+		return $check;
 	}
 
 	/**
@@ -49,7 +92,7 @@ final class PostMetaRepository {
 		};
 
 		foreach ( PostMeta::META_KEYS as $field => $meta_key ) {
-			$is_bool = in_array( $field, [ 'noindex', 'nofollow' ], true );
+			$is_bool = in_array( $field, self::BOOL_FIELDS, true );
 
 			register_post_meta(
 				'',
@@ -117,7 +160,7 @@ final class PostMetaRepository {
 	 * @return string|bool sanitized value; '' or false signals "clear it"
 	 */
 	private function sanitize_field( string $field, mixed $value ): string|bool {
-		if ( in_array( $field, [ 'noindex', 'nofollow' ], true ) ) {
+		if ( in_array( $field, self::BOOL_FIELDS, true ) ) {
 			return ! empty( $value ) && ! in_array( $value, [ '0', 'false', 'off', 'no' ], true );
 		}
 

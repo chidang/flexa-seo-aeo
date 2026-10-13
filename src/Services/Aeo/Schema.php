@@ -23,6 +23,16 @@ final class Schema {
 	use SingletonTrait;
 
 	/**
+	 * Post meta holding the Q/A pairs detected for a post, stamped with a hash of
+	 * the content they were read from. Detection walks the block tree and renders
+	 * every details block, which is far more than a page view should repeat for a
+	 * result that only moves when the content does. The stamp is what invalidates
+	 * the entry, so no save hook is involved and an import, a revision rollback or
+	 * a direct DB edit can never leave a stale answer on the page.
+	 */
+	private const FAQ_CACHE_META = '_flexa_seo_aeo_faq_cache';
+
+	/**
 	 * The full graph, or an empty array when there's nothing to emit.
 	 *
 	 * @return array<string, mixed>
@@ -267,19 +277,47 @@ final class Schema {
 	}
 
 	/**
-	 * Walk the post's block tree collecting core `details` blocks as Q/A pairs.
+	 * Walk the post's block tree collecting core `details` blocks as Q/A pairs,
+	 * reading {@see self::FAQ_CACHE_META} when it still matches the content.
 	 *
 	 * @return list<array{question: string, answer: string}>
 	 */
 	private function detect_faq( WP_Post $post ): array {
-		if ( ! function_exists( 'parse_blocks' ) || ! has_blocks( $post->post_content ) ) {
+		// Serialized block markup names every block in its comment delimiter, so
+		// content without this substring cannot hold a details block. Checking it
+		// first keeps the common page view clear of parse_blocks entirely, and
+		// leaves the cache row below to the posts that actually have an FAQ.
+		if ( ! function_exists( 'parse_blocks' ) || ! str_contains( $post->post_content, '<!-- wp:details' ) ) {
 			return [];
 		}
 
-		$out = [];
-		$this->collect_details( parse_blocks( $post->post_content ), $out );
+		$hash   = md5( $post->post_content );
+		$cached = get_post_meta( $post->ID, self::FAQ_CACHE_META, true );
 
-		return $out;
+		if ( is_array( $cached ) && ( $cached['hash'] ?? '' ) === $hash && is_array( $cached['items'] ?? null ) ) {
+			/** @var list<array{question: string, answer: string}> $items */
+			$items = array_values( $cached['items'] );
+
+			return $items;
+		}
+
+		$items = [];
+		$this->collect_details( parse_blocks( $post->post_content ), $items );
+
+		// A preview renders an unsaved revision, so its pairs describe markup the
+		// public URL does not serve. Recompute next time rather than store them.
+		if ( ! is_preview() ) {
+			update_post_meta(
+				$post->ID,
+				self::FAQ_CACHE_META,
+				[
+					'hash'  => $hash,
+					'items' => $items,
+				]
+			);
+		}
+
+		return $items;
 	}
 
 	/**

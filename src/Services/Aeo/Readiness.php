@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flexa\SeoAeo\Services\Aeo;
 
 use Flexa\SeoAeo\Domain\PostMetaRepository;
+use Flexa\SeoAeo\Services\Metas as MetasService;
 use Flexa\SeoAeo\Services\Sitemap as SitemapService;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
@@ -38,6 +39,13 @@ final class Readiness {
 		'fair'      => 50,
 		'poor'      => 0,
 	];
+
+	/**
+	 * How many times {@see self::unwrap_shortcodes()} walks the content. Each
+	 * pass peels one nesting level off a shortcode-built layout; five is deeper
+	 * than any real page nests and keeps a pathological post bounded.
+	 */
+	private const SHORTCODE_PASSES = 5;
 
 	/**
 	 * Build the full readiness report for a post.
@@ -142,10 +150,15 @@ final class Readiness {
 	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}
 	 */
 	private function check_meta_description( WP_Post $post ): array {
-		$meta        = PostMetaRepository::instance()->get( $post->ID );
+		$meta = PostMetaRepository::instance()->get( $post->ID );
+
+		// Not get_the_excerpt(): core's wp_trim_excerpt() runs the whole
+		// `the_content` chain to build a missing excerpt, which is the one thing
+		// a 50-post scan cannot afford. The frontend resolver is both cheaper and
+		// the authority on what this post's description will actually say.
 		$description = '' !== $meta->description
 			? $meta->description
-			: wp_strip_all_tags( (string) get_the_excerpt( $post ) );
+			: MetasService::instance()->fallback_description( $post );
 
 		$length = $this->length( $description );
 		if ( 0 === $length ) {
@@ -350,64 +363,135 @@ final class Readiness {
 	}
 
 	/**
-	 * Render the post once and pull the three content signals the score needs:
-	 * the first paragraph (answer-first), the heading texts (question headings),
-	 * and the total word count (depth).
+	 * Pull the three content signals the score needs: the first paragraph
+	 * (answer-first), the heading texts (question headings), and the total word
+	 * count (depth).
 	 *
 	 * @return array{first_paragraph: string, headings: list<string>, words: int}
 	 */
 	private function analyze( WP_Post $post ): array {
-		// WordPress core's own `the_content` filter — not (and cannot be) prefixed.
-		/** @var string $html */
-		$html = apply_filters( 'the_content', $post->post_content ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-		$html = trim( $html );
-
-		$empty = [
-			'first_paragraph' => '',
-			'headings'        => [],
-			'words'           => 0,
-		];
+		$html = $this->content_html( $post );
 
 		if ( '' === $html ) {
-			return $empty;
+			return [
+				'first_paragraph' => '',
+				'headings'        => [],
+				'words'           => 0,
+			];
 		}
 
-		$plain          = $this->one_line( wp_strip_all_tags( $html ) );
-		$empty['words'] = '' === $plain ? 0 : count( (array) preg_split( '/\s+/u', $plain, -1, PREG_SPLIT_NO_EMPTY ) );
-
-		$dom  = new \DOMDocument();
-		$prev = libxml_use_internal_errors( true );
-		$dom->loadHTML(
-			'<?xml encoding="UTF-8"?><html><body>' . $html . '</body></html>',
-			LIBXML_NOWARNING | LIBXML_NOERROR
-		);
-		libxml_clear_errors();
-		libxml_use_internal_errors( $prev );
-
-		$first_paragraph = '';
-		foreach ( $dom->getElementsByTagName( 'p' ) as $node ) {
-			$text = $this->one_line( (string) $node->textContent );
-			if ( '' !== $text ) {
-				$first_paragraph = $text;
-				break;
-			}
-		}
-
-		$headings = [];
-		foreach ( [ 'h1', 'h2', 'h3', 'h4' ] as $tag ) {
-			foreach ( $dom->getElementsByTagName( $tag ) as $node ) {
-				$text = $this->one_line( (string) $node->textContent );
-				if ( '' !== $text ) {
-					$headings[] = $text;
-				}
-			}
-		}
+		$plain = $this->one_line( wp_strip_all_tags( $html ) );
 
 		return [
-			'first_paragraph' => $first_paragraph,
-			'headings'        => $headings,
-			'words'           => $empty['words'],
+			'first_paragraph' => $this->first_paragraph( $html ),
+			'headings'        => $this->headings( $html ),
+			'words'           => '' === $plain ? 0 : count( (array) preg_split( '/\s+/u', $plain, -1, PREG_SPLIT_NO_EMPTY ) ),
 		];
+	}
+
+	/**
+	 * The markup the analysis reads.
+	 *
+	 * Deliberately NOT `the_content`. A dashboard scan analyses up to 50 posts
+	 * in one request, and running the render chain that many times means every
+	 * shortcode, dynamic block, oEmbed and page-builder filter on the site
+	 * executes 50 times over, outside the loop and with no global post set up.
+	 * That is unbounded work with side effects (asset enqueues, remote oEmbed
+	 * lookups) for something that only needs the text.
+	 *
+	 * Block markup already carries the static HTML, so stripping the delimiters
+	 * is enough; classic content gets wpautop so its paragraphs are findable;
+	 * shortcodes are unwrapped to the text they enclose. A builder that keeps
+	 * its content outside post_content (Elementor and friends) can hand the
+	 * analysis real markup through the filter below.
+	 */
+	private function content_html( WP_Post $post ): string {
+		$html = $this->unwrap_shortcodes( $post->post_content );
+
+		$html = has_blocks( $html )
+			? (string) preg_replace( '@<!--\s*/?\s*wp:.*?-->@s', '', $html )
+			: wpautop( $html );
+
+		/**
+		 * Filters the HTML the Answer-Engine Readiness analysis reads for a post.
+		 *
+		 * @param string  $html Markup derived from the stored post content.
+		 * @param WP_Post $post The post being scored.
+		 */
+		$html = (string) apply_filters( 'flexa_seo_aeo/readiness/content_html', $html, $post );
+
+		return trim( $html );
+	}
+
+	/**
+	 * Replace registered shortcodes with the content they enclose, so a post
+	 * built out of `[section][text]…[/text][/section]` still reads as prose.
+	 * `strip_shortcodes()` would drop the enclosed text with the tag, and
+	 * `do_shortcode()` would run the handlers — this does neither. One pass
+	 * unwraps one nesting level, hence the bounded loop.
+	 */
+	private function unwrap_shortcodes( string $content ): string {
+		if ( ! str_contains( $content, '[' ) ) {
+			return $content;
+		}
+
+		// An escaped [[tag]] is handed back untouched, or the next pass would read
+		// the unescaped result as a real shortcode and unwrap it to nothing. It is
+		// unescaped once, below, after the loop has settled.
+		$unwrap = static fn( array $m ): string => '[' === $m[1] && ']' === $m[6]
+			? $m[0]
+			: $m[1] . ( $m[5] ?? '' ) . $m[6];
+
+		for ( $pass = 0; $pass < self::SHORTCODE_PASSES; $pass++ ) {
+			$pattern = '/' . get_shortcode_regex() . '/s';
+			$next    = (string) preg_replace_callback( $pattern, $unwrap, $content );
+			if ( $next === $content ) {
+				break;
+			}
+			$content = $next;
+		}
+
+		// Same end state as do_shortcode(): [[tag]] reads as the literal text [tag].
+		return (string) preg_replace( '/\[(\[[^\[\]]+\])\]/', '$1', $content );
+	}
+
+	/**
+	 * Text of the first paragraph that carries any.
+	 */
+	private function first_paragraph( string $html ): string {
+		if ( ! preg_match_all( '@<p\b[^>]*>(.*?)</p>@is', $html, $matches ) ) {
+			return '';
+		}
+
+		foreach ( $matches[1] as $inner ) {
+			$text = $this->one_line( wp_strip_all_tags( $inner ) );
+			if ( '' !== $text ) {
+				return $text;
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Every h1–h4 heading, in document order.
+	 *
+	 * @return list<string>
+	 */
+	private function headings( string $html ): array {
+		if ( ! preg_match_all( '@<h([1-4])\b[^>]*>(.*?)</h\1>@is', $html, $matches, PREG_SET_ORDER ) ) {
+			return [];
+		}
+
+		$out = [];
+		foreach ( $matches as $match ) {
+			$text = $this->one_line( wp_strip_all_tags( $match[2] ) );
+			if ( '' !== $text ) {
+				$out[] = $text;
+			}
+		}
+
+		return $out;
 	}
 
 	/**
@@ -434,7 +518,10 @@ final class Readiness {
 	 * the Schema service turns into FAQPage entries).
 	 */
 	private function has_faq_blocks( WP_Post $post ): bool {
-		if ( ! function_exists( 'parse_blocks' ) || ! has_blocks( $post->post_content ) ) {
+		// Cheap gate before the block walk: serialized markup always names the
+		// block in its comment delimiter, and a scan scores up to 50 posts in one
+		// request, so parse_blocks is worth skipping for the posts that have none.
+		if ( ! function_exists( 'parse_blocks' ) || ! str_contains( $post->post_content, '<!-- wp:details' ) ) {
 			return false;
 		}
 
