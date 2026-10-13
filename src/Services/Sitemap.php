@@ -31,12 +31,37 @@ final class Sitemap {
 	private const NOINDEX_META = '_flexa_seo_aeo_noindex';
 
 	/**
-	 * Memoized {@see self::noindexed_ids()} result. One sitemap request builds
-	 * an index plus several sub-sitemap pages, all of which want the same list.
-	 *
-	 * @var list<int>|null
+	 * How many flagged IDs may be inlined into `post__not_in` before the
+	 * exclusion switches to a subquery. Each ID costs around eight bytes of SQL
+	 * and is re-sent with every sub-sitemap page, so a site that noindexes a
+	 * whole post type would otherwise build a multi-megabyte IN list. The cap is
+	 * deliberately generous: the handful of pages this feature is meant for sits
+	 * nowhere near it.
 	 */
-	private ?array $noindexed_ids = null;
+	private const NOINDEX_ID_LIMIT = 1000;
+
+	/**
+	 * Query var marking a query that must exclude noindexed posts through
+	 * {@see self::filter_noindex_where()} rather than through `post__not_in`.
+	 */
+	private const EXCLUDE_QUERY_VAR = 'flexa_seo_aeo_exclude_noindex';
+
+	/**
+	 * Memoized {@see self::noindexed_ids()} result: the flagged IDs, or false
+	 * when there are more of them than self::NOINDEX_ID_LIMIT allows inlining.
+	 * Null until the first lookup. One sitemap request builds an index plus
+	 * several sub-sitemap pages, all of which want the same answer.
+	 *
+	 * @var list<int>|false|null
+	 */
+	private array|bool|null $noindexed_ids = null;
+
+	/**
+	 * Whether {@see self::filter_noindex_where()} is already on `posts_where`.
+	 * The filter is attached on first use, so a site under the cap never pays
+	 * for it.
+	 */
+	private bool $where_filter_attached = false;
 
 	/**
 	 * Public post types the site owner opted into, intersected with what is
@@ -236,18 +261,19 @@ final class Sitemap {
 			$label  = $object instanceof \WP_Post_Type ? (string) $object->labels->name : $type;
 
 			$query = new WP_Query(
-				[
-					'post_type'              => $type,
-					'post_status'            => 'publish',
-					'posts_per_page'         => $limit,
-					'orderby'                => 'title',
-					'order'                  => 'ASC',
-					'ignore_sticky_posts'    => true,
-					'no_found_rows'          => true,
-					'update_post_meta_cache' => false,
-					'update_post_term_cache' => false,
-					'post__not_in'           => $this->noindexed_ids(),
-				]
+				$this->exclude_noindexed(
+					[
+						'post_type'              => $type,
+						'post_status'            => 'publish',
+						'posts_per_page'         => $limit,
+						'orderby'                => 'title',
+						'order'                  => 'ASC',
+						'ignore_sticky_posts'    => true,
+						'no_found_rows'          => true,
+						'update_post_meta_cache' => false,
+						'update_post_term_cache' => false,
+					]
+				)
 			);
 
 			$items = [];
@@ -323,42 +349,98 @@ final class Sitemap {
 	 * @return array<string, mixed>
 	 */
 	private function post_query_args( string $post_type, int $page ): array {
-		return [
-			'post_type'              => $post_type,
-			'post_status'            => 'publish',
-			'posts_per_page'         => self::MAX_PER_PAGE,
-			'paged'                  => max( 1, $page ),
-			'orderby'                => 'ID',
-			'order'                  => 'ASC',
-			'ignore_sticky_posts'    => true,
-			'no_found_rows'          => true,
-			'update_post_term_cache' => false,
-			'post__not_in'           => $this->noindexed_ids(),
-		];
+		return $this->exclude_noindexed(
+			[
+				'post_type'              => $post_type,
+				'post_status'            => 'publish',
+				'posts_per_page'         => self::MAX_PER_PAGE,
+				'paged'                  => max( 1, $page ),
+				'orderby'                => 'ID',
+				'order'                  => 'ASC',
+				'ignore_sticky_posts'    => true,
+				'no_found_rows'          => true,
+				'update_post_term_cache' => false,
+			]
+		);
 	}
 
 	/**
-	 * IDs of the posts flagged `noindex` through the per-post override.
+	 * Add the noindex exclusion to a post query.
+	 *
+	 * Two shapes, because one does not cover both sizes of site. The flagged set
+	 * is normally tiny (you noindex a handful of pages), and for that an
+	 * `post__not_in` list is the cheapest thing there is: no join, no subquery,
+	 * and the same list reused by every sub-sitemap page. Past
+	 * self::NOINDEX_ID_LIMIT that inverts, because the list is re-sent with each
+	 * page and grows the SQL text without bound, so the exclusion moves into a
+	 * correlated NOT EXISTS evaluated by MySQL against the postmeta `post_id`
+	 * index and nothing is carried in PHP memory at all.
+	 *
+	 * Note what the subquery tests: `meta_value = '1'`. WP_Meta_Query's own NOT
+	 * EXISTS cannot express that (it asks only whether a row is there), and a
+	 * row can be there holding an empty string, so a key-only test would drop
+	 * live posts from the sitemap.
+	 *
+	 * @param array<string, mixed> $args
+	 * @return array<string, mixed>
+	 */
+	public function exclude_noindexed( array $args ): array {
+		$ids = $this->noindexed_ids();
+
+		if ( false !== $ids ) {
+			$args['post__not_in'] = $ids;
+
+			return $args;
+		}
+
+		if ( ! $this->where_filter_attached ) {
+			add_filter( 'posts_where', [ $this, 'filter_noindex_where' ], 10, 2 );
+			$this->where_filter_attached = true;
+		}
+
+		$args[ self::EXCLUDE_QUERY_VAR ] = true;
+
+		return $args;
+	}
+
+	/**
+	 * The subquery half of {@see self::exclude_noindexed()}. Attached only once
+	 * the flagged set has outgrown an inline list, and it leaves every other
+	 * query on the request untouched.
+	 */
+	public function filter_noindex_where( string $where, WP_Query $query ): string {
+		if ( ! $query->get( self::EXCLUDE_QUERY_VAR ) ) {
+			return $where;
+		}
+
+		global $wpdb;
+
+		return $where . $wpdb->prepare(
+			" AND NOT EXISTS ( SELECT 1 FROM {$wpdb->postmeta} AS flexa_ni"
+			. " WHERE flexa_ni.post_id = {$wpdb->posts}.ID"
+			. ' AND flexa_ni.meta_key = %s AND flexa_ni.meta_value = %s )',
+			self::NOINDEX_META,
+			'1'
+		);
+	}
+
+	/**
+	 * IDs of the posts flagged `noindex` through the per-post override, or false
+	 * when there are more than self::NOINDEX_ID_LIMIT of them.
 	 *
 	 * Resolved as a lookup of its own rather than as a meta_query on the sitemap
 	 * query itself. The natural meta_query here reads "no row at all, OR a row
 	 * that is not 1", and WP cannot pool those two clauses onto one join: an OR
-	 * relation only shares a table alias between positive operators (see
-	 * WP_Meta_Query::find_compatible_table_alias), and neither NOT EXISTS nor
-	 * != qualifies. Every sub-sitemap page therefore LEFT JOINed postmeta twice,
-	 * which is what made this query a problem on large sites.
+	 * relation shares a table alias only between positive operators, so NOT
+	 * EXISTS and != each take their own LEFT JOIN on postmeta and every sitemap
+	 * query pays for both.
 	 *
-	 * A bare NOT EXISTS would be one join but the wrong answer: saving a post in
-	 * the block editor writes the unchecked box as an empty row, so most posts
-	 * on a live site *do* have a row and would silently vanish from the sitemap.
+	 * One row over the cap is enough to know the set is too big, so the lookup
+	 * asks for exactly that one extra row and never materialises more.
 	 *
-	 * The flagged set is small (you noindex a handful of pages, not a library)
-	 * and identical for every page of every sub-sitemap, so one indexed lookup
-	 * answers all of them and the sitemap queries themselves need no join.
-	 *
-	 * @return list<int>
+	 * @return list<int>|false
 	 */
-	private function noindexed_ids(): array {
+	private function noindexed_ids(): array|false {
 		if ( null !== $this->noindexed_ids ) {
 			return $this->noindexed_ids;
 		}
@@ -376,7 +458,7 @@ final class Sitemap {
 				'post_type'              => $types,
 				'post_status'            => 'publish',
 				'fields'                 => 'ids',
-				'posts_per_page'         => -1,
+				'posts_per_page'         => self::NOINDEX_ID_LIMIT + 1,
 				'no_found_rows'          => true,
 				'ignore_sticky_posts'    => true,
 				'update_post_meta_cache' => false,
@@ -386,7 +468,9 @@ final class Sitemap {
 			]
 		);
 
-		$this->noindexed_ids = array_values( array_map( 'intval', $ids ) );
+		$this->noindexed_ids = count( $ids ) > self::NOINDEX_ID_LIMIT
+			? false
+			: array_values( array_map( 'intval', $ids ) );
 
 		return $this->noindexed_ids;
 	}

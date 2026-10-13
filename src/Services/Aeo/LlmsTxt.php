@@ -23,8 +23,6 @@ defined( 'ABSPATH' ) || exit;
 final class LlmsTxt {
 	use SingletonTrait;
 
-	private const NOINDEX_META = '_flexa_seo_aeo_noindex';
-
 	/**
 	 * Assemble the full llms.txt document from the AEO settings + content index.
 	 */
@@ -82,18 +80,23 @@ final class LlmsTxt {
 			$object = get_post_type_object( $type );
 			$label  = $object instanceof WP_Post_Type ? (string) $object->labels->name : $type;
 
+			// The exclusion is the sitemap service's to build, not ours. This used
+			// to carry a private copy of the same meta_query, which meant the two
+			// surfaces could disagree about what is indexable and that /llms.txt
+			// kept paying for the double postmeta join after the sitemap stopped.
 			$query = new WP_Query(
-				[
-					'post_type'              => $type,
-					'post_status'            => 'publish',
-					'posts_per_page'         => $limit,
-					'orderby'                => 'modified',
-					'order'                  => 'DESC',
-					'ignore_sticky_posts'    => true,
-					'no_found_rows'          => true,
-					'update_post_term_cache' => false,
-					'meta_query'             => $this->noindex_exclusion(), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				]
+				SitemapService::instance()->exclude_noindexed(
+					[
+						'post_type'              => $type,
+						'post_status'            => 'publish',
+						'posts_per_page'         => $limit,
+						'orderby'                => 'modified',
+						'order'                  => 'DESC',
+						'ignore_sticky_posts'    => true,
+						'no_found_rows'          => true,
+						'update_post_term_cache' => false,
+					]
+				)
 			);
 
 			$items = [];
@@ -152,26 +155,5 @@ final class LlmsTxt {
 	 */
 	private function one_line( string $text ): string {
 		return trim( (string) preg_replace( '/\s+/', ' ', $text ) );
-	}
-
-	/**
-	 * Same `noindex` exclusion the sitemap uses, so a page hidden from search is
-	 * also hidden from the AI surface.
-	 *
-	 * @return array<int|string, mixed>
-	 */
-	private function noindex_exclusion(): array {
-		return [
-			'relation' => 'OR',
-			[
-				'key'     => self::NOINDEX_META,
-				'compare' => 'NOT EXISTS',
-			],
-			[
-				'key'     => self::NOINDEX_META,
-				'value'   => '1',
-				'compare' => '!=',
-			],
-		];
 	}
 }
