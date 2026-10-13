@@ -4,7 +4,7 @@ Tags: seo, schema, sitemap, aeo, woocommerce
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 0.5.2
+Stable tag: 0.5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.0
@@ -136,6 +136,12 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 
 == Changelog ==
 
+= 0.5.3 =
+* Fix: the Dashboard content scan was slow, and on sites with long posts or a page builder it could time out before the report appeared. Scoring a post ran the whole WordPress content filter chain, once per post, so page builders, galleries, embeds and related-post widgets all fired up to fifty times over for a report that only reads text. The scan now reads the stored content directly. Scores are unchanged.
+* Fix: every XML sitemap query joined the post meta table twice to skip the posts you marked noindex, which made sitemaps slow to build on large sites. That exclusion is now a single indexed lookup, reused across the whole sitemap request.
+* Fix: a page holding Details blocks rebuilt its FAQ structured data on every visit, re-reading and re-rendering those blocks each time. The result is now stored and reused until you edit the post, and a page with no Details block skips the work entirely.
+* Fix: the "Before you go" survey shown when you deactivate the plugin now offers a Get help link, so you can reach support instead of only leaving feedback.
+
 = 0.5.2 =
 * Fix: author, search, 404, date and post type archives carried no meta description at all, which also cost them their Open Graph and Twitter descriptions. Each of those views now gets one, built from what WordPress already holds: the author's bio, the description a post type was registered with, or a short sentence naming the archive and the site. Category, tag and custom taxonomy pages still use the term description, and now fall back the same way when a term has none.
 * Fix: a blog index with nothing written on it (a separate Posts page, or a front page set to your latest posts) also came out with no description. It falls back to the tagline, then the AEO site summary, then a plain line naming the site.
@@ -171,6 +177,9 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 * Initial release: **Answer-Engine Readiness Score** (per-post 0–100 grade + actionable checklist in the block editor), title/meta templating, Open Graph & Twitter, canonical & robots, XML/HTML sitemaps, robots.txt, IndexNow, llms.txt, Agent Readiness Markdown export, JSON-LD schema (Article/WebPage/WebSite/Organization/FAQ), one-click migration from Yoast/Rank Math/SEOPress, optional WooCommerce Product schema, and a React admin app.
 
 == Upgrade Notice ==
+
+= 0.5.3 =
+Performance: the Dashboard content scan, XML sitemap queries and FAQ structured data are all much cheaper to produce, on the front end and in the admin.
 
 = 0.5.2 =
 Author, search, 404, date and post type archives now output a meta description instead of none, and so does an empty blog index.
