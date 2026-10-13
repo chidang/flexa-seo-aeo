@@ -4,7 +4,7 @@ Tags: seo, schema, sitemap, aeo, woocommerce
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 0.5.3
+Stable tag: 0.5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.0
@@ -136,6 +136,10 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 
 == Changelog ==
 
+= 0.5.4 =
+* Fix: on a site with a very large number of posts, building an XML sitemap could use a lot of memory. The step that skips posts you marked noindex collected every one of those IDs first, with no limit, then repeated the list on each sitemap page. It now stops collecting past a thousand and asks the database to filter instead, so the cost stays flat however big the site gets.
+* Fix: /llms.txt still used the slower post meta lookup that XML sitemaps dropped in 0.5.3, so it was both heavier than it needed to be and able to disagree with the sitemap about which posts are indexable. Both now share the same exclusion.
+
 = 0.5.3 =
 * Fix: the Dashboard content scan was slow, and on sites with long posts or a page builder it could time out before the report appeared. Scoring a post ran the whole WordPress content filter chain, once per post, so page builders, galleries, embeds and related-post widgets all fired up to fifty times over for a report that only reads text. The scan now reads the stored content directly. Scores are unchanged.
 * Fix: every XML sitemap query joined the post meta table twice to skip the posts you marked noindex, which made sitemaps slow to build on large sites. That exclusion is now a single indexed lookup, reused across the whole sitemap request.
@@ -177,6 +181,9 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 * Initial release: **Answer-Engine Readiness Score** (per-post 0–100 grade + actionable checklist in the block editor), title/meta templating, Open Graph & Twitter, canonical & robots, XML/HTML sitemaps, robots.txt, IndexNow, llms.txt, Agent Readiness Markdown export, JSON-LD schema (Article/WebPage/WebSite/Organization/FAQ), one-click migration from Yoast/Rank Math/SEOPress, optional WooCommerce Product schema, and a React admin app.
 
 == Upgrade Notice ==
+
+= 0.5.4 =
+Performance: skipping noindexed posts no longer gets more expensive as the site grows, and /llms.txt now uses the same cheap lookup the sitemaps do.
 
 = 0.5.3 =
 Performance: the Dashboard content scan, XML sitemap queries and FAQ structured data are all much cheaper to produce, on the front end and in the admin.
