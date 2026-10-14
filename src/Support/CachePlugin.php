@@ -80,30 +80,21 @@ final class CachePlugin {
 	}
 
 	/**
-	 * The one-click link for the current state: install when the plugin is
-	 * absent, activate when it is present. Empty when the user lacks the
-	 * capability, which is the normal case for a site administrator on
-	 * multisite; the caller then falls back to the WordPress.org link.
+	 * The one-click link, which only ever activates an already-installed copy.
+	 * There is deliberately no install link: pulling a second plugin down from
+	 * inside this one is more than a suggestion should do, so when Flexa Cache
+	 * is absent this returns an empty string and the caller sends the reader to
+	 * the WordPress.org listing instead. It is also empty when the user cannot
+	 * activate plugins, the normal case for a site administrator on multisite.
 	 */
 	private static function action_url( string $status ): string {
-		if ( 'inactive' === $status ) {
-			if ( ! current_user_can( 'activate_plugins' ) ) {
-				return '';
-			}
-
-			return wp_nonce_url(
-				self_admin_url( 'plugins.php?action=activate&plugin=' . rawurlencode( self::FILE ) ),
-				'activate-plugin_' . self::FILE
-			);
-		}
-
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( 'inactive' !== $status || ! current_user_can( 'activate_plugins' ) ) {
 			return '';
 		}
 
 		return wp_nonce_url(
-			self_admin_url( 'update.php?action=install-plugin&plugin=' . self::SLUG ),
-			'install-plugin_' . self::SLUG
+			self_admin_url( 'plugins.php?action=activate&plugin=' . rawurlencode( self::FILE ) ),
+			'activate-plugin_' . self::FILE
 		);
 	}
 

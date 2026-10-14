@@ -212,8 +212,6 @@ function CacheRow() {
     return null;
   }
 
-  const installed = hint.status === "inactive";
-
   return (
     <div className="fsa:rounded-lg fsa:border fsa:border-slate-200 fsa:p-4">
       <div className="fsa:flex fsa:items-start fsa:gap-3">
@@ -235,7 +233,7 @@ function CacheRow() {
           <Button asChild variant="outline" className="fsa:shrink-0 fsa:gap-2">
             <a href={hint.actionUrl}>
               <Zap className="fsa:h-4 fsa:w-4" aria-hidden />
-              {installed ? __("Activate") : __("Install")}
+              {__("Activate")}
             </a>
           </Button>
         ) : (

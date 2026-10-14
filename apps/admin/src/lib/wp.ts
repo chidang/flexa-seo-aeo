@@ -11,9 +11,12 @@ export interface CachePluginHint {
   status: "missing" | "inactive";
   /** True once an admin closed the dashboard card. The Tools row ignores it. */
   dismissed: boolean;
-  /** Nonced install or activate link, empty when the user can't do either. */
+  /**
+   * Nonced activate link. Empty whenever there is nothing to click: the
+   * plugin isn't installed, or the user can't activate plugins.
+   */
   actionUrl: string;
-  /** The WordPress.org listing, always usable as a fallback. */
+  /** The WordPress.org listing. The only route when actionUrl is empty. */
   infoUrl: string;
 }
 

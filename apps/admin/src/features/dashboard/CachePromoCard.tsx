@@ -47,13 +47,14 @@ export function CachePromoCard() {
         </p>
       </div>
       <div className="fsa:flex fsa:items-center fsa:gap-2">
+        {/*
+          An activate link only ever appears for a copy already on the site.
+          With no copy installed there is nothing to click here, so the reader
+          goes to the listing and installs from there if they want to.
+        */}
         {hint.actionUrl !== "" ? (
           <Button asChild size="sm">
-            <a href={hint.actionUrl}>
-              {installed
-                ? __("Activate Flexa Cache")
-                : __("Install Flexa Cache")}
-            </a>
+            <a href={hint.actionUrl}>{__("Activate Flexa Cache")}</a>
           </Button>
         ) : (
           <Button asChild variant="outline" size="sm">

@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-14T00:12:54+00:00\n"
+"POT-Creation-Date: 2026-10-14T00:30:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: flexa-seo-aeo\n"
@@ -870,11 +870,11 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:238
+#: apps/admin/src/features/settings/ToolsPane.tsx:236
 msgid "Activate"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/CachePromoCard.tsx:54
+#: apps/admin/src/features/dashboard/CachePromoCard.tsx:57
 msgid "Activate Flexa Cache"
 msgstr ""
 
@@ -1087,7 +1087,7 @@ msgstr ""
 msgid "Dismiss setup card"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/CachePromoCard.tsx:69
+#: apps/admin/src/features/dashboard/CachePromoCard.tsx:70
 msgid "Dismiss the Flexa Cache suggestion"
 msgstr ""
 
@@ -1278,14 +1278,6 @@ msgstr ""
 msgid "Indexing"
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:238
-msgid "Install"
-msgstr ""
-
-#: apps/admin/src/features/dashboard/CachePromoCard.tsx:55
-msgid "Install Flexa Cache"
-msgstr ""
-
 #: apps/admin/src/features/dashboard/DashboardPage.tsx:657
 msgid "Issues"
 msgstr ""
@@ -1314,7 +1306,7 @@ msgstr ""
 msgid "Last scan analysed %d posts."
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:245
+#: apps/admin/src/features/settings/ToolsPane.tsx:243
 msgid "Learn more"
 msgstr ""
 
@@ -1469,7 +1461,7 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:229
+#: apps/admin/src/features/settings/ToolsPane.tsx:227
 msgid ""
 "Page cache and Redis object cache from the same team. A cached page is "
 "served as a static file, so the tags, schema and sitemap entries Flexa SEO "
@@ -1908,7 +1900,7 @@ msgstr ""
 msgid "View llms.txt"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/CachePromoCard.tsx:61
+#: apps/admin/src/features/dashboard/CachePromoCard.tsx:62
 msgid "View on WordPress.org"
 msgstr ""
 

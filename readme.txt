@@ -137,7 +137,7 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 == Changelog ==
 
 = 0.5.5 =
-* New: the Dashboard and Settings > Tools now point you at Flexa Cache, our free page cache, with an install or activate button. Flexa SEO builds your tags, schema and sitemap entries while WordPress puts a page together, and a page cache is what stops that happening again for the next visitor. The Dashboard card can be closed for good; the Tools row stays. Neither appears if Flexa Cache is already running, or if you have white-label mode on.
+* New: the Dashboard and Settings > Tools now point you at Flexa Cache, our free page cache. Flexa SEO builds your tags, schema and sitemap entries while WordPress puts a page together, and a page cache is what stops that happening again for the next visitor. The button opens the WordPress.org listing in a new tab, so nothing is installed behind your back; if you already have Flexa Cache sitting there switched off, it activates it instead. The Dashboard card can be closed for good; the Tools row stays. Neither appears if Flexa Cache is already running, or if you have white-label mode on.
 * Fix: uninstalling the plugin left the Setup Assistant's progress behind in the options table. It is removed now, along with the new dismissal flag.
 
 = 0.5.4 =
