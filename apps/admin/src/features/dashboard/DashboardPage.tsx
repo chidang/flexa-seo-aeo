@@ -21,6 +21,7 @@ import { cn } from "@/lib/cn";
 import { __ } from "@/lib/i18n";
 import { useUiStore } from "@/lib/store";
 import { getPluginGlobal } from "@/lib/wp";
+import { CachePromoCard } from "./CachePromoCard";
 import { SetupCard } from "./SetupCard";
 import {
   type AttentionPage,
@@ -114,6 +115,9 @@ export function DashboardPage() {
     <div className="fsa:mx-auto fsa:max-w-6xl fsa:px-6 fsa:pt-8 fsa:pb-12">
       {/* Setup Assistant re-entry, only for users who can manage settings */}
       {canManageSettings && <SetupCard />}
+
+      {/* Flexa Cache suggestion; renders nothing unless the server sent one */}
+      {canManageSettings && <CachePromoCard />}
 
       {/* Header */}
       <div className="fsa:mb-6 fsa:flex fsa:flex-wrap fsa:items-start fsa:justify-between fsa:gap-4">

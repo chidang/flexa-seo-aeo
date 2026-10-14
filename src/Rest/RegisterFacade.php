@@ -29,6 +29,7 @@ final class RegisterFacade {
 		( new DashboardController() )->register_routes();
 		( new MigrationController() )->register_routes();
 		( new OnboardingController() )->register_routes();
+		( new HintsController() )->register_routes();
 
 		do_action( 'flexa_seo_aeo/rest/register_routes' );
 	}

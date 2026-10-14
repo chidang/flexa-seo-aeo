@@ -1,8 +1,9 @@
-import { Download, Sparkles, Upload } from "lucide-react";
+import { Download, ExternalLink, Sparkles, Upload, Zap } from "lucide-react";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { __ } from "@/lib/i18n";
 import { useUiStore } from "@/lib/store";
+import { getPluginGlobal } from "@/lib/wp";
 import { type SettingsData, useImportSettings } from "./useSettings";
 
 interface ToolsPaneProps {
@@ -189,6 +190,62 @@ export function ToolsPane({ current, onImported }: ToolsPaneProps) {
             className="fsa:hidden"
           />
         </div>
+      </div>
+
+      <CacheRow />
+    </div>
+  );
+}
+
+/**
+ * A standing pointer to Flexa Cache. The dashboard card can be dismissed; this
+ * one cannot, which is why it is a plain row rather than a notice. It is here
+ * because a page cache is what keeps the tags, schema and sitemap entries this
+ * plugin writes from being rebuilt on every visit. The server sends no hint at
+ * all when Flexa Cache is already active or white-label is on, so there is
+ * nothing to render in those cases.
+ */
+function CacheRow() {
+  const hint = getPluginGlobal().cachePlugin;
+
+  if (!hint) {
+    return null;
+  }
+
+  const installed = hint.status === "inactive";
+
+  return (
+    <div className="fsa:rounded-lg fsa:border fsa:border-slate-200 fsa:p-4">
+      <div className="fsa:flex fsa:items-start fsa:gap-3">
+        <span className="fsa:flex fsa:h-9 fsa:w-9 fsa:shrink-0 fsa:items-center fsa:justify-center fsa:rounded-lg fsa:bg-emerald-50 fsa:text-emerald-600">
+          <Zap className="fsa:h-4 fsa:w-4" aria-hidden />
+        </span>
+        <div className="fsa:min-w-0 fsa:flex-1">
+          {/* A product name, so not translated. */}
+          <div className="fsa:text-sm fsa:font-semibold fsa:text-slate-900">
+            Flexa Cache
+          </div>
+          <p className="fsa:text-xs fsa:text-slate-500">
+            {__(
+              "Page cache and Redis object cache from the same team. A cached page is served as a static file, so the tags, schema and sitemap entries Flexa SEO builds are not rebuilt on every visit.",
+            )}
+          </p>
+        </div>
+        {hint.actionUrl !== "" ? (
+          <Button asChild variant="outline" className="fsa:shrink-0 fsa:gap-2">
+            <a href={hint.actionUrl}>
+              <Zap className="fsa:h-4 fsa:w-4" aria-hidden />
+              {installed ? __("Activate") : __("Install")}
+            </a>
+          </Button>
+        ) : (
+          <Button asChild variant="outline" className="fsa:shrink-0 fsa:gap-2">
+            <a href={hint.infoUrl} target="_blank" rel="noreferrer">
+              <ExternalLink className="fsa:h-4 fsa:w-4" aria-hidden />
+              {__("Learn more")}
+            </a>
+          </Button>
+        )}
       </div>
     </div>
   );

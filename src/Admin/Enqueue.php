@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flexa\SeoAeo\Admin;
 
 use Flexa\SeoAeo\Support\Capabilities;
+use Flexa\SeoAeo\Support\CachePlugin;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 
@@ -68,6 +69,9 @@ final class Enqueue {
 				// Gates the "Scan now" button, which POSTs to /dashboard/scan
 				// (edit_others_posts) — Authors see the cached report read-only.
 				'canScan'           => Capabilities::can_scan(),
+				// Null unless Flexa Cache is worth suggesting: absent or switched
+				// off, and the white-label setting is not hiding our branding.
+				'cachePlugin'       => CachePlugin::hint(),
 				'postTypes'         => $this->public_objects( 'post_types' ),
 				'taxonomies'        => $this->public_objects( 'taxonomies' ),
 			]

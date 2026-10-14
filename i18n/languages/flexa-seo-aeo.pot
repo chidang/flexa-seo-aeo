@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-13T23:44:56+00:00\n"
+"POT-Creation-Date: 2026-10-14T00:12:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: flexa-seo-aeo\n"
@@ -815,7 +815,7 @@ msgid ""
 "%s is still active. Deactivate it after setup to avoid duplicate meta tags."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:791
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:795
 #: apps/admin/src/features/onboarding/ContentStep.tsx:99
 msgid "(no title)"
 msgstr ""
@@ -831,8 +831,8 @@ msgid ""
 "A short description answer engines can quote. Shown at the top of llms.txt."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:347
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:650
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:351
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:654
 #: apps/admin/src/features/onboarding/ReportStep.tsx:97
 msgid "AEO"
 msgstr ""
@@ -842,11 +842,11 @@ msgstr ""
 msgid "AEO Core"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:188
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:192
 msgid "AEO Health"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:165
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:169
 msgid "AEO Score"
 msgstr ""
 
@@ -866,8 +866,16 @@ msgstr ""
 msgid "AI readiness"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:656
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:660
 msgid "Action"
+msgstr ""
+
+#: apps/admin/src/features/settings/ToolsPane.tsx:238
+msgid "Activate"
+msgstr ""
+
+#: apps/admin/src/features/dashboard/CachePromoCard.tsx:54
+msgid "Activate Flexa Cache"
 msgstr ""
 
 #: apps/admin/src/features/settings/SettingsPage.tsx:257
@@ -900,7 +908,7 @@ msgstr ""
 msgid "Agent Readiness"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:845
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:849
 msgid "All readiness checks pass now. 🎉"
 msgstr ""
 
@@ -987,7 +995,7 @@ msgstr ""
 msgid "Clean up URLs and control how links behave on the front end."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:642
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:646
 msgid "Click a row to see what to fix."
 msgstr ""
 
@@ -1023,15 +1031,15 @@ msgstr ""
 msgid "Could not read migration sources."
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:99
+#: apps/admin/src/features/settings/ToolsPane.tsx:100
 msgid "Could not read the file."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:762
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:766
 msgid "Couldn’t apply that fix."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:424
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:428
 msgid "Critical"
 msgstr ""
 
@@ -1050,7 +1058,7 @@ msgstr ""
 
 #: apps/admin/src/app/App.tsx:15
 #: apps/admin/src/components/CommandPalette.tsx:56
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:122
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:126
 msgid "Dashboard"
 msgstr ""
 
@@ -1066,7 +1074,7 @@ msgstr ""
 msgid "Destructive actions"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:846
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:850
 msgid ""
 "Details aren’t loaded yet — run “Scan now” at the top to refresh this list."
 msgstr ""
@@ -1077,6 +1085,10 @@ msgstr ""
 
 #: apps/admin/src/features/dashboard/SetupCard.tsx:177
 msgid "Dismiss setup card"
+msgstr ""
+
+#: apps/admin/src/features/dashboard/CachePromoCard.tsx:69
+msgid "Dismiss the Flexa Cache suggestion"
 msgstr ""
 
 #: apps/admin/src/features/settings/sections.ts:43
@@ -1091,11 +1103,11 @@ msgstr ""
 msgid "Done. Migrated %1$d, skipped %2$d."
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:141
+#: apps/admin/src/features/settings/ToolsPane.tsx:142
 msgid "Download the current configuration as a JSON file."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:830
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:834
 msgid "Edit"
 msgstr ""
 
@@ -1125,11 +1137,11 @@ msgstr ""
 msgid "Enabled during setup"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:757
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:761
 msgid "Enabled site-wide — your pages are being re-scored."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:637
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:641
 msgid "Every scanned page is in good shape. 🎉"
 msgstr ""
 
@@ -1145,11 +1157,11 @@ msgstr ""
 msgid "Exit setup"
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:150
+#: apps/admin/src/features/settings/ToolsPane.tsx:151
 msgid "Export"
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:138
+#: apps/admin/src/features/settings/ToolsPane.tsx:139
 msgid "Export settings"
 msgstr ""
 
@@ -1161,17 +1173,28 @@ msgstr ""
 msgid "Failed to load settings:"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:92
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:93
 msgid "Failed to load the dashboard:"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:910
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:914
 msgid "Fix in editor"
+msgstr ""
+
+#: apps/admin/src/features/dashboard/CachePromoCard.tsx:40
+msgid "Flexa Cache is installed but switched off."
 msgstr ""
 
 #: apps/admin/src/features/onboarding/WelcomeStep.tsx:43
 msgid ""
 "Flexa SEO is already partly configured. We'll only suggest what's missing."
+msgstr ""
+
+#: apps/admin/src/features/dashboard/CachePromoCard.tsx:44
+msgid ""
+"Flexa SEO writes your tags, schema and sitemap entries while WordPress "
+"builds a page. Flexa Cache stores the finished page as a static file, so "
+"that work happens once instead of on every visit. Free, from the same team."
 msgstr ""
 
 #: apps/admin/src/features/onboarding/ReportStep.tsx:217
@@ -1198,7 +1221,7 @@ msgstr ""
 msgid "Homepage title"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:125
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:129
 msgid "How healthy is your site, what is wrong, and what to fix next."
 msgstr ""
 
@@ -1210,7 +1233,7 @@ msgstr ""
 msgid "How ready is your content?"
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:182
+#: apps/admin/src/features/settings/ToolsPane.tsx:183
 msgid "Import"
 msgstr ""
 
@@ -1226,11 +1249,11 @@ msgstr ""
 msgid "Import from Yoast & Rank Math"
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:162
+#: apps/admin/src/features/settings/ToolsPane.tsx:163
 msgid "Import settings"
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:182
+#: apps/admin/src/features/settings/ToolsPane.tsx:183
 msgid "Importing…"
 msgstr ""
 
@@ -1255,11 +1278,19 @@ msgstr ""
 msgid "Indexing"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:653
+#: apps/admin/src/features/settings/ToolsPane.tsx:238
+msgid "Install"
+msgstr ""
+
+#: apps/admin/src/features/dashboard/CachePromoCard.tsx:55
+msgid "Install Flexa Cache"
+msgstr ""
+
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:657
 msgid "Issues"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:462
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:466
 msgid "Issues overview"
 msgstr ""
 
@@ -1279,8 +1310,12 @@ msgstr ""
 msgid "Language: %s"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:133
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:137
 msgid "Last scan analysed %d posts."
+msgstr ""
+
+#: apps/admin/src/features/settings/ToolsPane.tsx:245
+msgid "Learn more"
 msgstr ""
 
 #: apps/admin/src/features/settings/SettingsPage.tsx:478
@@ -1296,7 +1331,7 @@ msgstr ""
 msgid "Links"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:85
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:86
 msgid "Loading dashboard…"
 msgstr ""
 
@@ -1348,7 +1383,7 @@ msgstr ""
 msgid "No matching commands."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:134
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:138
 msgid "No scan yet."
 msgstr ""
 
@@ -1364,11 +1399,11 @@ msgstr ""
 msgid "Nothing available."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:586
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:590
 msgid "Nothing urgent — your configuration looks healthy."
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:126
+#: apps/admin/src/features/settings/ToolsPane.tsx:127
 msgid "Open"
 msgstr ""
 
@@ -1397,7 +1432,7 @@ msgstr ""
 msgid "Opens /sitemap.xml"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:438
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:442
 msgid "Opportunities"
 msgstr ""
 
@@ -1430,15 +1465,22 @@ msgstr ""
 msgid "Overwrite existing Flexa values"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:648
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:652
 msgid "Page"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:632
+#: apps/admin/src/features/settings/ToolsPane.tsx:229
+msgid ""
+"Page cache and Redis object cache from the same team. A cached page is "
+"served as a static file, so the tags, schema and sitemap entries Flexa SEO "
+"builds are not rebuilt on every visit."
+msgstr ""
+
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:636
 msgid "Pages needing attention"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:445
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:449
 msgid "Passed"
 msgstr ""
 
@@ -1476,13 +1518,13 @@ msgstr ""
 msgid "Re-run detection and recommendations"
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:115
+#: apps/admin/src/features/settings/ToolsPane.tsx:116
 msgid ""
 "Re-run detection and recommendations. It only proposes still-unconfigured "
 "values."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:581
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:585
 msgid "Recommended actions"
 msgstr ""
 
@@ -1518,7 +1560,7 @@ msgstr ""
 msgid "Rename the plugin in wp-admin for a white-label setup."
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:165
+#: apps/admin/src/features/settings/ToolsPane.tsx:166
 msgid "Replace the current configuration from a previously exported file."
 msgstr ""
 
@@ -1530,15 +1572,15 @@ msgstr ""
 msgid "Report"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:743
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:747
 msgid "Rescan failed."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:925
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:929
 msgid "Rescan this page"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:925
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:929
 msgid "Rescanning…"
 msgstr ""
 
@@ -1588,32 +1630,32 @@ msgstr ""
 msgid "Rich preview cards on X."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:636
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:640
 msgid "Run a scan to surface the pages that need work."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:340
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:344
 msgid "Run “Scan now” a few times to build a score history here."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:346
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:350
 #: apps/admin/src/features/onboarding/ReportStep.tsx:92
 msgid "SEO"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:336
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:340
 msgid "SEO & AEO trend"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:187
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:191
 msgid "SEO Health"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:159
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:163
 msgid "SEO Score"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:381
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:385
 msgid "SEO and AEO score history"
 msgstr ""
 
@@ -1637,7 +1679,7 @@ msgstr ""
 msgid "Scan incomplete. Retry from the Dashboard."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:149
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:153
 msgid "Scan now"
 msgstr ""
 
@@ -1650,7 +1692,7 @@ msgstr ""
 msgid "Scanning your content…"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:149
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:153
 msgid "Scanning…"
 msgstr ""
 
@@ -1683,15 +1725,19 @@ msgstr ""
 msgid "Serve ?flexa-aeo=md — clean Markdown of any post."
 msgstr ""
 
+#: apps/admin/src/features/dashboard/CachePromoCard.tsx:41
+msgid "Serve these pages from a cache."
+msgstr ""
+
 #: apps/admin/src/features/dashboard/SetupCard.tsx:137
 msgid "Set up Flexa SEO in 3 minutes."
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:66
+#: apps/admin/src/features/settings/ToolsPane.tsx:67
 msgid "Settings exported."
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:91
+#: apps/admin/src/features/settings/ToolsPane.tsx:92
 msgid "Settings imported."
 msgstr ""
 
@@ -1705,7 +1751,7 @@ msgid "Setup %d%% complete"
 msgstr ""
 
 #: apps/admin/src/features/onboarding/WizardShell.tsx:36
-#: apps/admin/src/features/settings/ToolsPane.tsx:112
+#: apps/admin/src/features/settings/ToolsPane.tsx:113
 msgid "Setup Assistant"
 msgstr ""
 
@@ -1788,7 +1834,7 @@ msgstr ""
 msgid "The baseline every site needs. One click."
 msgstr ""
 
-#: apps/admin/src/features/settings/ToolsPane.tsx:32
+#: apps/admin/src/features/settings/ToolsPane.tsx:33
 msgid "The file is not a valid settings object."
 msgstr ""
 
@@ -1825,7 +1871,7 @@ msgid ""
 "Fill-gaps keeps anything Flexa already has."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:779
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:783
 msgid "Toggle issue details"
 msgstr ""
 
@@ -1845,7 +1891,7 @@ msgstr ""
 msgid "URLs & link attributes"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:93
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:94
 #: apps/admin/src/features/onboarding/OnboardingPage.tsx:71
 msgid "Unknown error."
 msgstr ""
@@ -1862,7 +1908,11 @@ msgstr ""
 msgid "View llms.txt"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:431
+#: apps/admin/src/features/dashboard/CachePromoCard.tsx:61
+msgid "View on WordPress.org"
+msgstr ""
+
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:435
 msgid "Warnings"
 msgstr ""
 
@@ -1958,7 +2008,7 @@ msgstr ""
 msgid "good"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:555
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:559
 msgid "n/a"
 msgstr ""
 
@@ -1974,7 +2024,7 @@ msgstr ""
 msgid "to confirm"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:894
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:898
 msgid "· site-wide"
 msgstr ""
 

@@ -24,6 +24,7 @@ final class Resetter {
 		// Setup Assistant progress is Flexa data too — a full reset returns the
 		// site to a first-run state, so the wizard offers itself again.
 		delete_option( OnboardingState::OPTION_KEY );
+		delete_option( CachePlugin::OPTION_KEY );
 
 		// Transient flag for a deferred rewrite flush (strip-category-base).
 		delete_option( 'flexa_seo_aeo_flush_rewrite' );

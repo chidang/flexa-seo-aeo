@@ -16,6 +16,14 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 delete_option( 'flexa_seo_aeo_settings' );
 delete_option( 'flexa_seo_aeo_flush_rewrite' );
 
+// Flexa\SeoAeo\Support\OnboardingState::OPTION_KEY, the Setup Assistant's
+// progress.
+delete_option( 'flexa_seo_aeo_onboarding' );
+
+// Flexa\SeoAeo\Support\CachePlugin::OPTION_KEY, set when an administrator
+// closes the Flexa Cache card.
+delete_option( 'flexa_seo_aeo_cache_hint_dismissed' );
+
 // Flexa\SeoAeo\Services\Aeo\Schema::FAQ_CACHE_META, a derived per-post cache
 // written on the frontend.
 delete_post_meta_by_key( '_flexa_seo_aeo_faq_cache' );
