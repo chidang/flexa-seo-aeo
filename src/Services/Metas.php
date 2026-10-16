@@ -124,6 +124,15 @@ final class Metas {
 				$canonical          = '' !== $meta->canonical ? $meta->canonical : (string) get_permalink( $post );
 				$og_type            = 'post' === get_post_type( $post ) ? 'article' : 'website';
 				$og_image           = $this->og_image( $meta, $post, $og_image );
+
+				// %%author%% on a post means the post's author, which is what
+				// Yoast's %%name%% resolves to and therefore what a migrated
+				// template expects. Without this the token silently collapses to
+				// nothing on every singular view.
+				$author = get_user_by( 'id', (int) $post->post_author );
+				if ( $author instanceof \WP_User ) {
+					$context['author'] = $author->display_name;
+				}
 			}
 		} elseif ( is_category() || is_tag() || is_tax() ) {
 			$term = get_queried_object();
@@ -212,6 +221,16 @@ final class Metas {
 	 * @return list<string>
 	 */
 	private function robots( bool $noindex, bool $nofollow, ?PostMeta $meta ): array {
+		// "Discourage search engines from indexing this site" in Settings >
+		// Reading is a site-wide answer, and it outranks anything configured per
+		// post. A staging site whose owner ticked that box must not carry a
+		// plugin tag inviting crawlers in, next to core's tag telling them to
+		// stay out.
+		if ( ! (bool) get_option( 'blog_public' ) ) {
+			$noindex  = true;
+			$nofollow = true;
+		}
+
 		$robots = [
 			$noindex ? 'noindex' : 'index',
 			$nofollow ? 'nofollow' : 'follow',

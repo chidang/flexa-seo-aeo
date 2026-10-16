@@ -32,4 +32,28 @@ final class ResolvedMeta {
 	public function robots_line(): string {
 		return implode( ', ', $this->robots );
 	}
+
+	/**
+	 * The same directives in the shape core's `wp_robots` filter expects:
+	 * a flag becomes `directive => true`, and a valued hint such as
+	 * `max-snippet:-1` splits into `'max-snippet' => '-1'`.
+	 *
+	 * @return array<string, string|true>
+	 */
+	public function robots_map(): array {
+		$map = [];
+
+		foreach ( $this->robots as $directive ) {
+			$parts = explode( ':', $directive, 2 );
+			$key   = trim( $parts[0] );
+
+			if ( '' === $key ) {
+				continue;
+			}
+
+			$map[ $key ] = isset( $parts[1] ) ? trim( $parts[1] ) : true;
+		}
+
+		return $map;
+	}
 }
