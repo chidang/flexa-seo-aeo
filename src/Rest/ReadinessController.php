@@ -39,18 +39,15 @@ final class ReadinessController extends BaseRestController {
 		);
 	}
 
+	/**
+	 * Capability first, with no lookup before it, for the reason given in
+	 * {@see \Flexa\SeoAeo\Rest\PostMetaController::post_permission()}: a 404
+	 * for a missing id and a 403 for a real one tells a caller which post ids
+	 * exist. `edit_post` covers both, because WordPress maps it to
+	 * do_not_allow when there is no such post.
+	 */
 	public function post_permission( WP_REST_Request $request ): bool|WP_Error {
-		$post_id = (int) $request['id'];
-
-		if ( ! get_post( $post_id ) instanceof WP_Post ) {
-			return new WP_Error(
-				'flexa_seo_aeo_not_found',
-				__( 'Post not found.', 'flexa-seo-aeo' ),
-				[ 'status' => 404 ]
-			);
-		}
-
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		if ( ! current_user_can( 'edit_post', (int) $request['id'] ) ) {
 			return new WP_Error(
 				'flexa_seo_aeo_forbidden',
 				__( 'You cannot edit this post.', 'flexa-seo-aeo' ),
