@@ -34,6 +34,31 @@ final class Router {
 		add_action( 'init', [ $this, 'add_rewrite_rules' ] );
 		add_filter( 'query_vars', [ $this, 'register_query_vars' ] );
 		add_action( 'template_redirect', [ $this, 'render' ], 0 );
+		add_filter( 'wp_sitemaps_enabled', [ $this, 'disable_core_sitemaps' ] );
+	}
+
+	/**
+	 * Switch core's own sitemap off while ours is serving.
+	 *
+	 * Both indexes are otherwise live at once: ours at `/sitemap.xml`, core's at
+	 * `/wp-sitemap.xml`, each listing the same URLs, and core adds its line to
+	 * robots.txt so crawlers are handed two competing indexes. Core's is also
+	 * the weaker of the two here (no image entries, no per-post noindex
+	 * exclusion), so ours wins and core's goes away.
+	 *
+	 * @param bool $enabled Whether core would serve its sitemap.
+	 */
+	public function disable_core_sitemaps( bool $enabled ): bool {
+		unset( $enabled );
+
+		/**
+		 * Filters whether core's `/wp-sitemap.xml` is turned off while the Flexa
+		 * sitemap is on. Return true to keep both live, e.g. when something
+		 * downstream has already been pointed at the core URL.
+		 *
+		 * @param bool $keep Whether to leave core's sitemap enabled.
+		 */
+		return (bool) apply_filters( 'flexa_seo_aeo/sitemap/keep_core_sitemap', false );
 	}
 
 	/**
