@@ -99,7 +99,11 @@ The `.pot` translation template is regenerated with `pnpm i18n:pot` (PHP + vanil
 
 = What is the Answer-Engine Readiness Score? =
 
-It is a per-post grade (0–100) shown in the block-editor sidebar that measures how ready the post is to be quoted by AI answer engines. It checks eight signals (structured data, meta description, an answer-first opening, question-style headings, FAQ blocks, llms.txt inclusion, a Markdown alternate, and content depth) and gives a plain-English fix for each. It runs entirely on your server, with no AI account or API key.
+It is a per-post grade (0–100) shown in the block-editor sidebar that measures how ready the post is to be quoted by AI answer engines. It checks eight signals (structured data, meta description, an answer-first opening, question-style headings, FAQ blocks, llms.txt inclusion, a Markdown alternate, and content depth) and gives a plain-English fix for each. It runs entirely on your server, with no AI account or API key. The full rubric, with every weight and threshold, is published at https://seo-aeo-doc.flexacommerce.com/.
+
+= What do the evidence labels next to each check mean? =
+
+Every readiness check is labelled `documented`, `observed` or `heuristic`, both in the editor sidebar and on the Dashboard, so you can tell a vendor-documented requirement from our own judgement call. `documented` means a search or AI vendor publishes guidance on that signal. `observed` means studies and testing associate it with being quoted, but no engine states it as a rule. `heuristic` means it is a reasoned bet: cheap to do, plausibly useful, unconfirmed. The weights are editorial in every row; the published rubric explains the reasoning behind each one.
 
 = How is this different from the many llms.txt plugins? =
 
@@ -111,7 +115,9 @@ No account is required, and no content is sent anywhere. There are only two opti
 
 = Will it conflict with Yoast, Rank Math, or SEOPress? =
 
-Run one SEO plugin at a time. Flexa SEO can read existing per-post meta from those plugins as a fallback, easing migration.
+Run one SEO plugin at a time. With two active you get two canonical tags, two sets of Open Graph tags and often two JSON-LD graphs, and search engines pick between them. A tested compatibility matrix, with exact plugin versions and the duplicate tags each pairing produces, is published at https://seo-aeo-doc.flexacommerce.com/compatibility.
+
+While you are still moving, Flexa SEO reads existing per-post meta from Yoast, Rank Math and SEOPress as a fallback, so the front end keeps working. One-click migration covers Yoast and Rank Math.
 
 = Does it work without WooCommerce? =
 

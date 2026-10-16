@@ -44,6 +44,9 @@ Thumbs.db
 /docs
 /.md
 
+# Public documentation site (Next.js static export, deployed separately)
+/docs-site
+
 # Dev-only Vite HMR shim — enqueues a localhost module URL and must never
 # ship (WP.org "calling files remotely"). Prod uses the built manifest.
 /src/Admin/dev-server.php

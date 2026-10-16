@@ -10,7 +10,7 @@
         "preview": "vite preview -c apps/admin/vite.config.ts",
         "type-check": "tsc -p apps/admin/tsconfig.json --noEmit",
         "format": "prettier --write \"apps/**/*.{ts,tsx,css}\"",
-        "i18n:pot": "wp i18n make-pot . i18n/languages/_php.pot --slug=flexa-seo-aeo --domain=flexa-seo-aeo --exclude=apps,node_modules,vendor,assets,tools,tests && node tools/i18n/extract-js.mjs i18n/languages/_js.pot && msgcat --use-first i18n/languages/_php.pot i18n/languages/_js.pot -o i18n/languages/flexa-seo-aeo.pot && rm -f i18n/languages/_php.pot i18n/languages/_js.pot"
+        "i18n:pot": "wp i18n make-pot . i18n/languages/_php.pot --slug=flexa-seo-aeo --domain=flexa-seo-aeo --exclude=apps,node_modules,vendor,assets,tools,tests,docs-site && node tools/i18n/extract-js.mjs i18n/languages/_js.pot && msgcat --use-first i18n/languages/_php.pot i18n/languages/_js.pot -o i18n/languages/flexa-seo-aeo.pot && rm -f i18n/languages/_php.pot i18n/languages/_js.pot"
     },
     "dependencies": {
         "@radix-ui/react-dialog": "^1.1.2",
