@@ -14,7 +14,7 @@ Complete WordPress SEO (schema, sitemaps, meta, Open Graph), plus an Answer-Engi
 
 == Description ==
 
-Flexa SEO is a complete, privacy-first SEO plugin: title & meta templating, JSON-LD schema, XML sitemaps, Open Graph, `robots.txt`, IndexNow, and one-click migration from Yoast, Rank Math and SEOPress. It covers the SEO baseline you expect, and then goes one step further than any of them.
+Flexa SEO is a complete, privacy-first SEO plugin: title & meta templating, JSON-LD schema, XML sitemaps, Open Graph, `robots.txt`, IndexNow, and one-click migration from Yoast and Rank Math. It covers the SEO baseline you expect, and then goes one step further than any of them.
 
 A guided **Setup Assistant** takes you from activation to a configured, answer-engine-ready site in a few minutes: it detects your setup, recommends the SEO and AEO settings that fit, and applies them in one click. Every recommendation is compared against the defaults, so you see exactly which settings will change before anything is applied and any value you set yourself is kept.
 
@@ -36,7 +36,7 @@ This turns "AEO" from a file you generate once into a workflow your team improve
 * JSON-LD structured data (`@graph`): Article / BlogPosting / WebPage, WebSite + SearchAction, Organization / Person publisher, and automatic FAQPage from core FAQ blocks.
 * Open Graph and Twitter Card tags, canonical URLs, and configurable robots directives (AEO-friendly defaults: `max-snippet:-1`, `max-image-preview:large`).
 * XML sitemaps (index + per-type sub-sitemaps, image entries) with a branded XSL stylesheet, plus an HTML sitemap shortcode `[flexa_seo_aeo_sitemap]` and a sitemap block.
-* Per-post editing in a classic metabox **and** a Gutenberg editor sidebar, with one-click **migration from Yoast / Rank Math / SEOPress** (and read-fallback so nothing breaks mid-move).
+* Per-post editing in a classic metabox **and** a Gutenberg editor sidebar, with one-click **migration from Yoast and Rank Math**, and a read-fallback that also covers SEOPress so nothing breaks mid-move.
 * `robots.txt` management and optional **IndexNow** ping on publish/update (see *External services* below).
 * **Links** controls: strip the category base from archive URLs, redirect attachment pages to their parent (with an orphan fallback), and add `nofollow` / `target="_blank"` to external links at display time.
 
@@ -182,7 +182,7 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 * Improved: the plugin now opens on the Dashboard, with a Dashboard / Settings switch in the header.
 
 = 0.1.0 =
-* Initial release: **Answer-Engine Readiness Score** (per-post 0–100 grade + actionable checklist in the block editor), title/meta templating, Open Graph & Twitter, canonical & robots, XML/HTML sitemaps, robots.txt, IndexNow, llms.txt, Agent Readiness Markdown export, JSON-LD schema (Article/WebPage/WebSite/Organization/FAQ), one-click migration from Yoast/Rank Math/SEOPress, optional WooCommerce Product schema, and a React admin app.
+* Initial release: **Answer-Engine Readiness Score** (per-post 0–100 grade + actionable checklist in the block editor), title/meta templating, Open Graph & Twitter, canonical & robots, XML/HTML sitemaps, robots.txt, IndexNow, llms.txt, Agent Readiness Markdown export, JSON-LD schema (Article/WebPage/WebSite/Organization/FAQ), one-click migration from Yoast and Rank Math, optional WooCommerce Product schema, and a React admin app.
 
 == Upgrade Notice ==
 
