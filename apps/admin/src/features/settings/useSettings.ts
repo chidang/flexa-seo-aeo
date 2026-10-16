@@ -40,6 +40,7 @@ export interface SettingsData {
     og_default_image: string;
     knowledge_type: string;
     knowledge_name: string;
+    knowledge_logo: string;
     robots_txt: string;
     whitelabel: boolean;
     whitelabel_name: string;

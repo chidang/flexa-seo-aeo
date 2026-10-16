@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flexa\SeoAeo\Actions\Woo;
 
+use Flexa\SeoAeo\Services\Aeo\Schema as SchemaService;
 use Flexa\SeoAeo\Services\Aeo\WooProduct;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
@@ -32,6 +33,30 @@ final class ProductSchema {
 		}
 
 		add_filter( 'flexa_seo_aeo/aeo/schema_nodes', [ $this, 'inject' ] );
+		add_filter( 'woocommerce_structured_data_product', [ $this, 'maybe_suppress' ] );
+	}
+
+	/**
+	 * Stand WooCommerce's own Product node down when ours is going out.
+	 *
+	 * Both use `{permalink}#product` as the `@id`, so leaving both in the page
+	 * gives one identifier two different descriptions of the same thing, and a
+	 * consumer merging the graph by `@id` gets whichever it read last. Ours
+	 * carries the brand, GTIN and review counts, so ours is the one to keep.
+	 *
+	 * Asked of the same cached node list the page prints: if either toggle is
+	 * off, or a `flexa_seo_aeo/aeo/schema_nodes` filter drops our node, the
+	 * store keeps the markup it had before this plugin was installed.
+	 *
+	 * @param array<string, mixed> $data
+	 * @return array<string, mixed>
+	 */
+	public function maybe_suppress( array $data ): array {
+		if ( ! (bool) Settings::get_aeo( 'schema' ) || ! (bool) Settings::get_aeo( 'commerce' ) ) {
+			return $data;
+		}
+
+		return SchemaService::instance()->emits( 'Product' ) ? [] : $data;
 	}
 
 	/**

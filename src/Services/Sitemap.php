@@ -135,6 +135,12 @@ final class Sitemap {
 			}
 		}
 
+		// Term archives carry no lastmod, here or in the sub-sitemap itself. A
+		// term has no modification date of its own, and deriving one from its
+		// newest post means a query per term, which on a site with thousands of
+		// tags costs more than the hint is worth. `lastmod` is optional, and
+		// both templates skip the element when it is empty, so a crawler sees a
+		// clean entry rather than a guess.
 		foreach ( $this->taxonomies() as $tax ) {
 			$pages = $this->page_count( $this->count_terms( $tax ) );
 			if ( 0 === $pages ) {
@@ -192,6 +198,55 @@ final class Sitemap {
 		return array_values(
 			(array) apply_filters( 'flexa_seo_aeo/sitemap/posts', $entries, $post_type, $page )
 		);
+	}
+
+	/**
+	 * Whether one page of a sub-sitemap would carry at least one URL.
+	 *
+	 * Callers that only need the yes/no (the legacy-URL redirect decides
+	 * between the real document and the index with it) would otherwise build
+	 * the whole entry set: up to 2000 permalinks, each with its images, thrown
+	 * away a line later. This asks for one row.
+	 */
+	public function has_entries( string $object_type, string $subtype, int $page ): bool {
+		$page   = max( 1, $page );
+		$offset = ( $page - 1 ) * self::MAX_PER_PAGE;
+
+		if ( 'taxonomies' === $object_type ) {
+			if ( ! in_array( $subtype, $this->taxonomies(), true ) ) {
+				return false;
+			}
+
+			$terms = get_terms(
+				[
+					'taxonomy'   => $subtype,
+					'hide_empty' => true,
+					'number'     => 1,
+					'offset'     => $offset,
+					'orderby'    => 'id',
+					'order'      => 'ASC',
+					'fields'     => 'ids',
+				]
+			);
+
+			return is_array( $terms ) && [] !== $terms;
+		}
+
+		if ( ! in_array( $subtype, $this->post_types(), true ) ) {
+			return false;
+		}
+
+		$args                   = $this->post_query_args( $subtype, $page );
+		$args['posts_per_page'] = 1;
+		$args['fields']         = 'ids';
+		$args['no_found_rows']  = true;
+		// An explicit offset, because `paged` would now step one post at a time.
+		$args['offset'] = $offset;
+		unset( $args['paged'] );
+
+		$query = new WP_Query( $args );
+
+		return [] !== $query->posts;
 	}
 
 	/**
@@ -522,10 +577,27 @@ final class Sitemap {
 		return (int) ceil( $total / self::MAX_PER_PAGE );
 	}
 
+	/**
+	 * The newest modification date among the posts this sitemap actually lists.
+	 *
+	 * Not `get_lastpostmodified()`: that reads the newest published post of the
+	 * type whatever its state, so noindexing or password-protecting the most
+	 * recent post left the index advertising a date no URL in the file carried,
+	 * and every crawl after it looked stale. One extra query per post type,
+	 * reused by all of that type's pages.
+	 */
 	private function post_type_lastmod( string $post_type ): string {
-		$latest = get_lastpostmodified( 'gmt', $post_type );
+		$args                           = $this->post_query_args( $post_type, 1 );
+		$args['posts_per_page']         = 1;
+		$args['paged']                  = 1;
+		$args['orderby']                = 'modified';
+		$args['order']                  = 'DESC';
+		$args['update_post_meta_cache'] = false;
 
-		return is_string( $latest ) ? $this->to_iso( $latest ) : '';
+		$query  = new WP_Query( $args );
+		$latest = $query->posts[0] ?? null;
+
+		return $latest instanceof WP_Post ? $this->to_iso( $latest->post_modified_gmt ) : '';
 	}
 
 	/**

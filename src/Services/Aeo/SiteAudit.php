@@ -212,25 +212,33 @@ final class SiteAudit {
 	 * The most-recently-modified published posts across the sitemap post types,
 	 * capped so an on-demand scan never runs unbounded on a large site.
 	 *
+	 * Same exclusions as the sitemap, through the same method: a page you marked
+	 * noindex or put behind a password is one you have decided search engines
+	 * will not see, so grading its title and description only pushes the site
+	 * score around for work nobody can act on.
+	 *
 	 * @return list<WP_Post>
 	 */
 	private function collect_posts(): array {
-		$types = SitemapService::instance()->post_types();
+		$sitemap = SitemapService::instance();
+		$types   = $sitemap->post_types();
 		if ( [] === $types ) {
 			return [];
 		}
 
 		$query = new WP_Query(
-			[
-				'post_type'              => $types,
-				'post_status'            => 'publish',
-				'posts_per_page'         => $this->scan_limit(),
-				'orderby'                => 'modified',
-				'order'                  => 'DESC',
-				'ignore_sticky_posts'    => true,
-				'no_found_rows'          => true,
-				'update_post_term_cache' => false,
-			]
+			$sitemap->exclude_noindexed(
+				[
+					'post_type'              => $types,
+					'post_status'            => 'publish',
+					'posts_per_page'         => $this->scan_limit(),
+					'orderby'                => 'modified',
+					'order'                  => 'DESC',
+					'ignore_sticky_posts'    => true,
+					'no_found_rows'          => true,
+					'update_post_term_cache' => false,
+				]
+			)
 		);
 
 		$out = [];
@@ -648,8 +656,8 @@ final class SiteAudit {
 			'hint'     => sprintf(
 				/* translators: 1: number of posts, 2: signal name. */
 				_n(
-					'%1$d scanned post needs work on %2$s — open each and follow the readiness checklist.',
-					'%1$d scanned posts need work on %2$s — open each and follow the readiness checklist.',
+					'%1$d scanned post needs work on %2$s. Open each and follow the readiness checklist.',
+					'%1$d scanned posts need work on %2$s. Open each and follow the readiness checklist.',
 					$worst_count,
 					'flexa-seo-aeo'
 				),

@@ -68,8 +68,19 @@ final class Schema {
 	 * WooCommerce's question ahead of our output.
 	 */
 	public function emits_breadcrumb_list(): bool {
+		return $this->emits( 'BreadcrumbList' );
+	}
+
+	/**
+	 * Whether this request's graph carries a node of the given `@type`.
+	 *
+	 * Same contract as {@see self::emits_breadcrumb_list()}: it answers from
+	 * the list the page will print, so a caller deciding whether to stand down
+	 * can never be told we emit something we then drop.
+	 */
+	public function emits( string $type ): bool {
 		foreach ( $this->nodes() as $node ) {
-			if ( 'BreadcrumbList' === ( $node['@type'] ?? '' ) ) {
+			if ( ( $node['@type'] ?? '' ) === $type ) {
 				return true;
 			}
 		}
@@ -269,6 +280,32 @@ final class Schema {
 	}
 
 	/**
+	 * The image for the knowledge-graph node.
+	 *
+	 * The dedicated setting first, then the logo the theme customizer already
+	 * holds, and only then the social sharing image. The last of those is a
+	 * 1200x630 card built to be legible in a timeline; Google wants a logo it
+	 * can show beside a result, and until there was a field for one the sharing
+	 * card was being handed over as the brand mark.
+	 */
+	private function brand_logo(): string {
+		$logo = trim( (string) Settings::get( 'knowledge_logo' ) );
+		if ( '' !== $logo ) {
+			return $logo;
+		}
+
+		$custom_logo = (int) get_theme_mod( 'custom_logo' );
+		if ( $custom_logo > 0 ) {
+			$url = wp_get_attachment_image_url( $custom_logo, 'full' );
+			if ( is_string( $url ) && '' !== $url ) {
+				return $url;
+			}
+		}
+
+		return trim( (string) Settings::get( 'og_default_image' ) );
+	}
+
+	/**
 	 * Organization or Person node describing who publishes the site, from the
 	 * knowledge-graph settings. Empty array when no name is resolvable.
 	 *
@@ -292,7 +329,7 @@ final class Schema {
 			'url'   => home_url( '/' ),
 		];
 
-		$logo = (string) Settings::get( 'og_default_image' );
+		$logo = $this->brand_logo();
 		if ( '' !== $logo ) {
 			$node['logo'] = [
 				'@type' => 'ImageObject',

@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-16T04:40:12+00:00\n"
+"POT-Creation-Date: 2026-10-16T06:34:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: flexa-seo-aeo\n"
@@ -180,7 +180,7 @@ msgid "You are not allowed to do that."
 msgstr ""
 
 #: src/Admin/PostMetabox.php:40
-msgid "Flexa SEO — Search & AI"
+msgid "Flexa SEO: Search & AI"
 msgstr ""
 
 #: src/Admin/PostMetabox.php:55 editor/sidebar.js:406
@@ -272,14 +272,15 @@ msgstr ""
 msgid "Enable structured data"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:209 src/Services/Aeo/SiteAudit.php:490
+#: src/Services/Aeo/Readiness.php:209 src/Services/Aeo/SiteAudit.php:498
 msgid "Structured data"
 msgstr ""
 
 #: src/Services/Aeo/Readiness.php:233
 msgid ""
-"Add a meta description — answer engines often quote it verbatim as the "
-"summary."
+"Add a meta description. Answer engines often quote it verbatim, and with no "
+"excerpt and nothing in the SEO panel this page has nothing of its own to "
+"quote."
 msgstr ""
 
 #: src/Services/Aeo/Readiness.php:239
@@ -298,7 +299,7 @@ msgstr ""
 
 #: src/Services/Aeo/Readiness.php:256
 msgid ""
-"Open with a 2–3 sentence summary that answers the topic directly — engines "
+"Open with a 2–3 sentence summary that answers the topic directly; engines "
 "favour the lede."
 msgstr ""
 
@@ -324,7 +325,7 @@ msgid ""
 "is…?”)."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:292 src/Services/Aeo/SiteAudit.php:621
+#: src/Services/Aeo/Readiness.php:292 src/Services/Aeo/SiteAudit.php:629
 msgid "Question-style headings"
 msgstr ""
 
@@ -334,10 +335,10 @@ msgstr ""
 
 #: src/Services/Aeo/Readiness.php:302
 msgid ""
-"Add a core Details/FAQ block — each question becomes a citable FAQPage entry."
+"Add a core Details/FAQ block: each question becomes a citable FAQPage entry."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:304 src/Services/Aeo/SiteAudit.php:624
+#: src/Services/Aeo/Readiness.php:304 src/Services/Aeo/SiteAudit.php:632
 msgid "FAQ / Q&A blocks"
 msgstr ""
 
@@ -398,7 +399,7 @@ msgstr ""
 
 #: src/Services/Aeo/Readiness.php:386
 msgid ""
-"Thin content is rarely cited — expand toward 300+ words of genuine detail."
+"Thin content is rarely cited. Expand toward 300+ words of genuine detail."
 msgstr ""
 
 #: src/Services/Aeo/Readiness.php:389
@@ -406,140 +407,140 @@ msgid ""
 "This post is very short; engines seldom quote pages with little content."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:392 src/Services/Aeo/SiteAudit.php:623
+#: src/Services/Aeo/Readiness.php:392 src/Services/Aeo/SiteAudit.php:631
 msgid "Content depth"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:269
+#: src/Services/Aeo/SiteAudit.php:277
 msgid "Titles & meta output"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:274
+#: src/Services/Aeo/SiteAudit.php:282
 msgid ""
 "Turn on Titles & meta so every page ships a <title> and meta description."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:278
+#: src/Services/Aeo/SiteAudit.php:286
 #: src/Services/Onboarding/Recommended.php:48
 msgid "XML sitemap"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:283
+#: src/Services/Aeo/SiteAudit.php:291
 msgid ""
 "Enable the XML sitemap so search and answer engines can discover every post."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:287
+#: src/Services/Aeo/SiteAudit.php:295
 msgid "Structured data (JSON-LD)"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:292
+#: src/Services/Aeo/SiteAudit.php:300
 msgid "Enable AEO structured data so engines can lift facts out as JSON-LD."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:296
+#: src/Services/Aeo/SiteAudit.php:304
 msgid "Open Graph tags"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:301
+#: src/Services/Aeo/SiteAudit.php:309
 msgid "Turn on Open Graph so shared links render a rich preview."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:305
+#: src/Services/Aeo/SiteAudit.php:313
 msgid "X (Twitter) Cards"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:310
+#: src/Services/Aeo/SiteAudit.php:318
 msgid "Enable X Cards for richer previews when content is shared on X."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:314
+#: src/Services/Aeo/SiteAudit.php:322
 msgid "Breadcrumbs"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:319
+#: src/Services/Aeo/SiteAudit.php:327
 msgid "Enable breadcrumbs to add BreadcrumbList schema and clearer navigation."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:323
+#: src/Services/Aeo/SiteAudit.php:331
 msgid "Image alt text"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:328
+#: src/Services/Aeo/SiteAudit.php:336
 msgid ""
 "Auto-fill missing image alt text so images are described for search and "
 "screen readers."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:332
+#: src/Services/Aeo/SiteAudit.php:340
 msgid "IndexNow"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:337
+#: src/Services/Aeo/SiteAudit.php:345
 msgid ""
 "Turn on IndexNow to push near-instant recrawl signals on publish and update."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:341
+#: src/Services/Aeo/SiteAudit.php:349
 msgid "llms.txt"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:346
+#: src/Services/Aeo/SiteAudit.php:354
 msgid "Serve /llms.txt so AI answer engines get a curated map of your content."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:353
+#: src/Services/Aeo/SiteAudit.php:361
 msgid "WooCommerce product schema"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:358
+#: src/Services/Aeo/SiteAudit.php:366
 msgid ""
 "Emit Product / Offer JSON-LD so products surface in AI shopping answers."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:428
+#: src/Services/Aeo/SiteAudit.php:436
 msgid "Technical SEO"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:429
+#: src/Services/Aeo/SiteAudit.php:437
 msgid "Content SEO"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:430
+#: src/Services/Aeo/SiteAudit.php:438
 msgid "Schema"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:433
+#: src/Services/Aeo/SiteAudit.php:441
 msgid "Internal linking"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:489
+#: src/Services/Aeo/SiteAudit.php:497
 msgid "Answer readiness"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:491
+#: src/Services/Aeo/SiteAudit.php:499
 msgid "Content comprehensiveness"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:498
+#: src/Services/Aeo/SiteAudit.php:506
 msgid "Entity clarity"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:620
+#: src/Services/Aeo/SiteAudit.php:628
 msgid "Answer-first openings"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:622
+#: src/Services/Aeo/SiteAudit.php:630
 msgid "Meta descriptions"
 msgstr ""
 
 #. translators: 1: number of posts, 2: signal name.
-#: src/Services/Aeo/SiteAudit.php:650
+#: src/Services/Aeo/SiteAudit.php:658
 msgid ""
-"%1$d scanned post needs work on %2$s — open each and follow the readiness "
+"%1$d scanned post needs work on %2$s. Open each and follow the readiness "
 "checklist."
 msgid_plural ""
-"%1$d scanned posts need work on %2$s — open each and follow the readiness "
+"%1$d scanned posts need work on %2$s. Open each and follow the readiness "
 "checklist."
 msgstr[0] ""
 msgstr[1] ""
@@ -549,7 +550,7 @@ msgstr[1] ""
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: src/Services/Breadcrumbs.php:93 src/Services/Metas.php:161
+#: src/Services/Breadcrumbs.php:93 src/Services/Metas.php:168
 msgid "Page not found"
 msgstr ""
 
@@ -557,50 +558,55 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
+#. translators: %s is the page number, supplied as the %%page%% token.
+#: src/Services/Metas.php:193
+msgid "Page %s"
+msgstr ""
+
 #. translators: 1: taxonomy term name, 2: site name.
-#: src/Services/Metas.php:352
+#: src/Services/Metas.php:385
 msgid "Posts filed under %1$s on %2$s."
 msgstr ""
 
 #. translators: 1: author display name, 2: site name.
-#: src/Services/Metas.php:369
+#: src/Services/Metas.php:402
 msgid "Posts written by %1$s on %2$s."
 msgstr ""
 
 #. translators: %s: site name.
-#: src/Services/Metas.php:381
+#: src/Services/Metas.php:414
 msgid "Search results on %s."
 msgstr ""
 
 #. translators: 1: search phrase, 2: site name.
-#: src/Services/Metas.php:388
+#: src/Services/Metas.php:421
 msgid "Search results for “%1$s” on %2$s."
 msgstr ""
 
 #. translators: %s: site name.
-#: src/Services/Metas.php:397
+#: src/Services/Metas.php:430
 msgid ""
 "This page could not be found on %s. Try a search or start again from the "
 "homepage."
 msgstr ""
 
 #. translators: 1: post type plural label, 2: site name.
-#: src/Services/Metas.php:454
+#: src/Services/Metas.php:520
 msgid "All %1$s on %2$s."
 msgstr ""
 
 #. translators: 1: a date or period such as "September 2026", 2: site name.
-#: src/Services/Metas.php:468
+#: src/Services/Metas.php:534
 msgid "Posts from %1$s on %2$s."
 msgstr ""
 
 #. translators: 1: archive name, 2: site name.
-#: src/Services/Metas.php:476
+#: src/Services/Metas.php:542
 msgid "The %1$s archive on %2$s."
 msgstr ""
 
 #. translators: %s: site name.
-#: src/Services/Metas.php:520
+#: src/Services/Metas.php:586
 msgid "The latest posts on %s."
 msgstr ""
 
@@ -885,7 +891,7 @@ msgid ""
 "nothing."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:732
+#: apps/admin/src/features/settings/SettingsPage.tsx:752
 msgid ""
 "A short description answer engines can quote. Shown at the top of llms.txt."
 msgstr ""
@@ -913,7 +919,7 @@ msgstr ""
 msgid "AEO features enabled."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:359
+#: apps/admin/src/features/settings/SettingsPage.tsx:360
 msgid "AEO schema"
 msgstr ""
 
@@ -937,33 +943,33 @@ msgstr ""
 msgid "Activate Flexa Cache"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:257
+#: apps/admin/src/features/settings/SettingsPage.tsx:258
 msgid "Add <image:image> entries to the XML sitemap."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:307
+#: apps/admin/src/features/settings/SettingsPage.tsx:308
 msgid ""
 "Add rel=\"nofollow\" to external links in your content. Applied when the "
 "content is displayed; the stored content is not changed."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:316
+#: apps/admin/src/features/settings/SettingsPage.tsx:317
 msgid ""
 "Add rel=\"nofollow\" to links pointing to external image files. Applied when "
 "the content is displayed; the stored content is not changed."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:325
+#: apps/admin/src/features/settings/SettingsPage.tsx:326
 msgid ""
 "Add target=\"_blank\" to external links so they open in a new tab. Applied "
 "when the content is displayed; the stored content is not changed."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:344
+#: apps/admin/src/features/settings/SettingsPage.tsx:345
 msgid "Advertise a Markdown variant of each page to AI crawlers."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:343
+#: apps/admin/src/features/settings/SettingsPage.tsx:344
 msgid "Agent Readiness"
 msgstr ""
 
@@ -983,7 +989,7 @@ msgstr ""
 msgid "Answer-engine optimization"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:650
+#: apps/admin/src/features/settings/SettingsPage.tsx:670
 msgid ""
 "Appended to the virtual robots.txt. The sitemap line is added automatically."
 msgstr ""
@@ -1004,7 +1010,7 @@ msgstr ""
 msgid "Applying…"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:223
+#: apps/admin/src/features/settings/SettingsPage.tsx:224
 msgid "Auto-fill missing image alt attributes."
 msgstr ""
 
@@ -1020,14 +1026,14 @@ msgstr ""
 msgid ""
 "Back up your database first. This copies titles, descriptions, canonical "
 "URLs, social tags, and robots settings into Flexa SEO. Without “Overwrite”, "
-"only empty Flexa fields are filled — your existing edits are kept."
+"only empty Flexa fields are filled; your existing edits are kept."
 msgstr ""
 
 #: apps/admin/src/features/onboarding/WelcomeStep.tsx:28
 msgid "Blog"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:772
+#: apps/admin/src/features/settings/SettingsPage.tsx:792
 msgid "Brand name"
 msgstr ""
 
@@ -1066,7 +1072,7 @@ msgstr ""
 msgid "Compiling your readiness report…"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:395
+#: apps/admin/src/features/settings/SettingsPage.tsx:396
 msgid ""
 "Configure how Flexa SEO optimizes your site for search and answer engines."
 msgstr ""
@@ -1102,7 +1108,7 @@ msgstr ""
 msgid "Critical"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:649
+#: apps/admin/src/features/settings/SettingsPage.tsx:669
 msgid "Custom robots.txt rules"
 msgstr ""
 
@@ -1125,7 +1131,7 @@ msgstr ""
 msgid "Deactivate %s to avoid duplicate meta tags."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:542
+#: apps/admin/src/features/settings/SettingsPage.tsx:543
 msgid "Default share image"
 msgstr ""
 
@@ -1135,7 +1141,7 @@ msgstr ""
 
 #: apps/admin/src/features/dashboard/DashboardPage.tsx:899
 msgid ""
-"Details aren’t loaded yet — run “Scan now” at the top to refresh this list."
+"Details aren’t loaded yet. Run “Scan now” at the top to refresh this list."
 msgstr ""
 
 #: apps/admin/src/features/dashboard/SetupCard.tsx:140
@@ -1154,12 +1160,12 @@ msgstr ""
 msgid "Document titles and descriptions"
 msgstr ""
 
-#: apps/admin/src/features/settings/MigrationPane.tsx:189
-msgid "Done — migrated %1$d, skipped %2$d."
-msgstr ""
-
 #: apps/admin/src/features/onboarding/MigrationStep.tsx:183
 msgid "Done. Migrated %1$d, skipped %2$d."
+msgstr ""
+
+#: apps/admin/src/features/settings/MigrationPane.tsx:189
+msgid "Done: migrated %1$d, skipped %2$d."
 msgstr ""
 
 #: apps/admin/src/features/settings/ToolsPane.tsx:142
@@ -1170,11 +1176,11 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:360
+#: apps/admin/src/features/settings/SettingsPage.tsx:361
 msgid "Emit Article / FAQPage / WebSite JSON-LD tuned for answer engines."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:373
+#: apps/admin/src/features/settings/SettingsPage.tsx:374
 msgid ""
 "Emit Product / Offer JSON-LD (price, availability, rating) + OG product tags "
 "for AI shopping."
@@ -1184,11 +1190,11 @@ msgstr ""
 msgid "Enable AEO features"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:216
+#: apps/admin/src/features/settings/SettingsPage.tsx:217
 msgid "Enable breadcrumb trail + BreadcrumbList schema."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:264
+#: apps/admin/src/features/settings/SettingsPage.tsx:265
 msgid "Enable the [flexa_seo_aeo_sitemap] shortcode."
 msgstr ""
 
@@ -1197,7 +1203,7 @@ msgid "Enabled during setup"
 msgstr ""
 
 #: apps/admin/src/features/dashboard/DashboardPage.tsx:810
-msgid "Enabled site-wide — your pages are being re-scored."
+msgid "Enabled site-wide: your pages are being re-scored."
 msgstr ""
 
 #: apps/admin/src/features/dashboard/DashboardPage.tsx:642
@@ -1224,11 +1230,11 @@ msgstr ""
 msgid "Export settings"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:233
+#: apps/admin/src/features/settings/SettingsPage.tsx:234
 msgid "Facebook / LinkedIn / chat-app preview tags."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:155
+#: apps/admin/src/features/settings/SettingsPage.tsx:156
 msgid "Failed to load settings:"
 msgstr ""
 
@@ -1268,15 +1274,15 @@ msgstr ""
 msgid "Go to the health overview"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:263
+#: apps/admin/src/features/settings/SettingsPage.tsx:264
 msgid "HTML sitemap"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:494
+#: apps/admin/src/features/settings/SettingsPage.tsx:495
 msgid "Homepage description"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:477
+#: apps/admin/src/features/settings/SettingsPage.tsx:478
 msgid "Homepage title"
 msgstr ""
 
@@ -1316,15 +1322,15 @@ msgstr ""
 msgid "Importing…"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:256
+#: apps/admin/src/features/settings/SettingsPage.tsx:257
 msgid "Include images"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:608
+#: apps/admin/src/features/settings/SettingsPage.tsx:628
 msgid "Included post types"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:624
+#: apps/admin/src/features/settings/SettingsPage.tsx:644
 msgid "Included taxonomies"
 msgstr ""
 
@@ -1369,7 +1375,7 @@ msgstr ""
 msgid "Learn more"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:478
+#: apps/admin/src/features/settings/SettingsPage.tsx:479
 msgid "Leave blank to use %%sitename%% %%sep%% %%tagline%%."
 msgstr ""
 
@@ -1386,12 +1392,16 @@ msgstr ""
 msgid "Loading dashboard…"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:148
+#: apps/admin/src/features/settings/SettingsPage.tsx:149
 msgid "Loading settings…"
 msgstr ""
 
 #: apps/admin/src/features/onboarding/OnboardingPage.tsx:53
 msgid "Loading setup…"
+msgstr ""
+
+#: apps/admin/src/features/settings/SettingsPage.tsx:603
+msgid "Logo"
 msgstr ""
 
 #: apps/admin/src/features/settings/sections.ts:94
@@ -1418,7 +1428,7 @@ msgstr ""
 msgid "Migrating…"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:586
+#: apps/admin/src/features/settings/SettingsPage.tsx:587
 msgid "Name"
 msgstr ""
 
@@ -1438,27 +1448,27 @@ msgstr ""
 msgid "No scan yet."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:306
+#: apps/admin/src/features/settings/SettingsPage.tsx:307
 msgid "Nofollow External Links"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:315
+#: apps/admin/src/features/settings/SettingsPage.tsx:316
 msgid "Nofollow Image File Links"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:1025
+#: apps/admin/src/features/settings/SettingsPage.tsx:1045
 msgid "Nothing available."
 msgstr ""
 
 #: apps/admin/src/features/dashboard/DashboardPage.tsx:591
-msgid "Nothing urgent — your configuration looks healthy."
+msgid "Nothing urgent: your configuration looks healthy."
 msgstr ""
 
 #: apps/admin/src/features/settings/ToolsPane.tsx:127
 msgid "Open"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:324
+#: apps/admin/src/features/settings/SettingsPage.tsx:325
 msgid "Open External Links in New Tab/Window"
 msgstr ""
 
@@ -1471,7 +1481,7 @@ msgstr ""
 msgid "Open Permalink Settings"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:416
+#: apps/admin/src/features/settings/SettingsPage.tsx:417
 msgid "Open command palette"
 msgstr ""
 
@@ -1487,19 +1497,19 @@ msgstr ""
 msgid "Opportunities"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:87
+#: apps/admin/src/features/settings/SettingsPage.tsx:88
 #: apps/admin/src/features/settings/sections.ts:58
 #: apps/admin/src/features/settings/sections.ts:61
 msgid "Organization"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:587
+#: apps/admin/src/features/settings/SettingsPage.tsx:588
 msgid ""
 "Organization or person name for the publisher schema. Defaults to the site "
 "title."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:209
+#: apps/admin/src/features/settings/SettingsPage.tsx:210
 msgid "Output the <title> and meta description tags."
 msgstr ""
 
@@ -1507,7 +1517,7 @@ msgstr ""
 msgid "Overall readiness"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:713
+#: apps/admin/src/features/settings/SettingsPage.tsx:733
 msgid "Overrides the site title in llms.txt. Defaults to the site title."
 msgstr ""
 
@@ -1535,7 +1545,7 @@ msgstr ""
 msgid "Passed"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:88
+#: apps/admin/src/features/settings/SettingsPage.tsx:89
 msgid "Person"
 msgstr ""
 
@@ -1543,12 +1553,12 @@ msgstr ""
 msgid "Pick up where you left off."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:274
+#: apps/admin/src/features/settings/SettingsPage.tsx:275
 msgid ""
 "Ping IndexNow when content is published or updated for near-instant indexing."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:352
+#: apps/admin/src/features/settings/SettingsPage.tsx:353
 msgid "Plain-text export"
 msgstr ""
 
@@ -1583,25 +1593,25 @@ msgstr ""
 msgid "Recommended next actions"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:294
+#: apps/admin/src/features/settings/SettingsPage.tsx:295
 msgid "Redirect Attachments"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:676
+#: apps/admin/src/features/settings/SettingsPage.tsx:696
 msgid "Redirect Orphan Attachments"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:295
+#: apps/admin/src/features/settings/SettingsPage.tsx:296
 msgid "Redirect attachment page URLs to the post they appear in."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:677
+#: apps/admin/src/features/settings/SettingsPage.tsx:697
 msgid ""
 "Redirect attachments without a parent post to this URL. Leave empty for no "
 "redirection."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:286
+#: apps/admin/src/features/settings/SettingsPage.tsx:287
 msgid ""
 "Remove /category/ from category archive URLs. e.g. example.com/category/"
 "news/ becomes example.com/news/."
@@ -1615,7 +1625,7 @@ msgstr ""
 msgid "Replace the current configuration from a previously exported file."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:760
+#: apps/admin/src/features/settings/SettingsPage.tsx:780
 msgid "Replace the “Flexa SEO” name in the admin menu and this screen."
 msgstr ""
 
@@ -1677,7 +1687,7 @@ msgstr ""
 msgid "Review"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:240
+#: apps/admin/src/features/settings/SettingsPage.tsx:241
 msgid "Rich preview cards on X."
 msgstr ""
 
@@ -1710,19 +1720,19 @@ msgstr ""
 msgid "SEO and AEO score history"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:432
+#: apps/admin/src/features/settings/SettingsPage.tsx:433
 msgid "Save Settings"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:171
+#: apps/admin/src/features/settings/SettingsPage.tsx:172
 msgid "Save failed."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:408
+#: apps/admin/src/features/settings/SettingsPage.tsx:409
 msgid "Save failed:"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:432
+#: apps/admin/src/features/settings/SettingsPage.tsx:433
 msgid "Saving…"
 msgstr ""
 
@@ -1751,7 +1761,7 @@ msgstr ""
 msgid "Scoring your latest post…"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:420
+#: apps/admin/src/features/settings/SettingsPage.tsx:421
 msgid "Search"
 msgstr ""
 
@@ -1764,16 +1774,16 @@ msgstr ""
 msgid "Search essentials enabled."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:337
-msgid "Serve /llms.txt — a curated map of your content for AI."
+#: apps/admin/src/features/settings/SettingsPage.tsx:338
+msgid "Serve /llms.txt, a curated map of your content for AI."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:250
+#: apps/admin/src/features/settings/SettingsPage.tsx:251
 msgid "Serve /sitemap.xml and per-type sub-sitemaps."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:353
-msgid "Serve ?flexa-aeo=md — clean Markdown of any post."
+#: apps/admin/src/features/settings/SettingsPage.tsx:354
+msgid "Serve ?flexa-aeo=md, clean Markdown of any post."
 msgstr ""
 
 #: apps/admin/src/features/dashboard/CachePromoCard.tsx:41
@@ -1792,8 +1802,8 @@ msgstr ""
 msgid "Settings imported."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:170
-#: apps/admin/src/features/settings/SettingsPage.tsx:403
+#: apps/admin/src/features/settings/SettingsPage.tsx:171
+#: apps/admin/src/features/settings/SettingsPage.tsx:404
 msgid "Settings saved."
 msgstr ""
 
@@ -1811,15 +1821,15 @@ msgstr ""
 msgid "Setup complete."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:773
+#: apps/admin/src/features/settings/SettingsPage.tsx:793
 msgid "Shown when white-label is on. Takes effect after the next page load."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:712
+#: apps/admin/src/features/settings/SettingsPage.tsx:732
 msgid "Site name for AI"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:731
+#: apps/admin/src/features/settings/SettingsPage.tsx:751
 msgid "Site summary for AI"
 msgstr ""
 
@@ -1849,6 +1859,12 @@ msgstr ""
 msgid "Something went wrong."
 msgstr ""
 
+#: apps/admin/src/features/settings/SettingsPage.tsx:604
+msgid ""
+"Square brand logo for the publisher schema (full URL). Falls back to the "
+"theme logo, then the default share image."
+msgstr ""
+
 #: apps/admin/src/features/dashboard/SetupCard.tsx:149
 msgid "Start Setup Assistant"
 msgstr ""
@@ -1861,15 +1877,15 @@ msgstr ""
 msgid "Step %1$d of %2$d"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:285
+#: apps/admin/src/features/settings/SettingsPage.tsx:286
 msgid "Strip Category Base"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:83
+#: apps/admin/src/features/settings/SettingsPage.tsx:84
 msgid "Summary"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:82
+#: apps/admin/src/features/settings/SettingsPage.tsx:83
 msgid "Summary with large image"
 msgstr ""
 
@@ -1889,7 +1905,7 @@ msgstr ""
 msgid "The file is not a valid settings object."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:495
+#: apps/admin/src/features/settings/SettingsPage.tsx:496
 msgid "The meta description for your front page."
 msgstr ""
 
@@ -1897,7 +1913,7 @@ msgstr ""
 msgid "This differs from the default, so we kept your value."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:572
+#: apps/admin/src/features/settings/SettingsPage.tsx:573
 msgid "This site represents"
 msgstr ""
 
@@ -1907,7 +1923,7 @@ msgid ""
 "cannot be undone."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:463
+#: apps/admin/src/features/settings/SettingsPage.tsx:464
 msgid "Title separator"
 msgstr ""
 
@@ -1947,7 +1963,7 @@ msgstr ""
 msgid "Unknown error."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:543
+#: apps/admin/src/features/settings/SettingsPage.tsx:544
 msgid "Used when a page has no featured image (full URL)."
 msgstr ""
 
@@ -1996,15 +2012,15 @@ msgstr ""
 msgid "Where you stand now, and the highest-value things to do next."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:609
+#: apps/admin/src/features/settings/SettingsPage.tsx:629
 msgid "Which content types appear in the sitemap and llms.txt."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:625
+#: apps/admin/src/features/settings/SettingsPage.tsx:645
 msgid "Which term archives appear in the sitemap."
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:759
+#: apps/admin/src/features/settings/SettingsPage.tsx:779
 msgid "White-label"
 msgstr ""
 
@@ -2024,7 +2040,7 @@ msgstr ""
 msgid "WooCommerce store"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:525
+#: apps/admin/src/features/settings/SettingsPage.tsx:526
 msgid "X Card type"
 msgstr ""
 
@@ -2051,7 +2067,7 @@ msgstr ""
 msgid "Your site's readiness report"
 msgstr ""
 
-#: apps/admin/src/features/settings/SettingsPage.tsx:786
+#: apps/admin/src/features/settings/SettingsPage.tsx:806
 msgid "e.g. Acme SEO"
 msgstr ""
 

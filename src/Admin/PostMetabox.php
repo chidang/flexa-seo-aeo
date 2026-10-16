@@ -37,7 +37,7 @@ final class PostMetabox {
 
 		add_meta_box(
 			'flexa-seo-aeo-post-meta',
-			__( 'Flexa SEO — Search & AI', 'flexa-seo-aeo' ),
+			__( 'Flexa SEO: Search & AI', 'flexa-seo-aeo' ),
 			[ $this, 'render' ],
 			$post_type,
 			'normal',

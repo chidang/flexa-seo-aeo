@@ -67,6 +67,7 @@ const STRING_KEYS = [
     "og_default_image",
     "knowledge_type",
     "knowledge_name",
+    "knowledge_logo",
     "redirect_orphan_attachments",
     "robots_txt",
     "whitelabel_name",
@@ -334,7 +335,7 @@ export function SettingsPage() {
         {
             icon: FileText,
             title: __("llms.txt"),
-            description: __("Serve /llms.txt — a curated map of your content for AI."),
+            description: __("Serve /llms.txt, a curated map of your content for AI."),
             checked: form.aeo.enabled,
             onChange: (v) => setAeoBool("enabled", v),
         },
@@ -350,7 +351,7 @@ export function SettingsPage() {
         {
             icon: FileCode,
             title: __("Plain-text export"),
-            description: __("Serve ?flexa-aeo=md — clean Markdown of any post."),
+            description: __("Serve ?flexa-aeo=md, clean Markdown of any post."),
             checked: form.aeo.plain_text_export,
             onChange: (v) => setAeoBool("plain_text_export", v),
         },
@@ -594,6 +595,25 @@ export function SettingsPage() {
                                         onChange={(e) =>
                                             setString("knowledge_name", e.target.value)
                                         }
+                                    />
+                                </StackedField>
+                                <StackedField
+                                    id="flexa-seo-aeo-knowledge-logo"
+                                    icon={Image}
+                                    title={__("Logo")}
+                                    description={__(
+                                        "Square brand logo for the publisher schema (full URL). Falls back to the theme logo, then the default share image.",
+                                    )}
+                                >
+                                    <Input
+                                        id="flexa-seo-aeo-knowledge-logo"
+                                        type="url"
+                                        inputMode="url"
+                                        value={form.knowledge_logo}
+                                        onChange={(e) =>
+                                            setString("knowledge_logo", e.target.value)
+                                        }
+                                        placeholder="https://example.com/logo.png"
                                     />
                                 </StackedField>
                             </div>

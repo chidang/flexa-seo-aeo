@@ -12,6 +12,7 @@ use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 use WP_Post;
 use WP_Post_Type;
+use WP_Rewrite;
 use WP_Term;
 use WP_User;
 
@@ -55,6 +56,9 @@ final class Metas {
 		$og_image    = (string) Settings::get( 'og_default_image' );
 		$noindex     = false;
 		$nofollow    = false;
+		// True once a hand-written per-post canonical has been taken; pagination
+		// must not rewrite a URL the author chose.
+		$override = false;
 
 		if ( is_front_page() ) {
 			$home_title = (string) Settings::get( 'home_title' );
@@ -80,6 +84,7 @@ final class Metas {
 				}
 				if ( '' !== $meta->canonical ) {
 					$canonical = $meta->canonical;
+					$override  = true;
 				}
 			}
 
@@ -104,6 +109,7 @@ final class Metas {
 				$context['title']   = get_the_title( $posts_page );
 				$context['excerpt'] = $this->excerpt( $posts_page );
 				$canonical          = '' !== $meta->canonical ? $meta->canonical : (string) get_permalink( $posts_page );
+				$override           = '' !== $meta->canonical;
 				$og_image           = $this->og_image( $meta, $posts_page, $og_image );
 
 				if ( '' !== $meta->title ) {
@@ -123,6 +129,7 @@ final class Metas {
 				$title_tpl          = '' !== $meta->title ? $meta->title : '%%title%% %%sep%% %%sitename%%';
 				$description        = $this->describe( $meta, $context['excerpt'], '' );
 				$canonical          = '' !== $meta->canonical ? $meta->canonical : (string) get_permalink( $post );
+				$override           = '' !== $meta->canonical;
 				$og_type            = 'post' === get_post_type( $post ) ? 'article' : 'website';
 				$og_image           = $this->og_image( $meta, $post, $og_image );
 
@@ -163,15 +170,41 @@ final class Metas {
 			$description              = $this->not_found_description();
 			$noindex                  = true;
 		} elseif ( is_archive() ) {
-			$context['archive_title'] = wp_strip_all_tags( get_the_archive_title() );
+			// archive_name(), not get_the_archive_title(): core prepends a
+			// heading prefix ("Archives:", "Month:") meant for an <h1> on the
+			// page, and carrying it into <title> gives "Month: May 2026 - Site"
+			// in the search result.
+			$context['archive_title'] = $this->archive_name();
 			$title_tpl                = '%%archive_title%% %%sep%% %%sitename%%';
 			$description              = $this->archive_description();
 			$canonical                = $this->archive_canonical();
 		}
 
+		// Page 2 of anything is its own URL with its own content. Canonicalising
+		// it back to page 1 asks the engine to drop it, and leaving the title
+		// identical makes the whole set look like one page repeated.
+		$page = $this->current_page();
+		if ( $page > 1 && ! is_404() ) {
+			if ( '' !== $canonical && ! $override ) {
+				$canonical = $this->paged_canonical( $canonical, $page );
+			}
+			if ( ! str_contains( $title_tpl, '%%page%%' ) ) {
+				/* translators: %s is the page number, supplied as the %%page%% token. */
+				$title_tpl .= ' %%sep%% ' . sprintf( __( 'Page %s', 'flexa-seo-aeo' ), '%%page%%' );
+			}
+		}
+
 		// Every branch above can still come up empty: an author with no bio, an
-		// archive nobody described, a post with no content. A generic sentence beats
-		// a page with no description at all, so the tagline closes the gap.
+		// archive nobody described, a post whose body is one shortcode. What the
+		// site says about itself is the last thing left to quote, and it is a
+		// better answer than silence for one page out of many.
+		//
+		// It can be empty too, on a site with no tagline and no AEO summary, and
+		// then the page ships no description tag at all. That is deliberate: a
+		// sentence assembled out of the title and the site name would describe
+		// nothing, and search engines write a better snippet from the page than
+		// we can from its metadata. The readiness check says so on the post's own
+		// screen, which is where someone can fix it.
 		if ( '' === $description ) {
 			$description = $this->site_description();
 		}
@@ -409,6 +442,39 @@ final class Metas {
 	 * `BreadcrumbList` node) has nothing to key on. Paged views point at the
 	 * first page, which is how every other branch here behaves.
 	 */
+	/**
+	 * The page number of the current view, 1 when it is not paginated.
+	 *
+	 * `paged` counts pages of an archive, `page` counts the parts of a single
+	 * post split with `<!--nextpage-->`. Only one of them is ever set.
+	 */
+	private function current_page(): int {
+		return max( 1, (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) );
+	}
+
+
+	/**
+	 * The canonical for page N, built from the page-1 canonical rather than from
+	 * the request, so a tracking parameter the visitor arrived with cannot end
+	 * up in the tag.
+	 *
+	 * The shape follows core's own `_wp_link_page()`: a split post numbers its
+	 * parts directly (`/slug/2/`), a static front page and every archive
+	 * paginate under the rewrite's pagination base (`/page/2/`).
+	 */
+	private function paged_canonical( string $base, int $page ): string {
+		if ( str_contains( $base, '?' ) || '' === (string) get_option( 'permalink_structure' ) ) {
+			return (string) add_query_arg( is_singular() ? 'page' : 'paged', $page, $base );
+		}
+
+		global $wp_rewrite;
+		$pagination = $wp_rewrite instanceof WP_Rewrite ? $wp_rewrite->pagination_base : 'page';
+		$bare       = is_singular() && ! is_front_page();
+		$suffix     = $bare ? (string) $page : $pagination . '/' . $page;
+
+		return user_trailingslashit( trailingslashit( $base ) . $suffix, $bare ? 'single_paged' : 'paged' );
+	}
+
 	private function archive_canonical(): string {
 		$type = ArchiveType::current();
 		if ( $type instanceof WP_Post_Type ) {

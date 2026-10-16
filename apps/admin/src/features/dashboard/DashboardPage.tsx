@@ -588,7 +588,7 @@ function RecommendationsCard({
       {items.length === 0 ? (
         <div className="fsa:flex fsa:items-center fsa:gap-2 fsa:p-5 fsa:text-sm fsa:text-emerald-700">
           <CheckCircle2 className="fsa:h-4 fsa:w-4" aria-hidden />
-          {__("Nothing urgent — your configuration looks healthy.")}
+          {__("Nothing urgent: your configuration looks healthy.")}
         </div>
       ) : (
         <ul className="fsa:divide-y fsa:divide-slate-100">
@@ -807,7 +807,7 @@ function PageRow({
       // site scan (invalidated by the mutation) drives this row.
       setOverride(null);
       showToast(
-        __("Enabled site-wide — your pages are being re-scored."),
+        __("Enabled site-wide: your pages are being re-scored."),
         "success",
       );
     } catch (err) {
@@ -897,7 +897,7 @@ function PageRow({
                 {override
                   ? __("All readiness checks pass now. 🎉")
                   : __(
-                      "Details aren’t loaded yet — run “Scan now” at the top to refresh this list.",
+                      "Details aren’t loaded yet. Run “Scan now” at the top to refresh this list.",
                     )}
               </p>
             ) : (

@@ -191,13 +191,13 @@ final class Router {
 
 		if ( in_array( $subtype, $sitemap->post_types(), true ) ) {
 			$object_type = 'posts';
-			$has_entries = [] !== $sitemap->posts( $subtype, $page );
 		} elseif ( in_array( $subtype, $sitemap->taxonomies(), true ) ) {
 			$object_type = 'taxonomies';
-			$has_entries = [] !== $sitemap->terms( $subtype, $page );
 		} else {
 			return;
 		}
+
+		$has_entries = $sitemap->has_entries( $object_type, $subtype, $page );
 
 		// The old URL named something we publish, but this particular document
 		// has no URLs on this site (an empty taxonomy, a page number past the

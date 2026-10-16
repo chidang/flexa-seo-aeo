@@ -27,6 +27,10 @@ final class Plugin {
 		// Translations load automatically: WordPress.org-hosted plugins have
 		// had just-in-time textdomain loading since WP 4.6.
 
+		// First, so the settings memo is already watching its option before
+		// anything else can read or write it.
+		Support\Settings::watch();
+
 		if ( class_exists( Install\Migrator::class ) ) {
 			add_action( 'admin_init', [ Install\Migrator::class, 'maybe_upgrade' ] );
 		}

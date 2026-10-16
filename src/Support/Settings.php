@@ -16,6 +16,19 @@ final class Settings {
 	public const OPTION_KEY = 'flexa_seo_aeo_settings';
 
 	/**
+	 * The coerced settings for this request, or null when they have not been
+	 * resolved yet. See {@see self::all()}.
+	 *
+	 * @var array<string, mixed>|null
+	 */
+	private static ?array $resolved = null;
+
+	/**
+	 * Whether {@see self::$resolved} was built before `init` fired.
+	 */
+	private static bool $resolved_early = false;
+
+	/**
 	 * Module on/off toggles. Booleans default off so the plugin is inert until
 	 * the user opts each feature in.
 	 *
@@ -92,6 +105,7 @@ final class Settings {
 		$defaults['og_default_image']            = '';
 		$defaults['knowledge_type']              = 'organization';
 		$defaults['knowledge_name']              = '';
+		$defaults['knowledge_logo']              = '';   // Square-ish brand logo for the Organization/Person node.
 		$defaults['sitemap_post_types']          = [ 'post', 'page' ];
 		$defaults['sitemap_taxonomies']          = [ 'category', 'post_tag' ];
 		$defaults['redirect_orphan_attachments'] = ''; // Fallback URL for attachments without a parent post.
@@ -111,12 +125,57 @@ final class Settings {
 	 * @return array<string, mixed>
 	 */
 	public static function all(): array {
+		// Built on every read, this is the hottest code in the plugin: a single
+		// front-end request asks for a setting dozens of times, and each ask
+		// re-coerced the whole option. The memo lasts one request; the option
+		// hooks below drop it the moment the stored value changes.
+		$after_init = did_action( 'init' ) > 0;
+		if ( null !== self::$resolved && ! ( self::$resolved_early && $after_init ) ) {
+			return self::$resolved;
+		}
+
 		$stored = get_option( self::OPTION_KEY, [] );
 		if ( ! is_array( $stored ) ) {
 			$stored = [];
 		}
 
-		return self::coerce( $stored );
+		// A value resolved before `init` skipped the post-type / taxonomy
+		// registry filter (see registered_only()), so it has to be rebuilt once
+		// the registries exist rather than cached for the rest of the request.
+		self::$resolved_early = ! $after_init;
+		self::$resolved       = self::coerce( $stored );
+
+		return self::$resolved;
+	}
+
+	/**
+	 * Drop the per-request memo. Hooked to the option's own write hooks by
+	 * {@see self::watch()}, and safe to call at any time.
+	 */
+	public static function flush(): void {
+		self::$resolved       = null;
+		self::$resolved_early = false;
+	}
+
+	/**
+	 * Keep the memo honest: the option's write hooks, plus `switch_blog`, which
+	 * changes which site's option `get_option()` would return.
+	 */
+	public static function watch(): void {
+		add_action( 'add_option_' . self::OPTION_KEY, [ self::class, 'flush' ] );
+		add_action( 'update_option_' . self::OPTION_KEY, [ self::class, 'flush' ] );
+		add_action( 'switch_blog', [ self::class, 'flush' ] );
+		add_action( 'deleted_option', [ self::class, 'flush_deleted' ] );
+	}
+
+	/**
+	 * `deleted_option` is generic, so the key has to be checked here; there is
+	 * no per-option variant of it.
+	 */
+	public static function flush_deleted( string $option ): void {
+		if ( self::OPTION_KEY === $option ) {
+			self::flush();
+		}
 	}
 
 	/**
@@ -198,6 +257,10 @@ final class Settings {
 
 		if ( array_key_exists( 'knowledge_name', $incoming ) ) {
 			$clean['knowledge_name'] = sanitize_text_field( (string) $incoming['knowledge_name'] );
+		}
+
+		if ( array_key_exists( 'knowledge_logo', $incoming ) ) {
+			$clean['knowledge_logo'] = esc_url_raw( (string) $incoming['knowledge_logo'] );
 		}
 
 		if ( array_key_exists( 'sitemap_post_types', $incoming ) ) {
@@ -298,6 +361,9 @@ final class Settings {
 		}
 		if ( isset( $stored['knowledge_name'] ) && is_string( $stored['knowledge_name'] ) ) {
 			$out['knowledge_name'] = $stored['knowledge_name'];
+		}
+		if ( isset( $stored['knowledge_logo'] ) && is_string( $stored['knowledge_logo'] ) ) {
+			$out['knowledge_logo'] = $stored['knowledge_logo'];
 		}
 		if ( isset( $stored['sitemap_post_types'] ) ) {
 			$out['sitemap_post_types'] = self::sanitize_post_types( $stored['sitemap_post_types'] );

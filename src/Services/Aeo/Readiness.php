@@ -230,7 +230,7 @@ final class Readiness {
 				__( 'Meta description', 'flexa-seo-aeo' ),
 				'fail',
 				15,
-				__( 'Add a meta description — answer engines often quote it verbatim as the summary.', 'flexa-seo-aeo' )
+				__( 'Add a meta description. Answer engines often quote it verbatim, and with no excerpt and nothing in the SEO panel this page has nothing of its own to quote.', 'flexa-seo-aeo' )
 			);
 		}
 
@@ -253,7 +253,7 @@ final class Readiness {
 				__( 'Answer-first opening', 'flexa-seo-aeo' ),
 				'fail',
 				15,
-				__( 'Open with a 2–3 sentence summary that answers the topic directly — engines favour the lede.', 'flexa-seo-aeo' )
+				__( 'Open with a 2–3 sentence summary that answers the topic directly; engines favour the lede.', 'flexa-seo-aeo' )
 			);
 		}
 
@@ -299,7 +299,7 @@ final class Readiness {
 		$status = $this->has_faq_blocks( $post ) ? 'pass' : 'warn';
 		$hint   = 'pass' === $status
 			? __( 'FAQ blocks were detected and are emitted as FAQPage structured data.', 'flexa-seo-aeo' )
-			: __( 'Add a core Details/FAQ block — each question becomes a citable FAQPage entry.', 'flexa-seo-aeo' );
+			: __( 'Add a core Details/FAQ block: each question becomes a citable FAQPage entry.', 'flexa-seo-aeo' );
 
 		return $this->row( 'faq', __( 'FAQ / Q&A blocks', 'flexa-seo-aeo' ), $status, 10, $hint );
 	}
@@ -383,7 +383,7 @@ final class Readiness {
 			$hint   = __( 'There is enough substance here for an engine to treat the page as authoritative.', 'flexa-seo-aeo' );
 		} elseif ( $words >= 100 ) {
 			$status = 'warn';
-			$hint   = __( 'Thin content is rarely cited — expand toward 300+ words of genuine detail.', 'flexa-seo-aeo' );
+			$hint   = __( 'Thin content is rarely cited. Expand toward 300+ words of genuine detail.', 'flexa-seo-aeo' );
 		} else {
 			$status = 'fail';
 			$hint   = __( 'This post is very short; engines seldom quote pages with little content.', 'flexa-seo-aeo' );

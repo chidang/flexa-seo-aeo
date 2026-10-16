@@ -133,7 +133,7 @@ final class PluginCommand {
 					WP_CLI::log( sprintf( '%s: %d post(s) with data to migrate.', $info['label'], $info['count'] ) );
 				}
 			}
-			WP_CLI::success( 'Dry run complete — nothing was written.' );
+			WP_CLI::success( 'Dry run complete. Nothing was written.' );
 			return;
 		}
 
