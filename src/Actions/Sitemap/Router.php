@@ -91,7 +91,6 @@ final class Router {
 			'index.php?flexa_sitemap=$matches[1]&flexa_sitemap_subtype=$matches[2]&flexa_sitemap_page=$matches[3]',
 			'top'
 		);
-
 	}
 
 	/**

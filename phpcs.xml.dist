@@ -21,6 +21,11 @@
 	<exclude-pattern>*/apps/*</exclude-pattern>
 	<exclude-pattern>*/assets/*</exclude-pattern>
 	<exclude-pattern>*/tests/phpstan-constants.php</exclude-pattern>
+	<!-- The Deactivation Intelligence SDK is a shared library: several Flexa
+	     plugins bundle a byte-identical copy and loader.php picks the newest
+	     one at runtime. Reformatting it here would make this plugin's copy
+	     differ from the others for no behavioural gain. -->
+	<exclude-pattern>*/libraries/*</exclude-pattern>
 	<!-- Dev-only Vite HMR shim; excluded from production builds via .distignore
 	     and intentionally enqueues version-less module URLs. -->
 	<exclude-pattern>*/src/Admin/dev-server.php</exclude-pattern>

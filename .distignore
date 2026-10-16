@@ -40,9 +40,10 @@ Thumbs.db
 /tests
 /tools
 
-# Project docs (not needed at runtime)
+# Project docs and any stray Markdown (not needed at runtime). The pattern is
+# *.md, not /.md: the latter matches a file literally called ".md".
 /docs
-/.md
+*.md
 
 # Public documentation site (Next.js static export, deployed separately)
 /docs-site

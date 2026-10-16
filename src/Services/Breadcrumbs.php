@@ -193,7 +193,7 @@ final class Breadcrumbs {
 				continue;
 			}
 
-			$link = get_term_link( $ancestor );
+			$link     = get_term_link( $ancestor );
 			$crumbs[] = $this->crumb( $ancestor->name, is_string( $link ) ? $link : '' );
 		}
 

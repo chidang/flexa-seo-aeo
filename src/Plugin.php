@@ -178,11 +178,11 @@ final class Plugin {
 	 * Schedule a rewrite flush when the strip-category-base setting flips, so the
 	 * clean (or restored) category URLs take effect without re-saving permalinks.
 	 *
-	 * @param array<string, mixed> $new Settings after the write.
-	 * @param array<string, mixed> $old Settings before the write.
+	 * @param array<string, mixed> $new_settings Settings after the write.
+	 * @param array<string, mixed> $old_settings Settings before the write.
 	 */
-	public function flush_on_link_toggle( array $new, array $old ): void {
-		if ( ( $new['strip_category_base'] ?? null ) !== ( $old['strip_category_base'] ?? null ) ) {
+	public function flush_on_link_toggle( array $new_settings, array $old_settings ): void {
+		if ( ( $new_settings['strip_category_base'] ?? null ) !== ( $old_settings['strip_category_base'] ?? null ) ) {
 			update_option( 'flexa_seo_aeo_flush_rewrite', '1' );
 		}
 	}

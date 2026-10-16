@@ -100,9 +100,9 @@ final class CategoryBase {
 	public function category_rewrite_rules( array $rules ): array {
 		global $wp_rewrite;
 
-		$new_rules   = [];
-		$categories  = get_categories( [ 'hide_empty' => false ] );
-		$pagination  = $wp_rewrite->pagination_base;
+		$new_rules  = [];
+		$categories = get_categories( [ 'hide_empty' => false ] );
+		$pagination = $wp_rewrite->pagination_base;
 
 		foreach ( $categories as $category ) {
 			if ( ! $category instanceof WP_Term ) {
@@ -113,12 +113,12 @@ final class CategoryBase {
 
 			$new_rules[ '(' . $nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' ] = 'index.php?category_name=$matches[1]&feed=$matches[2]';
 			$new_rules[ '(' . $nicename . ')/' . $pagination . '/?([0-9]{1,})/?$' ]   = 'index.php?category_name=$matches[1]&paged=$matches[2]';
-			$new_rules[ '(' . $nicename . ')/?$' ]                                     = 'index.php?category_name=$matches[1]';
+			$new_rules[ '(' . $nicename . ')/?$' ]                                    = 'index.php?category_name=$matches[1]';
 		}
 
 		// Anything still hitting the old base gets captured for the 301 above.
-		$old_base                        = trim( str_replace( '%category%', '(.+)', (string) $wp_rewrite->get_category_permastruct() ), '/' );
-		$new_rules[ $old_base . '$' ]    = 'index.php?' . self::REDIRECT_VAR . '=$matches[1]';
+		$old_base                     = trim( str_replace( '%category%', '(.+)', (string) $wp_rewrite->get_category_permastruct() ), '/' );
+		$new_rules[ $old_base . '$' ] = 'index.php?' . self::REDIRECT_VAR . '=$matches[1]';
 
 		return $new_rules + $rules;
 	}

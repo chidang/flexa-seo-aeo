@@ -66,8 +66,10 @@ final class DeactivationSurvey {
 			apply_filters(
 				'flexa_seo_aeo/deactivation_survey/config',
 				array(
-					'product'     => 'flexa-seo-aeo', // must match the dashboard product slug.
-					'tier'        => 'free',           // 'free' | 'pro'.
+					// The product slug has to match the one the dashboard knows.
+					'product'     => 'flexa-seo-aeo',
+					// Either free or pro; this is the free build.
+					'tier'        => 'free',
 					'version'     => FLEXA_SEO_AEO_VERSION,
 					'plugin_file' => FLEXA_SEO_AEO_BASENAME,
 					'api_url'     => self::API_URL,

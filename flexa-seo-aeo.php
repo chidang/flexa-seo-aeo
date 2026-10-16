@@ -74,18 +74,19 @@ add_action(
 
 if ( ! function_exists( 'flexa_seo_aeo_breadcrumbs' ) ) {
 	/**
-	 * Template tag for the breadcrumb trail. Returns the markup when $echo is
-	 * false, so a theme can wrap it. Empty string when the Breadcrumbs module
-	 * is off or the current view has no trail (the front page, for one).
+	 * Template tag for the breadcrumb trail. Pass false to get the markup back
+	 * without printing it, so a theme can wrap it. Empty string when the
+	 * Breadcrumbs module is off or the current view has no trail (the front
+	 * page, for one).
 	 */
-	function flexa_seo_aeo_breadcrumbs( bool $echo = true ): string {
+	function flexa_seo_aeo_breadcrumbs( bool $display = true ): string {
 		if ( ! class_exists( \Flexa\SeoAeo\Actions\Front\Breadcrumbs::class ) ) {
 			return '';
 		}
 
 		$html = \Flexa\SeoAeo\Actions\Front\Breadcrumbs::instance()->html();
 
-		if ( $echo ) {
+		if ( $display ) {
 			// Assembled from escaped parts inside html().
 			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}

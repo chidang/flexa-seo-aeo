@@ -85,20 +85,20 @@ final class Settings {
 			$defaults[ $key ] = false;
 		}
 
-		$defaults['separator']          = '-';
-		$defaults['home_title']         = '';
-		$defaults['home_description']   = '';
-		$defaults['twitter_card_type']  = 'summary_large_image';
-		$defaults['og_default_image']   = '';
-		$defaults['knowledge_type']     = 'organization';
-		$defaults['knowledge_name']     = '';
-		$defaults['sitemap_post_types'] = [ 'post', 'page' ];
-		$defaults['sitemap_taxonomies'] = [ 'category', 'post_tag' ];
+		$defaults['separator']                   = '-';
+		$defaults['home_title']                  = '';
+		$defaults['home_description']            = '';
+		$defaults['twitter_card_type']           = 'summary_large_image';
+		$defaults['og_default_image']            = '';
+		$defaults['knowledge_type']              = 'organization';
+		$defaults['knowledge_name']              = '';
+		$defaults['sitemap_post_types']          = [ 'post', 'page' ];
+		$defaults['sitemap_taxonomies']          = [ 'category', 'post_tag' ];
 		$defaults['redirect_orphan_attachments'] = ''; // Fallback URL for attachments without a parent post.
-		$defaults['robots_txt']         = '';   // Extra lines appended to the virtual robots.txt.
-		$defaults['indexnow_key']       = '';   // Auto-generated on first IndexNow submission.
-		$defaults['whitelabel_name']    = '';   // Overrides the admin menu / brand label when white-label is on.
-		$defaults['aeo']                = self::aeo_defaults();
+		$defaults['robots_txt']                  = '';   // Extra lines appended to the virtual robots.txt.
+		$defaults['indexnow_key']                = '';   // Auto-generated on first IndexNow submission.
+		$defaults['whitelabel_name']             = '';   // Overrides the admin menu / brand label when white-label is on.
+		$defaults['aeo']                         = self::aeo_defaults();
 
 		return $defaults;
 	}

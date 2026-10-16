@@ -107,8 +107,12 @@ final class LinkAttributes {
 	 */
 	private function merge_rel( string $tag, array $tokens ): string {
 		if ( preg_match( '/rel\s*=\s*("|\')(.*?)\1/i', $tag, $rel_match ) ) {
-			$existing = preg_split( '/\s+/', trim( $rel_match[2] ) ) ?: [];
-			$merged   = array_values( array_unique( array_filter( array_merge( $existing, $tokens ) ) ) );
+			// preg_split() returns false only on a malformed pattern, which
+			// this one is not, but the signature says it can.
+			$existing = preg_split( '/\s+/', trim( $rel_match[2] ) );
+			$merged   = array_values(
+				array_unique( array_filter( array_merge( is_array( $existing ) ? $existing : [], $tokens ) ) )
+			);
 
 			return str_replace( $rel_match[0], 'rel="' . esc_attr( implode( ' ', $merged ) ) . '"', $tag );
 		}
