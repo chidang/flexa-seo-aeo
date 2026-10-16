@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flexa\SeoAeo\Services\Aeo;
 
 use Flexa\SeoAeo\Services\Sitemap as SitemapService;
+use Flexa\SeoAeo\Support\PostSummary;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 use WP_Post;
@@ -22,6 +23,13 @@ defined( 'ABSPATH' ) || exit;
  */
 final class LlmsTxt {
 	use SingletonTrait;
+
+	/**
+	 * Where a per-link note is cut. Shorter than a meta description: this file
+	 * is a map, and a model reading it wants the shape of the site rather than
+	 * the content of every page.
+	 */
+	private const NOTE_LIMIT = 150;
 
 	/**
 	 * Assemble the full llms.txt document from the AEO settings + content index.
@@ -129,24 +137,12 @@ final class LlmsTxt {
 
 	/**
 	 * A short, single-line note for a link — the manual excerpt when present,
-	 * else a trimmed slice of the content. Empty string when nothing useful.
+	 * else a trimmed slice of the content. Empty string when nothing useful, and
+	 * for a password-protected post, which has nothing quotable at all: this
+	 * file is read by crawlers that will never hold the password.
 	 */
 	private function note( WP_Post $post ): string {
-		$raw = has_excerpt( $post ) ? $post->post_excerpt : $post->post_content;
-		$raw = wp_strip_all_tags( strip_shortcodes( $raw ) );
-		$raw = $this->one_line( $raw );
-
-		if ( mb_strlen( $raw ) <= 150 ) {
-			return $raw;
-		}
-
-		$cut   = mb_substr( $raw, 0, 150 );
-		$space = mb_strrpos( $cut, ' ' );
-		if ( false !== $space && $space > 0 ) {
-			$cut = mb_substr( $cut, 0, $space );
-		}
-
-		return rtrim( $cut ) . '…';
+		return PostSummary::text( $post, self::NOTE_LIMIT );
 	}
 
 	/**

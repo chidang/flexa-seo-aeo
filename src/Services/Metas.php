@@ -6,6 +6,7 @@ namespace Flexa\SeoAeo\Services;
 
 use Flexa\SeoAeo\Domain\PostMeta;
 use Flexa\SeoAeo\Domain\PostMetaRepository;
+use Flexa\SeoAeo\Support\PostSummary;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 use WP_Post;
@@ -23,6 +24,13 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Metas {
 	use SingletonTrait;
+
+	/**
+	 * Where a generated description is cut. Google renders roughly this much,
+	 * and the readiness scorer treats 50-160 as the healthy band, so a value the
+	 * plugin generated itself should never land outside it.
+	 */
+	private const DESCRIPTION_LIMIT = 160;
 
 	private ?ResolvedMeta $cache = null;
 
@@ -176,7 +184,7 @@ final class Metas {
 		$title_tpl = (string) apply_filters( 'flexa_seo_aeo/metas/title_template', $title_tpl, $context );
 
 		$title       = Variables::replace( $title_tpl, $context );
-		$description = $this->truncate( Variables::replace( $description, $context ), 160 );
+		$description = PostSummary::truncate( Variables::replace( $description, $context ), self::DESCRIPTION_LIMIT );
 		$canonical   = (string) apply_filters( 'flexa_seo_aeo/metas/canonical', $canonical );
 
 		$resolved = new ResolvedMeta(
@@ -473,18 +481,16 @@ final class Metas {
 	}
 
 	private function excerpt( WP_Post $post ): string {
-		return $this->condense( has_excerpt( $post ) ? $post->post_excerpt : $post->post_content );
+		return PostSummary::text( $post, self::DESCRIPTION_LIMIT );
 	}
 
 	/**
 	 * Squash arbitrary content down to a single line of plain text, short enough
-	 * for a meta description.
+	 * for a meta description. Only for strings that are not post content, which
+	 * goes through {@see excerpt()} so it keeps the password guard.
 	 */
 	private function condense( string $raw ): string {
-		$raw = wp_strip_all_tags( strip_shortcodes( $raw ) );
-		$raw = (string) preg_replace( '/\s+/', ' ', $raw );
-
-		return $this->truncate( trim( $raw ), 160 );
+		return PostSummary::truncate( PostSummary::condense( $raw ), self::DESCRIPTION_LIMIT );
 	}
 
 	private function featured_image( WP_Post $post ): string {
@@ -496,20 +502,6 @@ final class Metas {
 		$url = wp_get_attachment_image_url( (int) $thumb_id, 'full' );
 
 		return is_string( $url ) ? $url : '';
-	}
-
-	private function truncate( string $text, int $limit ): string {
-		if ( mb_strlen( $text ) <= $limit ) {
-			return $text;
-		}
-
-		$cut   = mb_substr( $text, 0, $limit );
-		$space = mb_strrpos( $cut, ' ' );
-		if ( false !== $space && $space > 0 ) {
-			$cut = mb_substr( $cut, 0, $space );
-		}
-
-		return rtrim( $cut ) . '…';
 	}
 
 	private function current_url(): string {

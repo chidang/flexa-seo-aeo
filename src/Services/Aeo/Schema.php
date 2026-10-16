@@ -283,6 +283,13 @@ final class Schema {
 	 * @return list<array{question: string, answer: string}>
 	 */
 	private function detect_faq( WP_Post $post ): array {
+		// A protected post's Q/A pairs are the protected content, and FAQPage
+		// publishes them verbatim and uncapped. Nothing to emit until the
+		// visitor has the password.
+		if ( post_password_required( $post ) ) {
+			return [];
+		}
+
 		// Serialized block markup names every block in its comment delimiter, so
 		// content without this substring cannot hold a details block. Checking it
 		// first keeps the common page view clear of parse_blocks entirely, and

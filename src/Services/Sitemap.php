@@ -365,7 +365,13 @@ final class Sitemap {
 	}
 
 	/**
-	 * Add the noindex exclusion to a post query.
+	 * Add the "not for crawlers" exclusions to a post query: posts flagged
+	 * noindex, and posts behind a password.
+	 *
+	 * The password half is a one-line `has_password` argument, applied here
+	 * rather than at each call site because this method is the single point the
+	 * XML sitemap, the HTML sitemap and llms.txt all pass through, and a
+	 * protected post has no business being advertised by any of the three.
 	 *
 	 * Two shapes, because one does not cover both sizes of site. The flagged set
 	 * is normally tiny (you noindex a handful of pages), and for that an
@@ -385,6 +391,17 @@ final class Sitemap {
 	 * @return array<string, mixed>
 	 */
 	public function exclude_noindexed( array $args ): array {
+		/**
+		 * Filters whether password-protected posts are kept out of the sitemap,
+		 * the HTML sitemap and llms.txt. Return true only if the titles are
+		 * meant to be discoverable and the bodies really are the only secret.
+		 *
+		 * @param bool $include Whether to advertise protected posts.
+		 */
+		if ( ! (bool) apply_filters( 'flexa_seo_aeo/sitemap/include_password_protected', false ) ) {
+			$args['has_password'] = false;
+		}
+
 		$ids = $this->noindexed_ids();
 
 		if ( false !== $ids ) {
