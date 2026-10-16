@@ -201,11 +201,11 @@ final class Settings {
 		}
 
 		if ( array_key_exists( 'sitemap_post_types', $incoming ) ) {
-			$clean['sitemap_post_types'] = self::sanitize_keys( $incoming['sitemap_post_types'] );
+			$clean['sitemap_post_types'] = self::sanitize_post_types( $incoming['sitemap_post_types'] );
 		}
 
 		if ( array_key_exists( 'sitemap_taxonomies', $incoming ) ) {
-			$clean['sitemap_taxonomies'] = self::sanitize_keys( $incoming['sitemap_taxonomies'] );
+			$clean['sitemap_taxonomies'] = self::sanitize_taxonomies( $incoming['sitemap_taxonomies'] );
 		}
 
 		if ( array_key_exists( 'redirect_orphan_attachments', $incoming ) ) {
@@ -300,10 +300,10 @@ final class Settings {
 			$out['knowledge_name'] = $stored['knowledge_name'];
 		}
 		if ( isset( $stored['sitemap_post_types'] ) ) {
-			$out['sitemap_post_types'] = self::sanitize_keys( $stored['sitemap_post_types'] );
+			$out['sitemap_post_types'] = self::sanitize_post_types( $stored['sitemap_post_types'] );
 		}
 		if ( isset( $stored['sitemap_taxonomies'] ) ) {
-			$out['sitemap_taxonomies'] = self::sanitize_keys( $stored['sitemap_taxonomies'] );
+			$out['sitemap_taxonomies'] = self::sanitize_taxonomies( $stored['sitemap_taxonomies'] );
 		}
 		if ( isset( $stored['redirect_orphan_attachments'] ) && is_string( $stored['redirect_orphan_attachments'] ) ) {
 			$out['redirect_orphan_attachments'] = $stored['redirect_orphan_attachments'];
@@ -361,6 +361,49 @@ final class Settings {
 		$value = is_scalar( $value ) ? (string) $value : '';
 
 		return in_array( $value, $allowed, true ) ? $value : $fallback;
+	}
+
+	/**
+	 * Sitemap post types: sanitized, then checked against what is actually
+	 * registered, so the stored value can never name a type the UI has no
+	 * checkbox for.
+	 *
+	 * @param mixed $value
+	 * @return list<string>
+	 */
+	private static function sanitize_post_types( mixed $value ): array {
+		return self::registered_only( self::sanitize_keys( $value ), get_post_types() );
+	}
+
+	/**
+	 * Sitemap taxonomies, same treatment as {@see self::sanitize_post_types()}.
+	 *
+	 * @param mixed $value
+	 * @return list<string>
+	 */
+	private static function sanitize_taxonomies( mixed $value ): array {
+		return self::registered_only( self::sanitize_keys( $value ), get_taxonomies() );
+	}
+
+	/**
+	 * Drop the keys that name nothing real.
+	 *
+	 * Both registries only fill up during `init`, and `all()` runs earlier than
+	 * that for anything reading a setting on `plugins_loaded`. Before `init`
+	 * the list is handed back untouched, because at that point an unknown slug
+	 * means "has not registered yet", not "does not exist", and dropping a
+	 * site's custom post type from its own sitemap would be the worse bug.
+	 *
+	 * @param list<string>             $keys
+	 * @param array<array-key, string> $registered Slugs from the WP registry.
+	 * @return list<string>
+	 */
+	private static function registered_only( array $keys, array $registered ): array {
+		if ( [] === $keys || ! did_action( 'init' ) ) {
+			return $keys;
+		}
+
+		return array_values( array_intersect( $keys, array_values( $registered ) ) );
 	}
 
 	/**
