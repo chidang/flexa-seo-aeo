@@ -105,6 +105,10 @@ It is a per-post grade (0–100) shown in the block-editor sidebar that measures
 
 Every readiness check is labelled `documented`, `observed` or `heuristic`, both in the editor sidebar and on the Dashboard, so you can tell a vendor-documented requirement from our own judgement call. `documented` means a search or AI vendor publishes guidance on that signal. `observed` means studies and testing associate it with being quoted, but no engine states it as a rule. `heuristic` means it is a reasoned bet: cheap to do, plausibly useful, unconfirmed. The weights are editorial in every row, and the reasoning behind each one is set out in the published rubric at https://flexa-seo-aeo.vercel.app/.
 
+= What happens to my data if I delete the plugin? =
+
+Deleting the plugin removes its settings, the Setup Assistant's progress, the Dashboard score history, the anonymous survey id and the cached FAQ data. The SEO fields you filled in per post are kept: your titles, descriptions, canonicals, robots boxes, and the Open Graph and Twitter overrides all stay in the database. That is deliberate. Those are things you wrote, often across hundreds of posts, and removing a plugin should not destroy them with no way back. If you reinstall, they are picked up again. If you want them gone for good, delete the post meta keys beginning `_flexa_seo_aeo_` yourself.
+
 = How is this different from the many llms.txt plugins? =
 
 Most of those generate a single `llms.txt` file and stop. Flexa SEO does that too, but its focus is *measuring and improving* how quotable each page is, post by post, plus a full SEO baseline (schema, sitemaps, meta, migration). The readiness score is the workflow those file-only tools don't offer.
