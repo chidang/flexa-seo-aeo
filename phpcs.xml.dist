@@ -73,6 +73,24 @@
 		<exclude-pattern>*/templates/*</exclude-pattern>
 	</rule>
 
+	<!--
+		The unit tests stand in for WordPress, so three sniffs that are right
+		about plugin code are wrong about them: a test has to assign
+		$GLOBALS['wp_query'] to set up a request, the bootstrap has to define
+		ABSPATH because every source file guards on it, and a fixture naming a
+		four-figure posts_per_page is asserting the detection cap, not querying
+		a live database.
+	-->
+	<rule ref="WordPress.WP.GlobalVariablesOverride">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<exclude-pattern>*/tests/bootstrap.php</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.WP.PostsPerPage">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+
 	<!-- The DOM extension exposes camelCase properties (childNodes, nodeName,
 	     …); reading them is not a house-style violation. -->
 	<rule ref="WordPress.NamingConventions.ValidVariableName">

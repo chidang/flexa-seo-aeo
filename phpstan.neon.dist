@@ -3,6 +3,9 @@ includes:
 
 parameters:
 	level: 6
+	# tests/ is deliberately out of scope: the stubs there redeclare WordPress
+	# functions that phpstan-wordpress already knows, so analysing them reports
+	# a redeclaration for every stub and nothing useful.
 	paths:
 		- src
 		- uninstall.php

@@ -10,6 +10,7 @@
 
 # PHP tooling caches / reports
 .phpunit.result.cache
+/.phpunit.cache/
 /.phpcs-cache
 clover.xml
 coverage/

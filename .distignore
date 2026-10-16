@@ -37,6 +37,7 @@ Thumbs.db
 /phpstan.neon.dist
 /phpunit.xml
 /phpunit.xml.dist
+/.phpunit.cache
 /tests
 /tools
 
