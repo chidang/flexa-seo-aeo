@@ -6,6 +6,7 @@ namespace Flexa\SeoAeo\Services;
 
 use Flexa\SeoAeo\Domain\PostMeta;
 use Flexa\SeoAeo\Domain\PostMetaRepository;
+use Flexa\SeoAeo\Support\ArchiveType;
 use Flexa\SeoAeo\Support\PostSummary;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
@@ -165,6 +166,7 @@ final class Metas {
 			$context['archive_title'] = wp_strip_all_tags( get_the_archive_title() );
 			$title_tpl                = '%%archive_title%% %%sep%% %%sitename%%';
 			$description              = $this->archive_description();
+			$canonical                = $this->archive_canonical();
 		}
 
 		// Every branch above can still come up empty: an author with no bio, an
@@ -395,6 +397,41 @@ final class Metas {
 			__( 'This page could not be found on %s. Try a search or start again from the homepage.', 'flexa-seo-aeo' ),
 			$this->site_name()
 		);
+	}
+
+	/**
+	 * Self-referencing canonical for the archives no branch above covers: a
+	 * post type archive and the three date archives.
+	 *
+	 * They are the only indexable views the plugin leaves without one. Core's
+	 * `rel_canonical` fires on singular views only, so an empty value here
+	 * means the page ships no canonical at all, and anything keyed to it (the
+	 * `BreadcrumbList` node) has nothing to key on. Paged views point at the
+	 * first page, which is how every other branch here behaves.
+	 */
+	private function archive_canonical(): string {
+		$type = ArchiveType::current();
+		if ( $type instanceof WP_Post_Type ) {
+			$link = get_post_type_archive_link( $type->name );
+
+			return is_string( $link ) ? $link : '';
+		}
+
+		$year  = (int) get_query_var( 'year' );
+		$month = (int) get_query_var( 'monthnum' );
+		$day   = (int) get_query_var( 'day' );
+
+		if ( is_day() ) {
+			return (string) get_day_link( $year, $month, $day );
+		}
+		if ( is_month() ) {
+			return (string) get_month_link( $year, $month );
+		}
+		if ( is_year() ) {
+			return (string) get_year_link( $year );
+		}
+
+		return '';
 	}
 
 	/**

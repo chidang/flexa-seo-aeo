@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flexa\SeoAeo\Services;
 
+use Flexa\SeoAeo\Support\ArchiveType;
 use Flexa\SeoAeo\Support\SingletonTrait;
 use WP_Post;
 use WP_Post_Type;
@@ -76,7 +77,7 @@ final class Breadcrumbs {
 				$crumbs = array_merge( $crumbs, $this->term( $term ) );
 			}
 		} elseif ( is_post_type_archive() ) {
-			$type = get_queried_object();
+			$type = ArchiveType::current();
 			if ( $type instanceof WP_Post_Type ) {
 				$crumbs[] = $this->crumb( $type->labels->name ?? $type->name, '' );
 			}

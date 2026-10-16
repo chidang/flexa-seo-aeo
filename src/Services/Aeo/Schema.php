@@ -34,11 +34,61 @@ final class Schema {
 	private const FAQ_CACHE_META = '_flexa_seo_aeo_faq_cache';
 
 	/**
+	 * The nodes for this request, as they stand after the extension filter.
+	 *
+	 * @var list<array<string, mixed>>|null
+	 */
+	private ?array $nodes = null;
+
+	/**
 	 * The full graph, or an empty array when there's nothing to emit.
 	 *
 	 * @return array<string, mixed>
 	 */
 	public function graph(): array {
+		$nodes = $this->nodes();
+		if ( [] === $nodes ) {
+			return [];
+		}
+
+		return [
+			'@context' => 'https://schema.org',
+			'@graph'   => $nodes,
+		];
+	}
+
+	/**
+	 * Whether this request carries a `BreadcrumbList` of its own.
+	 *
+	 * Themes and plugins that emit their own trail (WooCommerce does, on every
+	 * shop view) need to know, so two lists describing the same page don't end
+	 * up in the markup. It reads the same node list the page prints, filter
+	 * included, so the two can't disagree, and it answers at any point in the
+	 * request: a block theme renders its templates before `wp_head`, which puts
+	 * WooCommerce's question ahead of our output.
+	 */
+	public function emits_breadcrumb_list(): bool {
+		foreach ( $this->nodes() as $node ) {
+			if ( 'BreadcrumbList' === ( $node['@type'] ?? '' ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * The graph's nodes, built once per request. Both the printed JSON-LD and
+	 * anything asking what this page emits read this, so the extension filter
+	 * runs once and everyone sees the same answer.
+	 *
+	 * @return list<array<string, mixed>>
+	 */
+	private function nodes(): array {
+		if ( null !== $this->nodes ) {
+			return $this->nodes;
+		}
+
 		$nodes     = [];
 		$publisher = $this->publisher();
 		$pub_ref   = isset( $publisher['@id'] ) ? [ '@id' => (string) $publisher['@id'] ] : null;
@@ -78,26 +128,9 @@ final class Schema {
 		 *
 		 * @param list<array<string, mixed>> $nodes
 		 */
-		$nodes = array_values( (array) apply_filters( 'flexa_seo_aeo/aeo/schema_nodes', $nodes ) );
-		if ( [] === $nodes ) {
-			return [];
-		}
+		$this->nodes = array_values( (array) apply_filters( 'flexa_seo_aeo/aeo/schema_nodes', $nodes ) );
 
-		return [
-			'@context' => 'https://schema.org',
-			'@graph'   => $nodes,
-		];
-	}
-
-	/**
-	 * Whether this request carries a `BreadcrumbList` of its own.
-	 *
-	 * Themes and plugins that emit their own trail (WooCommerce does, on every
-	 * shop view) need to know, so two lists describing the same page don't end
-	 * up in the markup.
-	 */
-	public function emits_breadcrumb_list(): bool {
-		return [] !== $this->breadcrumb_list();
+		return $this->nodes;
 	}
 
 	/**
