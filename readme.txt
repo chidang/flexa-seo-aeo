@@ -103,7 +103,7 @@ It is a per-post grade (0–100) shown in the block-editor sidebar that measures
 
 = What do the evidence labels next to each check mean? =
 
-Every readiness check is labelled `documented`, `observed` or `heuristic`, both in the editor sidebar and on the Dashboard, so you can tell a vendor-documented requirement from our own judgement call. `documented` means a search or AI vendor publishes guidance on that signal. `observed` means studies and testing associate it with being quoted, but no engine states it as a rule. `heuristic` means it is a reasoned bet: cheap to do, plausibly useful, unconfirmed. The weights are editorial in every row; the published rubric explains the reasoning behind each one.
+Every readiness check is labelled `documented`, `observed` or `heuristic`, both in the editor sidebar and on the Dashboard, so you can tell a vendor-documented requirement from our own judgement call. `documented` means a search or AI vendor publishes guidance on that signal. `observed` means studies and testing associate it with being quoted, but no engine states it as a rule. `heuristic` means it is a reasoned bet: cheap to do, plausibly useful, unconfirmed. The weights are editorial in every row, and the reasoning behind each one is set out in the published rubric at https://flexa-seo-aeo.vercel.app/.
 
 = How is this different from the many llms.txt plugins? =
 
