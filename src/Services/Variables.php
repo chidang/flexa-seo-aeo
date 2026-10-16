@@ -16,6 +16,13 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Variables {
 	/**
+	 * Stands in for a token that resolved to nothing, until the separator
+	 * beside it has been cleared away. A private-use codepoint, so it cannot
+	 * collide with anything a template or a post title contains.
+	 */
+	private const HOLE = "\u{E000}";
+
+	/**
 	 * @param array<string, string> $context contextual token => value overrides
 	 */
 	public static function replace( string $subject, array $context = [] ): string {
@@ -34,29 +41,43 @@ final class Variables {
 		 */
 		$tokens = apply_filters( 'flexa_seo_aeo/variables/tokens', $tokens, $subject );
 
+		// A token that resolves to nothing leaves a hole the surrounding
+		// separators have to close over, and marking it is the only way to do
+		// that without touching the text a token brought with it: a post
+		// genuinely titled "A -- B" has to survive a site whose separator is a
+		// hyphen.
 		$replaced = preg_replace_callback(
 			'/%%([a-z0-9_]+)%%/',
-			static fn( array $m ): string => $tokens[ $m[1] ] ?? '',
+			static function ( array $m ) use ( $tokens ): string {
+				$value = $tokens[ $m[1] ] ?? '';
+
+				return '' !== $value ? $value : self::HOLE;
+			},
 			$subject
 		);
 
+		$clean  = (string) $replaced;
+		$sep    = trim( (string) Settings::get( 'separator' ) );
+		$quoted = preg_quote( $sep, '/' );
+
+		if ( '' !== $sep ) {
+			// The separator in front of a hole goes with it. That is where a
+			// template puts it, and it is what used to leave "Site - - Page 2"
+			// once a page suffix moved an empty tagline into the middle of the
+			// string instead of the end.
+			$clean = (string) preg_replace( '/\s*' . $quoted . '\s*' . self::HOLE . '/u', ' ', $clean );
+		}
+
+		$clean = str_replace( self::HOLE, '', $clean );
+
 		// Collapse the whitespace left behind by empty tokens (e.g. a missing
 		// tagline around a separator) so we never emit "Title  -  ".
-		$clean = preg_replace( '/\s{2,}/', ' ', (string) $replaced );
-		$clean = trim( (string) $clean );
+		$clean = (string) preg_replace( '/\s{2,}/', ' ', $clean );
+		$clean = trim( $clean );
 
-		$sep = trim( (string) Settings::get( 'separator' ) );
+		// Trim a separator left dangling at either end by a hole that had
+		// nothing in front of it.
 		if ( '' !== $sep ) {
-			$quoted = preg_quote( $sep, '/' );
-
-			// An empty token with a separator on either side leaves the two
-			// adjacent: "Site - - Page 2" on a home template whose tagline is
-			// blank. Collapse a run down to one. The lookbehind keeps the rule
-			// off a separator character used inside a word, so a title like
-			// "Re--run" survives a site whose separator is a hyphen.
-			$clean = (string) preg_replace( '/(?<=^|\s)(?:' . $quoted . '\s*){2,}/u', $sep . ' ', $clean );
-
-			// Trim a dangling leading/trailing separator left by an empty token.
 			$clean = (string) preg_replace( '/^\s*' . $quoted . '\s*|\s*' . $quoted . '\s*$/u', '', $clean );
 		}
 

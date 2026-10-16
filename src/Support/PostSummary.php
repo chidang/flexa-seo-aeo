@@ -27,6 +27,22 @@ final class PostSummary {
 	private const BLOCK_CLOSE = '~</(?:p|div|h[1-6]|li|dd|dt|td|th|tr|blockquote|section|article|aside|header|footer|figure|figcaption|pre|ul|ol|dl|table)\s*>|<(?:br|hr)\s*/?>~i';
 
 	/**
+	 * Anything shaped like a shortcode tag.
+	 *
+	 * `strip_shortcodes()` only removes the ones registered right now, and a
+	 * description is built on requests where the plugin that owns the tag may
+	 * not have loaded, or may have been deactivated with its shortcodes still
+	 * sitting in old posts. What came out then was the raw source:
+	 * `[contact-form-7 id="12"]` published as the meta description.
+	 *
+	 * The tag must open with a letter and run to at least two characters, so a
+	 * `[1]` footnote and an `a[i]` index survive. A bracketed word in prose,
+	 * `[sic]`, does not: there is nothing in the syntax to tell it apart from a
+	 * tag, and Yoast and Rank Math make the same trade with a broader pattern.
+	 */
+	private const SHORTCODE_LIKE = '~\[/?[a-z][a-z0-9_-]+[^\]]*\]~i';
+
+	/**
 	 * The text to quote for a post, or an empty string when there is nothing
 	 * safe to quote.
 	 *
@@ -52,6 +68,7 @@ final class PostSummary {
 	 */
 	public static function condense( string $raw ): string {
 		$raw = strip_shortcodes( $raw );
+		$raw = (string) preg_replace( self::SHORTCODE_LIKE, ' ', $raw );
 		$raw = (string) preg_replace( self::BLOCK_CLOSE, ' ', $raw );
 		$raw = wp_strip_all_tags( $raw );
 		$raw = (string) preg_replace( '/\s+/', ' ', $raw );

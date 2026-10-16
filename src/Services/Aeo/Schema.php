@@ -276,6 +276,12 @@ final class Schema {
 			unset( $node['author'] );
 		}
 
+		// A page the resolver found nothing to say about, a shortcode layout or
+		// a protected post, would otherwise publish `"description": ""`.
+		if ( '' === $node['description'] ) {
+			unset( $node['description'] );
+		}
+
 		return $node;
 	}
 

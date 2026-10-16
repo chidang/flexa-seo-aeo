@@ -451,18 +451,30 @@ final class Metas {
 	 * static front page is the exception: it answers 200 for `/page/2/` and for
 	 * `/page/99/` alike, with the same body every time. Numbering those would
 	 * hand a crawler an unbounded set of distinct canonicals over one document.
+	 *
+	 * The count comes from `generate_postdata()` rather than from counting the
+	 * markers here, because core drops a `<!--nextpage-->` that opens the
+	 * content and runs the whole list through `content_pagination`. Counting
+	 * by hand disagrees with the page the visitor actually gets in both cases.
 	 */
 	private function paginates_to( int $page ): bool {
-		if ( is_singular() ) {
-			$post = get_queried_object();
-
-			return $post instanceof WP_Post
-				&& $page <= 1 + substr_count( $post->post_content, '<!--nextpage-->' );
+		global $wp_query;
+		if ( ! $wp_query instanceof WP_Query ) {
+			return false;
 		}
 
-		global $wp_query;
+		if ( ! is_singular() ) {
+			return $page <= max( 1, (int) $wp_query->max_num_pages );
+		}
 
-		return $wp_query instanceof WP_Query && $page <= max( 1, (int) $wp_query->max_num_pages );
+		$post = get_queried_object();
+		if ( ! $post instanceof WP_Post ) {
+			return false;
+		}
+
+		$data = $wp_query->generate_postdata( $post );
+
+		return is_array( $data ) && $page <= max( 1, (int) $data['numpages'] );
 	}
 
 	/**
@@ -582,12 +594,9 @@ final class Metas {
 	 * What the site says about itself: the tagline, or the AEO site summary when
 	 * the tagline was never filled in. Both are empty on plenty of installs, so
 	 * callers still have to cope with ''.
-	 */
-	/**
-	 * The site-level sentence every page falls back to: the tagline, then the
-	 * AEO site description. Public because the readiness scorer has to grade
-	 * the description a page will really ship, and on a page with nothing of
-	 * its own that is this one.
+	 *
+	 * Public because the readiness scorer grades the description a page will
+	 * really ship, and on a page with nothing of its own that is this one.
 	 */
 	public function site_description(): string {
 		$tagline = trim( (string) get_bloginfo( 'description' ) );
