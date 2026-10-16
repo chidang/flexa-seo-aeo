@@ -47,7 +47,7 @@ export default function Scoring() {
       <Sidebar
         items={SCORING_NAV}
         title="Flexa SEO - AEO"
-        subtitle="Scoring rubric · v0.5.5"
+        subtitle="Scoring rubric · v0.6.0"
         crossLinkHref="/compatibility"
         crossLinkLabel="Compatibility matrix →"
         secondaryLink={{ href: '/services', label: 'Need a custom build?' }}
@@ -57,7 +57,7 @@ export default function Scoring() {
         {/* ── Hero ─────────────────────────────────────────────── */}
         <header className="py-14">
           <p className="text-xs font-semibold uppercase tracking-widest text-brand-600">
-            Scoring rubric · v0.5.5
+            Scoring rubric · v0.6.0
           </p>
           <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
             How the Answer-Engine Readiness Score is calculated
@@ -252,8 +252,8 @@ factor: pass = 1.0, warn = 0.5, fail = 0.0`}
             head={['Status', 'Condition']}
             rows={[
               ['Pass', '50 to 160 characters inclusive'],
-              ['Warn', '1 to 49, or 161 and over'],
-              ['Fail', 'No description resolves at all'],
+              ['Warn', '1 to 49, 161 and over, or nothing at all'],
+              ['Fail', 'Never. This check cannot fail.'],
             ]}
           />
           <p>
@@ -261,6 +261,17 @@ factor: pass = 1.0, warn = 0.5, fail = 0.0`}
             actually emit: the one typed into the post if there is one,
             otherwise whatever your template resolves to. A post with no
             hand-written description can still pass on the template alone.
+          </p>
+          <p>
+            A page where nothing resolves scores zero for this check, and the
+            row still reads <em>warn</em> rather than <em>fail</em>, because
+            an empty description is usually not a fault in the content. A
+            password-protected page is left unsummarised deliberately, in case
+            the secret is in the body. A shortcode or page-builder layout reads
+            as empty because the scan quotes plain text and does not render the
+            page. Only the third case, a post with prose that simply has no
+            sentence worth quoting yet, is something to go and write. The hint
+            on the row names which of the three you are looking at.
           </p>
           <p>
             The 50 to 160 band is a convention rather than a published limit,

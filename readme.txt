@@ -4,7 +4,7 @@ Tags: seo, schema, sitemap, aeo, woocommerce
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 0.5.6
+Stable tag: 0.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.0
@@ -146,7 +146,7 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 
 == Changelog ==
 
-= 0.5.6 =
+= 0.6.0 =
 * Security: a password-protected post could have its contents read by anyone, with no password. The first 160 characters of the body were published as the meta description and repeated in the Open Graph and Twitter tags, `/llms.txt` carried a 150-character extract next to the URL, the XML and HTML sitemaps advertised the post, and a post using Details blocks had its questions and answers published in full as FAQ structured data, with no length limit at all. All of those now treat a protected post as having nothing quotable, and the sitemaps leave it out. If you want protected posts listed in the sitemap anyway, because only the body is meant to be private, `add_filter( 'flexa_seo_aeo/sitemap/include_password_protected', '__return_true' );` brings that part back.
 * Fix: the site served two sitemap indexes at once, WordPress's own at `/wp-sitemap.xml` and this plugin's at `/sitemap.xml`, listing the same content under two sets of URLs and leaving search engines to pick. WordPress's is switched off now whenever the plugin's sitemap is on, so there is one index to submit. The `flexa_seo_aeo/sitemap/keep_core_sitemap` filter keeps both if you need them.
 * Fix: a generated description could run two words together where one paragraph or heading ended and the next began, so a post opening "What is QA?" followed by "It is testing." produced "What is QA?It is testing." Block boundaries become a space before the tags are stripped. Words inside a sentence, around `<strong>` or a link, still close up the way they should.
@@ -167,11 +167,12 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 * Fix: the BreadcrumbList on a 404 or a search results page was keyed to the home page URL, which made every one of those views claim to be the same thing. Neither view has a canonical of its own, so neither emits the block any more.
 * Fix: post type archives, the WooCommerce shop page and the date archives shipped no `rel="canonical"` at all. WordPress prints one only on single posts and pages, and the plugin had nothing to put there, so those pages were left to the search engine's own guess. Each now points at itself, which also gives the BreadcrumbList block on those pages a stable id.
 * Fix: IndexNow handed search engines URLs that nothing else on the site advertises. A post you marked noindex, a password-protected post and every post on a site set to discourage search engines were all pushed the moment they were saved, and because the ping fired on each save, one editing session could submit the same URL a dozen times. The checks the sitemap already applies now apply here too, and a URL just submitted is not submitted again for fifteen minutes. The `flexa_seo_aeo/indexnow/resubmit_after` filter changes that window.
-* Fix: page 2 and beyond of a blog, category, tag, author or shop listing told search engines it was page 1, and carried page 1's title. Each page now points at itself and says which page it is, so the later pages can be indexed instead of being treated as copies. A canonical you set by hand on a post still wins.
+* Fix: page 2 and beyond of a blog, category, tag, author or shop listing told search engines it was page 1, and carried page 1's title. Each page now points at itself and says which page it is, so the later pages can be indexed instead of being treated as copies. A static front page needs the opposite care, because it answers for `/page/2/` and `/page/99/` alike with the same body: it is numbered only as far as the content really splits, and WordPress decides where that is, so a crawler is never handed an endless run of URLs over one page. A canonical you set by hand on a post still wins.
 * Fix: the sitemap index dated each file from the newest published post of that type, including posts the file leaves out. Marking your most recent page noindex left the index advertising a date no URL inside it carried. The date now comes from the posts that are actually listed.
 * Fix: a WooCommerce product page carried two Product blocks in its structured data, this plugin's and WooCommerce's, both claiming the same identifier and disagreeing about the contents. WooCommerce's now stands down wherever the plugin emits its own, and is left alone where it does not, so turning Schema or WooCommerce AEO off hands the markup straight back.
 * Fix: the Dashboard scored pages you had marked noindex and pages behind a password, so work you had deliberately hidden from search engines dragged the site score down. The scan now reads the same list the sitemap does.
 * Fix: archive titles carried the heading prefix WordPress adds for the page itself, so a search result read "Archives: Shop" or "Month: May 2026". The prefix is gone from the title tag; the heading on the page is unchanged.
+* Fix: a title template whose tagline or any other token resolved to nothing left the separator behind, so a site with no tagline could ship its home page as "Northbank Press - - Page 2" and an archive as "Shop - ". An empty token now takes the separator in front of it with it, in all nine separator styles. A title that genuinely contains the separator character is untouched: "Re--run the build" on a site set to a hyphen still reads the way you wrote it.
 * New: the Organization or Person block in your structured data has its own Logo field, under Settings > Organization. It used to borrow the default share image, which is a wide social card rather than the square logo search engines ask for. If you leave the field empty it falls back to your theme's logo, then to the share image as before.
 * Fix: a shortcode belonging to a plugin that is switched off, or not loaded on that request, was published as the page's own words. `[contact-form-7 id="12"]` came out as the meta description, repeated in the Open Graph and Twitter tags, in the BlogPosting description and in the `/llms.txt` line. Anything shaped like a shortcode is now removed from a generated description, whether or not the plugin that owns it is running, and a page left with nothing to say ships no description tag rather than an empty one.
 * Fix: with the knowledge block set to Person, the structured data gave it a `logo`, a property schema.org defines for an organization and not for a person. A Person now carries the same picture as `image` instead. The Organization block is unchanged.
@@ -228,8 +229,8 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 
 == Upgrade Notice ==
 
-= 0.5.6 =
-Security: password-protected posts had their contents published in meta tags, FAQ structured data, sitemaps and llms.txt, and IndexNow was pushing hidden URLs at search engines. Update if you use post passwords or IndexNow.
+= 0.6.0 =
+Security: password-protected posts had their contents published in meta tags, FAQ structured data, sitemaps and llms.txt. Also ends the duplicate robots tag, canonicals paginated archives, and makes Breadcrumbs and Image SEO work. Update if you use post passwords or IndexNow.
 
 = 0.5.5 =
 Adds a suggestion to pair Flexa SEO with Flexa Cache, and cleans up one option that uninstall used to leave behind.

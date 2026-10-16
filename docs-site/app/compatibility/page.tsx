@@ -51,7 +51,7 @@ export default function Compatibility() {
       <Sidebar
         items={COMPATIBILITY_NAV}
         title="Flexa SEO - AEO"
-        subtitle="Compatibility · v0.5.5"
+        subtitle="Compatibility · v0.6.0"
         crossLinkHref="/"
         crossLinkLabel="← Back to the scoring rubric"
         secondaryLink={{ href: '/services', label: 'Need a custom build?' }}
@@ -61,7 +61,7 @@ export default function Compatibility() {
         {/* ── Hero ─────────────────────────────────────────────── */}
         <header className="py-14">
           <p className="text-xs font-semibold uppercase tracking-widest text-brand-600">
-            Compatibility · v0.5.5
+            Compatibility · v0.6.0
           </p>
           <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
             Running alongside the other SEO plugins
@@ -133,6 +133,32 @@ export default function Compatibility() {
               as the floor.
             </p>
           </Callout>
+          <Callout tone="info" title="What has changed since this run">
+            <p>
+              The numbers on this page were measured against Flexa SEO 0.5.5
+              and have been left exactly as they came out. Two things about
+              Flexa itself changed in 0.6.0, after the run:
+            </p>
+            <ul>
+              <li>
+                The robots directives are now written through WordPress&rsquo;s
+                own <Code>wp_robots</Code> filter instead of being printed
+                separately, so a page carries one{' '}
+                <Code>meta name=robots</Code> tag rather than two. The row for
+                that tag in the table below predates the change and is the one
+                number here worth re-measuring on your own install.
+              </li>
+              <li>
+                The conflict warning now covers all four plugins. SEOPress and
+                All in One SEO used to go unmentioned; the matrix column below
+                reflects 0.6.0, not the 0.5.5 run.
+              </li>
+            </ul>
+            <p>
+              Nothing else moved. The full matrix gets re-measured next release,
+              against whatever versions the four competitors are on then.
+            </p>
+          </Callout>
         </Section>
 
         <Section id="matrix" kicker="Summary" title="Compatibility matrix">
@@ -164,14 +190,14 @@ export default function Compatibility() {
                 <No key="s" />,
                 <No key="m" />,
                 <Yes key="r" />,
-                <No key="d" />,
+                <Yes key="d" />,
               ],
               [
                 <strong key="n">All in One SEO 5.0.3</strong>,
                 <No key="s" />,
                 <No key="m" />,
                 <No key="r" />,
-                <No key="d" />,
+                <Yes key="d" />,
               ],
             ]}
           />
@@ -204,8 +230,11 @@ export default function Compatibility() {
               their titles and descriptions.
             </p>
             <p>
-              All in One SEO is not supported in either direction, and is not
-              detected as a conflict either. Nothing warns you.
+              All in One SEO is not supported in either direction. Flexa warns
+              you that it is active, so you will not be left guessing why the
+              head has two of everything, but there is no migration to run and
+              no read-fallback to carry you through the move. Copy the fields
+              you care about by hand before you switch off.
             </p>
           </Callout>
         </Section>
