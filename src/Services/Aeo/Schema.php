@@ -329,13 +329,17 @@ final class Schema {
 			'url'   => home_url( '/' ),
 		];
 
+		// `logo` belongs to Organization, Brand and Place; a Person has no such
+		// property, so the same picture goes in as `image` there.
 		$logo = $this->brand_logo();
 		if ( '' !== $logo ) {
-			$node['logo'] = [
-				'@type' => 'ImageObject',
-				'url'   => $logo,
-			];
-			if ( ! $is_person ) {
+			if ( $is_person ) {
+				$node['image'] = $logo;
+			} else {
+				$node['logo']  = [
+					'@type' => 'ImageObject',
+					'url'   => $logo,
+				];
 				$node['image'] = $logo;
 			}
 		}

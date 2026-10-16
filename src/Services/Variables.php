@@ -45,11 +45,19 @@ final class Variables {
 		$clean = preg_replace( '/\s{2,}/', ' ', (string) $replaced );
 		$clean = trim( (string) $clean );
 
-		// Trim a dangling leading/trailing separator left by an empty token.
 		$sep = trim( (string) Settings::get( 'separator' ) );
 		if ( '' !== $sep ) {
 			$quoted = preg_quote( $sep, '/' );
-			$clean  = (string) preg_replace( '/^\s*' . $quoted . '\s*|\s*' . $quoted . '\s*$/u', '', $clean );
+
+			// An empty token with a separator on either side leaves the two
+			// adjacent: "Site - - Page 2" on a home template whose tagline is
+			// blank. Collapse a run down to one. The lookbehind keeps the rule
+			// off a separator character used inside a word, so a title like
+			// "Re--run" survives a site whose separator is a hyphen.
+			$clean = (string) preg_replace( '/(?<=^|\s)(?:' . $quoted . '\s*){2,}/u', $sep . ' ', $clean );
+
+			// Trim a dangling leading/trailing separator left by an empty token.
+			$clean = (string) preg_replace( '/^\s*' . $quoted . '\s*|\s*' . $quoted . '\s*$/u', '', $clean );
 		}
 
 		return trim( $clean );

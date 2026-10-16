@@ -173,6 +173,8 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 * Fix: the Dashboard scored pages you had marked noindex and pages behind a password, so work you had deliberately hidden from search engines dragged the site score down. The scan now reads the same list the sitemap does.
 * Fix: archive titles carried the heading prefix WordPress adds for the page itself, so a search result read "Archives: Shop" or "Month: May 2026". The prefix is gone from the title tag; the heading on the page is unchanged.
 * New: the Organization or Person block in your structured data has its own Logo field, under Settings > Organization. It used to borrow the default share image, which is a wide social card rather than the square logo search engines ask for. If you leave the field empty it falls back to your theme's logo, then to the share image as before.
+* Fix: with the knowledge block set to Person, the structured data gave it a `logo`, a property schema.org defines for an organization and not for a person. A Person now carries the same picture as `image` instead. The Organization block is unchanged.
+* Fix: the Dashboard and the editor sidebar failed a page on its meta description even where the plugin itself declines to write one: a page built from shortcodes or a page builder has no text to quote, and a protected post is never summarised on purpose. Those pages are a warning now, and the hint says which of the two it is and what the page will actually ship.
 * Performance: settings are read dozens of times while a page is built, and each read rebuilt and re-checked the whole stored option. They are now resolved once per request. A legacy sitemap URL that has to be redirected no longer builds the entire sitemap it was only testing for emptiness.
 
 = 0.5.5 =
@@ -226,7 +228,7 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 == Upgrade Notice ==
 
 = 0.5.6 =
-Security: password-protected posts were having their contents published in meta tags, FAQ structured data, sitemaps and llms.txt, and IndexNow was pushing hidden URLs at search engines. Update if you use post passwords or IndexNow. Also ends the duplicate robots tag, gives paginated archives their own canonical, and makes the Breadcrumbs and Image SEO settings work.
+Security: password-protected posts had their contents published in meta tags, FAQ structured data, sitemaps and llms.txt, and IndexNow was pushing hidden URLs at search engines. Update if you use post passwords or IndexNow.
 
 = 0.5.5 =
 Adds a suggestion to pair Flexa SEO with Flexa Cache, and cleans up one option that uninstall used to leave behind.

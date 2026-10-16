@@ -122,6 +122,13 @@ final class Settings {
 	 * declared type so a hand-edited or corrupt option can never hand a
 	 * consumer the wrong type.
 	 *
+	 * The result is memoised per request, so a filter on the raw
+	 * `option_flexa_seo_aeo_settings` value only takes effect if it is added
+	 * before anything reads a setting, which in practice means before
+	 * `plugins_loaded` finishes. Added later, call {@see self::flush()} after
+	 * it: a filter changes the effective value without touching the stored one,
+	 * and only a stored write drops the memo by itself.
+	 *
 	 * @return array<string, mixed>
 	 */
 	public static function all(): array {
@@ -129,7 +136,11 @@ final class Settings {
 		// front-end request asks for a setting dozens of times, and each ask
 		// re-coerced the whole option. The memo lasts one request; the option
 		// hooks below drop it the moment the stored value changes.
-		$after_init = did_action( 'init' ) > 0;
+		//
+		// `init` itself counts as too early: that is when post types and
+		// taxonomies register, and a plugin on init:20 is as entitled to its
+		// slug as one on plugins_loaded.
+		$after_init = did_action( 'init' ) > 0 && ! doing_action( 'init' );
 		if ( null !== self::$resolved && ! ( self::$resolved_early && $after_init ) ) {
 			return self::$resolved;
 		}
@@ -455,17 +466,19 @@ final class Settings {
 	 * Drop the keys that name nothing real.
 	 *
 	 * Both registries only fill up during `init`, and `all()` runs earlier than
-	 * that for anything reading a setting on `plugins_loaded`. Before `init`
-	 * the list is handed back untouched, because at that point an unknown slug
-	 * means "has not registered yet", not "does not exist", and dropping a
-	 * site's custom post type from its own sitemap would be the worse bug.
+	 * that for anything reading a setting on `plugins_loaded`. Until `init` has
+	 * finished the list is handed back untouched, because up to that point an
+	 * unknown slug means "has not registered yet", not "does not exist", and
+	 * dropping a site's custom post type from its own sitemap would be the
+	 * worse bug. Half way through `init` is the dangerous moment: the registry
+	 * answers, it just answers incompletely.
 	 *
 	 * @param list<string>             $keys
 	 * @param array<array-key, string> $registered Slugs from the WP registry.
 	 * @return list<string>
 	 */
 	private static function registered_only( array $keys, array $registered ): array {
-		if ( [] === $keys || ! did_action( 'init' ) ) {
+		if ( [] === $keys || ! did_action( 'init' ) || doing_action( 'init' ) ) {
 			return $keys;
 		}
 

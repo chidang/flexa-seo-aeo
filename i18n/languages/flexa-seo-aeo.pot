@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-16T06:34:08+00:00\n"
+"POT-Creation-Date: 2026-10-16T07:24:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: flexa-seo-aeo\n"
@@ -191,8 +191,8 @@ msgstr ""
 msgid "Leave blank to use the default title template."
 msgstr ""
 
-#: src/Admin/PostMetabox.php:56 src/Services/Aeo/Readiness.php:230
-#: src/Services/Aeo/Readiness.php:242 editor/sidebar.js:411
+#: src/Admin/PostMetabox.php:56 src/Services/Aeo/Readiness.php:241
+#: src/Services/Aeo/Readiness.php:249 editor/sidebar.js:411
 msgid "Meta description"
 msgstr ""
 
@@ -276,138 +276,153 @@ msgstr ""
 msgid "Structured data"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:233
+#: src/Services/Aeo/Readiness.php:234
 msgid ""
-"Add a meta description. Answer engines often quote it verbatim, and with no "
-"excerpt and nothing in the SEO panel this page has nothing of its own to "
+"A password-protected page is never summarised automatically, in case the "
+"secret is in the body. Write the description by hand if this page should "
+"still be quotable."
+msgstr ""
+
+#: src/Services/Aeo/Readiness.php:236
+msgid ""
+"This page falls back to the site tagline, which reads the same on every "
+"page. One sentence in the SEO panel gives engines something specific to "
 "quote."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:239
+#: src/Services/Aeo/Readiness.php:238
+msgid ""
+"There is nothing here to quote: no description in the SEO panel, no excerpt, "
+"and a body with no plain text in it. A shortcode or page-builder layout "
+"reads as empty, because the scan does not render it. One sentence in the SEO "
+"panel fixes it."
+msgstr ""
+
+#: src/Services/Aeo/Readiness.php:246
 msgid "A concise summary is in place for engines to quote."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:240
+#: src/Services/Aeo/Readiness.php:247
 msgid ""
 "Aim for roughly 50–160 characters so the summary is neither truncated nor "
 "thin."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:253 src/Services/Aeo/Readiness.php:265
+#: src/Services/Aeo/Readiness.php:260 src/Services/Aeo/Readiness.php:272
 msgid "Answer-first opening"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:256
+#: src/Services/Aeo/Readiness.php:263
 msgid ""
 "Open with a 2–3 sentence summary that answers the topic directly; engines "
 "favour the lede."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:262
+#: src/Services/Aeo/Readiness.php:269
 msgid ""
 "The post opens with a self-contained summary an engine can quote as the "
 "answer."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:263
+#: src/Services/Aeo/Readiness.php:270
 msgid ""
 "Tighten the opening paragraph to a self-contained 40–360 character answer."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:289
+#: src/Services/Aeo/Readiness.php:296
 msgid ""
 "Question-style headings map cleanly onto the prompts users actually ask."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:290
+#: src/Services/Aeo/Readiness.php:297
 msgid ""
 "Phrase a few headings as the questions readers ask (e.g. “How does…”, “What "
 "is…?”)."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:292 src/Services/Aeo/SiteAudit.php:629
+#: src/Services/Aeo/Readiness.php:299 src/Services/Aeo/SiteAudit.php:629
 msgid "Question-style headings"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:301
+#: src/Services/Aeo/Readiness.php:308
 msgid "FAQ blocks were detected and are emitted as FAQPage structured data."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:302
+#: src/Services/Aeo/Readiness.php:309
 msgid ""
 "Add a core Details/FAQ block: each question becomes a citable FAQPage entry."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:304 src/Services/Aeo/SiteAudit.php:632
+#: src/Services/Aeo/Readiness.php:311 src/Services/Aeo/SiteAudit.php:632
 msgid "FAQ / Q&A blocks"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:314 src/Services/Aeo/Readiness.php:328
-#: src/Services/Aeo/Readiness.php:337
+#: src/Services/Aeo/Readiness.php:321 src/Services/Aeo/Readiness.php:335
+#: src/Services/Aeo/Readiness.php:344
 msgid "Listed in llms.txt"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:317
+#: src/Services/Aeo/Readiness.php:324
 msgid ""
 "Turn on AEO Core → llms.txt so this content is advertised to language models."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:318
+#: src/Services/Aeo/Readiness.php:325
 msgid "Enable llms.txt"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:331
+#: src/Services/Aeo/Readiness.php:338
 msgid ""
 "This post is excluded from llms.txt (its type is off or it is set to "
 "noindex)."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:340
+#: src/Services/Aeo/Readiness.php:347
 msgid "This post is advertised in /llms.txt for language models to discover."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:353
+#: src/Services/Aeo/Readiness.php:360
 msgid ""
 "A token-cheap Markdown alternate is exposed to AI crawlers via a Link header."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:356
+#: src/Services/Aeo/Readiness.php:363
 msgid ""
 "Enable both Agent Readiness and the Markdown export so crawlers can find and "
 "fetch it."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:359
+#: src/Services/Aeo/Readiness.php:366
 msgid ""
 "Enable AEO Core → Agent Readiness to serve a clean Markdown rendering for AI "
 "agents."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:365
+#: src/Services/Aeo/Readiness.php:372
 msgid "Enable Markdown alternate"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:374
+#: src/Services/Aeo/Readiness.php:381
 msgid "Markdown alternate"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:383
+#: src/Services/Aeo/Readiness.php:390
 msgid ""
 "There is enough substance here for an engine to treat the page as "
 "authoritative."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:386
+#: src/Services/Aeo/Readiness.php:393
 msgid ""
 "Thin content is rarely cited. Expand toward 300+ words of genuine detail."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:389
+#: src/Services/Aeo/Readiness.php:396
 msgid ""
 "This post is very short; engines seldom quote pages with little content."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:392 src/Services/Aeo/SiteAudit.php:631
+#: src/Services/Aeo/Readiness.php:399 src/Services/Aeo/SiteAudit.php:631
 msgid "Content depth"
 msgstr ""
 
@@ -550,7 +565,7 @@ msgstr[1] ""
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: src/Services/Breadcrumbs.php:93 src/Services/Metas.php:168
+#: src/Services/Breadcrumbs.php:93 src/Services/Metas.php:169
 msgid "Page not found"
 msgstr ""
 
@@ -559,54 +574,54 @@ msgid "Home"
 msgstr ""
 
 #. translators: %s is the page number, supplied as the %%page%% token.
-#: src/Services/Metas.php:193
+#: src/Services/Metas.php:194
 msgid "Page %s"
 msgstr ""
 
 #. translators: 1: taxonomy term name, 2: site name.
-#: src/Services/Metas.php:385
+#: src/Services/Metas.php:386
 msgid "Posts filed under %1$s on %2$s."
 msgstr ""
 
 #. translators: 1: author display name, 2: site name.
-#: src/Services/Metas.php:402
+#: src/Services/Metas.php:403
 msgid "Posts written by %1$s on %2$s."
 msgstr ""
 
 #. translators: %s: site name.
-#: src/Services/Metas.php:414
+#: src/Services/Metas.php:415
 msgid "Search results on %s."
 msgstr ""
 
 #. translators: 1: search phrase, 2: site name.
-#: src/Services/Metas.php:421
+#: src/Services/Metas.php:422
 msgid "Search results for “%1$s” on %2$s."
 msgstr ""
 
 #. translators: %s: site name.
-#: src/Services/Metas.php:430
+#: src/Services/Metas.php:431
 msgid ""
 "This page could not be found on %s. Try a search or start again from the "
 "homepage."
 msgstr ""
 
 #. translators: 1: post type plural label, 2: site name.
-#: src/Services/Metas.php:520
+#: src/Services/Metas.php:541
 msgid "All %1$s on %2$s."
 msgstr ""
 
 #. translators: 1: a date or period such as "September 2026", 2: site name.
-#: src/Services/Metas.php:534
+#: src/Services/Metas.php:555
 msgid "Posts from %1$s on %2$s."
 msgstr ""
 
 #. translators: 1: archive name, 2: site name.
-#: src/Services/Metas.php:542
+#: src/Services/Metas.php:563
 msgid "The %1$s archive on %2$s."
 msgstr ""
 
 #. translators: %s: site name.
-#: src/Services/Metas.php:586
+#: src/Services/Metas.php:613
 msgid "The latest posts on %s."
 msgstr ""
 

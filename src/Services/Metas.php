@@ -12,6 +12,7 @@ use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 use WP_Post;
 use WP_Post_Type;
+use WP_Query;
 use WP_Rewrite;
 use WP_Term;
 use WP_User;
@@ -184,7 +185,7 @@ final class Metas {
 		// it back to page 1 asks the engine to drop it, and leaving the title
 		// identical makes the whole set look like one page repeated.
 		$page = $this->current_page();
-		if ( $page > 1 && ! is_404() ) {
+		if ( $page > 1 && ! is_404() && $this->paginates_to( $page ) ) {
 			if ( '' !== $canonical && ! $override ) {
 				$canonical = $this->paged_canonical( $canonical, $page );
 			}
@@ -433,16 +434,6 @@ final class Metas {
 	}
 
 	/**
-	 * Self-referencing canonical for the archives no branch above covers: a
-	 * post type archive and the three date archives.
-	 *
-	 * They are the only indexable views the plugin leaves without one. Core's
-	 * `rel_canonical` fires on singular views only, so an empty value here
-	 * means the page ships no canonical at all, and anything keyed to it (the
-	 * `BreadcrumbList` node) has nothing to key on. Paged views point at the
-	 * first page, which is how every other branch here behaves.
-	 */
-	/**
 	 * The page number of the current view, 1 when it is not paginated.
 	 *
 	 * `paged` counts pages of an archive, `page` counts the parts of a single
@@ -452,6 +443,27 @@ final class Metas {
 		return max( 1, (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) );
 	}
 
+	/**
+	 * Whether the view really has a page `$page`.
+	 *
+	 * Core redirects an out-of-range part of a split post and an archive past
+	 * its last page is a 404, so on most views the question never comes up. A
+	 * static front page is the exception: it answers 200 for `/page/2/` and for
+	 * `/page/99/` alike, with the same body every time. Numbering those would
+	 * hand a crawler an unbounded set of distinct canonicals over one document.
+	 */
+	private function paginates_to( int $page ): bool {
+		if ( is_singular() ) {
+			$post = get_queried_object();
+
+			return $post instanceof WP_Post
+				&& $page <= 1 + substr_count( $post->post_content, '<!--nextpage-->' );
+		}
+
+		global $wp_query;
+
+		return $wp_query instanceof WP_Query && $page <= max( 1, (int) $wp_query->max_num_pages );
+	}
 
 	/**
 	 * The canonical for page N, built from the page-1 canonical rather than from
@@ -475,6 +487,15 @@ final class Metas {
 		return user_trailingslashit( trailingslashit( $base ) . $suffix, $bare ? 'single_paged' : 'paged' );
 	}
 
+	/**
+	 * Self-referencing canonical for the archives no branch above covers: a
+	 * post type archive and the three date archives.
+	 *
+	 * They are the only indexable views the plugin leaves without one. Core's
+	 * `rel_canonical` fires on singular views only, so an empty value here
+	 * means the page ships no canonical at all, and anything keyed to it (the
+	 * `BreadcrumbList` node) has nothing to key on.
+	 */
 	private function archive_canonical(): string {
 		$type = ArchiveType::current();
 		if ( $type instanceof WP_Post_Type ) {
@@ -562,7 +583,13 @@ final class Metas {
 	 * the tagline was never filled in. Both are empty on plenty of installs, so
 	 * callers still have to cope with ''.
 	 */
-	private function site_description(): string {
+	/**
+	 * The site-level sentence every page falls back to: the tagline, then the
+	 * AEO site description. Public because the readiness scorer has to grade
+	 * the description a page will really ship, and on a page with nothing of
+	 * its own that is this one.
+	 */
+	public function site_description(): string {
 		$tagline = trim( (string) get_bloginfo( 'description' ) );
 		if ( '' !== $tagline ) {
 			return $tagline;

@@ -225,13 +225,20 @@ final class Readiness {
 
 		$length = $this->length( $description );
 		if ( 0 === $length ) {
-			return $this->row(
-				'meta_description',
-				__( 'Meta description', 'flexa-seo-aeo' ),
-				'fail',
-				15,
-				__( 'Add a meta description. Answer engines often quote it verbatim, and with no excerpt and nothing in the SEO panel this page has nothing of its own to quote.', 'flexa-seo-aeo' )
-			);
+			// The page has no sentence of its own, and the plugin will not
+			// invent one. What the head prints here is the site tagline or
+			// nothing at all, so the row says which, and says it as a warning:
+			// a shortcode or page-builder layout has no prose to quote in the
+			// first place, and that is not a fault in the content.
+			if ( '' !== $post->post_password ) {
+				$hint = __( 'A password-protected page is never summarised automatically, in case the secret is in the body. Write the description by hand if this page should still be quotable.', 'flexa-seo-aeo' );
+			} elseif ( '' !== MetasService::instance()->site_description() ) {
+				$hint = __( 'This page falls back to the site tagline, which reads the same on every page. One sentence in the SEO panel gives engines something specific to quote.', 'flexa-seo-aeo' );
+			} else {
+				$hint = __( 'There is nothing here to quote: no description in the SEO panel, no excerpt, and a body with no plain text in it. A shortcode or page-builder layout reads as empty, because the scan does not render it. One sentence in the SEO panel fixes it.', 'flexa-seo-aeo' );
+			}
+
+			return $this->row( 'meta_description', __( 'Meta description', 'flexa-seo-aeo' ), 'warn', 15, $hint );
 		}
 
 		$status = ( $length >= 50 && $length <= 160 ) ? 'pass' : 'warn';
