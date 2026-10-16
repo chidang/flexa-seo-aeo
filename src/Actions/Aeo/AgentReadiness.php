@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flexa\SeoAeo\Actions\Aeo;
 
 use Flexa\SeoAeo\Services\Aeo\ContentMarkdown;
+use Flexa\SeoAeo\Support\CacheHeaders;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 use WP_Post;
@@ -71,13 +72,15 @@ final class AgentReadiness {
 			return;
 		}
 
-		if ( ! headers_sent() ) {
-			header( 'Content-Type: text/markdown; charset=UTF-8' );
-			header( 'X-Robots-Tag: noindex, follow', true );
+		$markdown = ContentMarkdown::instance()->render( $post );
+		$modified = (int) strtotime( $post->post_modified_gmt . ' GMT' );
+
+		if ( CacheHeaders::serve( 'text/markdown', $markdown, max( 0, $modified ) ) ) {
+			exit;
 		}
 
-		// Raw Markdown output — escaping would corrupt the document.
-		echo ContentMarkdown::instance()->render( $post ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// Raw Markdown output, since escaping would corrupt the document.
+		echo $markdown; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit;
 	}
 

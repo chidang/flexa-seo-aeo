@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flexa\SeoAeo\Actions\Aeo;
 
 use Flexa\SeoAeo\Services\Aeo\LlmsTxt as LlmsTxtService;
+use Flexa\SeoAeo\Support\CacheHeaders;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 
@@ -53,14 +54,19 @@ final class LlmsTxt {
 			return;
 		}
 
-		if ( ! headers_sent() ) {
-			header( 'Content-Type: text/plain; charset=UTF-8' );
-			header( 'X-Robots-Tag: noindex, follow', true );
+		$document = LlmsTxtService::instance()->document();
+
+		// The file lists posts, so the newest post edit is the only thing that
+		// can date it. The ETag covers the rest, including a settings change.
+		$modified = (int) strtotime( (string) get_lastpostmodified( 'gmt' ) . ' GMT' );
+
+		if ( CacheHeaders::serve( 'text/plain', $document, max( 0, $modified ) ) ) {
+			exit;
 		}
 
 		// The document is plain text assembled from already-escaped URLs/titles;
 		// echoing raw is correct here (esc_html would corrupt the markdown).
-		echo LlmsTxtService::instance()->document(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $document; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit;
 	}
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flexa\SeoAeo\Actions\Sitemap;
 
 use Flexa\SeoAeo\Services\Sitemap as SitemapService;
+use Flexa\SeoAeo\Support\CacheHeaders;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 
@@ -106,21 +107,22 @@ final class Router {
 		}
 
 		if ( 'xsl' === $what ) {
-			$this->send_headers( 'application/xslt+xml' );
-			$this->template( 'stylesheet', [] );
-			exit;
+			// The stylesheet ships with the plugin, so its own file date is the
+			// only thing that can change it.
+			$this->send( 'application/xslt+xml', $this->render_template( 'stylesheet', [] ), $this->stylesheet_mtime() );
 		}
 
 		if ( 'index' === $what ) {
-			$this->send_headers( 'application/xml' );
-			$this->template(
+			$entries = SitemapService::instance()->index();
+			$body    = $this->render_template(
 				'index',
 				[
-					'entries'    => SitemapService::instance()->index(),
+					'entries'    => $entries,
 					'stylesheet' => SitemapService::instance()->stylesheet_url(),
 				]
 			);
-			exit;
+
+			$this->send( 'application/xml', $body, CacheHeaders::newest_lastmod( $entries ) );
 		}
 
 		$subtype = (string) get_query_var( 'flexa_sitemap_subtype' );
@@ -135,8 +137,7 @@ final class Router {
 			return;
 		}
 
-		$this->send_headers( 'application/xml' );
-		$this->template(
+		$body = $this->render_template(
 			'urlset',
 			[
 				'entries'     => $entries,
@@ -144,14 +145,30 @@ final class Router {
 				'with_images' => (bool) Settings::get( 'xml_sitemap_images' ),
 			]
 		);
+
+		$this->send( 'application/xml', $body, CacheHeaders::newest_lastmod( $entries ) );
+	}
+
+	/**
+	 * Send a finished document and stop. A crawler that already holds this
+	 * exact body gets a 304 and no bytes.
+	 */
+	private function send( string $content_type, string $body, int $modified ): void {
+		if ( CacheHeaders::serve( $content_type, $body, $modified ) ) {
+			exit;
+		}
+
+		// Already-escaped XML assembled by the template; escaping again would
+		// corrupt it.
+		echo $body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit;
 	}
 
-	private function send_headers( string $content_type ): void {
-		if ( ! headers_sent() ) {
-			header( 'Content-Type: ' . $content_type . '; charset=UTF-8' );
-			header( 'X-Robots-Tag: noindex, follow', true );
-		}
+	private function stylesheet_mtime(): int {
+		$file  = FLEXA_SEO_AEO_PATH . 'templates/sitemap/stylesheet.php';
+		$stamp = is_readable( $file ) ? filemtime( $file ) : false;
+
+		return false !== $stamp ? $stamp : 0;
 	}
 
 	/**
@@ -168,18 +185,24 @@ final class Router {
 	}
 
 	/**
+	 * Run a template and capture what it prints, so the body can be hashed into
+	 * an ETag before anything is sent.
+	 *
 	 * @param array<string, mixed> $vars
 	 */
-	private function template( string $name, array $vars ): void {
+	private function render_template( string $name, array $vars ): string {
 		$file = FLEXA_SEO_AEO_PATH . 'templates/sitemap/' . $name . '.php';
 		if ( ! is_readable( $file ) ) {
-			return;
+			return '';
 		}
 
+		ob_start();
 		( static function () use ( $file, $vars ): void {
 			// phpcs:ignore WordPress.PHP.DontExtract.extract_extract -- controlled, sanitized template vars.
 			extract( $vars, EXTR_SKIP );
 			require $file;
 		} )();
+
+		return (string) ob_get_clean();
 	}
 }
