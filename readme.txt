@@ -4,7 +4,7 @@ Tags: seo, schema, sitemap, aeo, woocommerce
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 0.5.5
+Stable tag: 0.5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.0
@@ -142,6 +142,14 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 
 == Changelog ==
 
+= 0.5.6 =
+* Security: a password-protected post could have its contents read by anyone, with no password. The first 160 characters of the body were published as the meta description and repeated in the Open Graph and Twitter tags, `/llms.txt` carried a 150-character extract next to the URL, the XML and HTML sitemaps advertised the post, and a post using Details blocks had its questions and answers published in full as FAQ structured data, with no length limit at all. All of those now treat a protected post as having nothing quotable, and the sitemaps leave it out. If you want protected posts listed in the sitemap anyway, because only the body is meant to be private, `add_filter( 'flexa_seo_aeo/sitemap/include_password_protected', '__return_true' );` brings that part back.
+* Fix: the site served two sitemap indexes at once, WordPress's own at `/wp-sitemap.xml` and this plugin's at `/sitemap.xml`, listing the same content under two sets of URLs and leaving search engines to pick. WordPress's is switched off now whenever the plugin's sitemap is on, so there is one index to submit. The `flexa_seo_aeo/sitemap/keep_core_sitemap` filter keeps both if you need them.
+* Fix: a generated description could run two words together where one paragraph or heading ended and the next began, so a post opening "What is QA?" followed by "It is testing." produced "What is QA?It is testing." Block boundaries become a space before the tags are stripped. Words inside a sentence, around `<strong>` or a link, still close up the way they should.
+* New: every readiness check is now labelled `documented`, `observed` or `heuristic`, in the block-editor sidebar and on the Dashboard, so you can tell a requirement a search or AI vendor publishes from a reasoned bet of ours.
+* New: the full scoring rubric and a tested compatibility matrix are published at https://flexa-seo-aeo.vercel.app/. The rubric gives every weight and threshold and the reasoning behind them; the matrix records what actually happens when this plugin runs next to Yoast, Rank Math, All in One SEO or SEOPress, naming the versions tested and the duplicate tags each pairing produces.
+* Fix: the readme described one-click migration from SEOPress, which the plugin does not do. Migration covers Yoast and Rank Math; the SEOPress claims are gone.
+
 = 0.5.5 =
 * New: the Dashboard and Settings > Tools now point you at Flexa Cache, our free page cache. Flexa SEO builds your tags, schema and sitemap entries while WordPress puts a page together, and a page cache is what stops that happening again for the next visitor. The button opens the WordPress.org listing in a new tab, so nothing is installed behind your back; if you already have Flexa Cache sitting there switched off, it activates it instead. The Dashboard card can be closed for good; the Tools row stays. Neither appears if Flexa Cache is already running, or if you have white-label mode on.
 * Fix: uninstalling the plugin left the Setup Assistant's progress behind in the options table. It is removed now, along with the new dismissal flag.
@@ -191,6 +199,9 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 * Initial release: **Answer-Engine Readiness Score** (per-post 0–100 grade + actionable checklist in the block editor), title/meta templating, Open Graph & Twitter, canonical & robots, XML/HTML sitemaps, robots.txt, IndexNow, llms.txt, Agent Readiness Markdown export, JSON-LD schema (Article/WebPage/WebSite/Organization/FAQ), one-click migration from Yoast and Rank Math, optional WooCommerce Product schema, and a React admin app.
 
 == Upgrade Notice ==
+
+= 0.5.6 =
+Security: password-protected posts were having their contents published in meta tags, FAQ structured data, sitemaps and llms.txt. Update if you use post passwords.
 
 = 0.5.5 =
 Adds a suggestion to pair Flexa SEO with Flexa Cache, and cleans up one option that uninstall used to leave behind.

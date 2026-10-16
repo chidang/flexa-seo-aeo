@@ -3,14 +3,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Flexa SEO - AEO | AI SEO & Answer Engine Optimization "
-"0.5.5\n"
+"0.5.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flexa-seo-aeo\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-16T01:39:23+00:00\n"
+"POT-Creation-Date: 2026-10-16T02:53:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: flexa-seo-aeo\n"
@@ -520,54 +520,54 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Services/Metas.php:143
+#: src/Services/Metas.php:151
 msgid "Page not found"
 msgstr ""
 
 #. translators: 1: taxonomy term name, 2: site name.
-#: src/Services/Metas.php:323
+#: src/Services/Metas.php:331
 msgid "Posts filed under %1$s on %2$s."
 msgstr ""
 
 #. translators: 1: author display name, 2: site name.
-#: src/Services/Metas.php:340
+#: src/Services/Metas.php:348
 msgid "Posts written by %1$s on %2$s."
 msgstr ""
 
 #. translators: %s: site name.
-#: src/Services/Metas.php:352
+#: src/Services/Metas.php:360
 msgid "Search results on %s."
 msgstr ""
 
 #. translators: 1: search phrase, 2: site name.
-#: src/Services/Metas.php:359
+#: src/Services/Metas.php:367
 msgid "Search results for “%1$s” on %2$s."
 msgstr ""
 
 #. translators: %s: site name.
-#: src/Services/Metas.php:368
+#: src/Services/Metas.php:376
 msgid ""
 "This page could not be found on %s. Try a search or start again from the "
 "homepage."
 msgstr ""
 
 #. translators: 1: post type plural label, 2: site name.
-#: src/Services/Metas.php:390
+#: src/Services/Metas.php:398
 msgid "All %1$s on %2$s."
 msgstr ""
 
 #. translators: 1: a date or period such as "September 2026", 2: site name.
-#: src/Services/Metas.php:404
+#: src/Services/Metas.php:412
 msgid "Posts from %1$s on %2$s."
 msgstr ""
 
 #. translators: 1: archive name, 2: site name.
-#: src/Services/Metas.php:412
+#: src/Services/Metas.php:420
 msgid "The %1$s archive on %2$s."
 msgstr ""
 
 #. translators: %s: site name.
-#: src/Services/Metas.php:456
+#: src/Services/Metas.php:464
 msgid "The latest posts on %s."
 msgstr ""
 
