@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flexa\SeoAeo\Services\Onboarding;
 
 use Flexa\SeoAeo\Services\Migration\Migrator;
+use Flexa\SeoAeo\Support\SeoConflicts;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 
@@ -21,17 +22,6 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Detector {
 	use SingletonTrait;
-
-	/**
-	 * Source id => the source plugin's main file, for the active-conflict check.
-	 * Mirrors the ids in {@see \Flexa\SeoAeo\Services\Migration\LegacyMapper}.
-	 *
-	 * @var array<string, string>
-	 */
-	private const PLUGIN_FILES = [
-		'yoast'    => 'wordpress-seo/wp-seo.php',
-		'rankmath' => 'seo-by-rank-math/rank-math.php',
-	];
 
 	/**
 	 * The full detection payload for `GET /onboarding`.
@@ -56,6 +46,7 @@ final class Detector {
 			'latest_post_id'            => $this->latest_post_id(),
 			'knowledge_type_suggestion' => 'organization',
 			'seo_plugins'               => $this->seo_plugins(),
+			'active_seo_plugins'        => array_values( SeoConflicts::active() ),
 			'settings_configured'       => $this->settings_configured(),
 		];
 	}
@@ -139,21 +130,13 @@ final class Detector {
 			$out[] = [
 				'id'         => $id,
 				'label'      => (string) $source['label'],
-				'active'     => isset( self::PLUGIN_FILES[ $id ] ) && $this->is_plugin_active( self::PLUGIN_FILES[ $id ] ),
+				'active'     => SeoConflicts::is_plugin_active( $id ),
 				'migratable' => $count > 0,
 				'count'      => $count,
 			];
 		}
 
 		return $out;
-	}
-
-	private function is_plugin_active( string $plugin_file ): bool {
-		if ( ! function_exists( 'is_plugin_active' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-
-		return is_plugin_active( $plugin_file );
 	}
 
 	/**

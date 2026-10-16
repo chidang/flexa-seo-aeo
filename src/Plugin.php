@@ -142,6 +142,12 @@ final class Plugin {
 			Engine\DeactivationSurvey::instance();
 		}
 
+		// Persistent warning when another SEO plugin is active. Outside the
+		// Setup Assistant, which only ever ran once.
+		if ( class_exists( Admin\ConflictNotice::class ) ) {
+			Admin\ConflictNotice::instance()->register();
+		}
+
 		if ( class_exists( Admin\AdminMenu::class ) ) {
 			Admin\AdminMenu::instance()->register();
 		}
