@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-14T00:30:13+00:00\n"
+"POT-Creation-Date: 2026-10-16T01:39:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: flexa-seo-aeo\n"
@@ -155,7 +155,7 @@ msgstr ""
 msgid "Flexa SEO — Search & AI"
 msgstr ""
 
-#: src/Admin/PostMetabox.php:55 editor/sidebar.js:349
+#: src/Admin/PostMetabox.php:55 editor/sidebar.js:406
 msgid "SEO title"
 msgstr ""
 
@@ -163,8 +163,8 @@ msgstr ""
 msgid "Leave blank to use the default title template."
 msgstr ""
 
-#: src/Admin/PostMetabox.php:56 src/Services/Aeo/Readiness.php:167
-#: src/Services/Aeo/Readiness.php:179 editor/sidebar.js:354
+#: src/Admin/PostMetabox.php:56 src/Services/Aeo/Readiness.php:230
+#: src/Services/Aeo/Readiness.php:242 editor/sidebar.js:411
 msgid "Meta description"
 msgstr ""
 
@@ -172,7 +172,7 @@ msgstr ""
 msgid "Leave blank to use the excerpt."
 msgstr ""
 
-#: src/Admin/PostMetabox.php:57 editor/sidebar.js:359
+#: src/Admin/PostMetabox.php:57 editor/sidebar.js:416
 msgid "Canonical URL"
 msgstr ""
 
@@ -180,15 +180,15 @@ msgstr ""
 msgid "Override only if this content canonicalises elsewhere."
 msgstr ""
 
-#: src/Admin/PostMetabox.php:59 editor/sidebar.js:365
+#: src/Admin/PostMetabox.php:59 editor/sidebar.js:422
 msgid "Robots"
 msgstr ""
 
-#: src/Admin/PostMetabox.php:60 editor/sidebar.js:368
+#: src/Admin/PostMetabox.php:60 editor/sidebar.js:425
 msgid "No index"
 msgstr ""
 
-#: src/Admin/PostMetabox.php:61 editor/sidebar.js:373
+#: src/Admin/PostMetabox.php:61 editor/sidebar.js:430
 msgid "No follow"
 msgstr ""
 
@@ -208,7 +208,7 @@ msgstr ""
 msgid "Social image URL"
 msgstr ""
 
-#: src/Admin/PostMetabox.php:67 editor/sidebar.js:385
+#: src/Admin/PostMetabox.php:67 editor/sidebar.js:442
 msgid "Falls back to the featured image."
 msgstr ""
 
@@ -232,285 +232,285 @@ msgstr ""
 msgid "You cannot edit this post."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:140
+#: src/Services/Aeo/Readiness.php:203
 msgid ""
 "JSON-LD is emitted for this post so engines can lift facts out as structured "
 "data."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:141
+#: src/Services/Aeo/Readiness.php:204
 msgid ""
 "Enable AEO Core → Structured data so this post ships an Article/WebPage JSON-"
 "LD graph."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:144
+#: src/Services/Aeo/Readiness.php:207
 msgid "Enable structured data"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:146 src/Services/Aeo/SiteAudit.php:489
+#: src/Services/Aeo/Readiness.php:209 src/Services/Aeo/SiteAudit.php:490
 msgid "Structured data"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:170
+#: src/Services/Aeo/Readiness.php:233
 msgid ""
 "Add a meta description — answer engines often quote it verbatim as the "
 "summary."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:176
+#: src/Services/Aeo/Readiness.php:239
 msgid "A concise summary is in place for engines to quote."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:177
+#: src/Services/Aeo/Readiness.php:240
 msgid ""
 "Aim for roughly 50–160 characters so the summary is neither truncated nor "
 "thin."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:190 src/Services/Aeo/Readiness.php:202
+#: src/Services/Aeo/Readiness.php:253 src/Services/Aeo/Readiness.php:265
 msgid "Answer-first opening"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:193
+#: src/Services/Aeo/Readiness.php:256
 msgid ""
 "Open with a 2–3 sentence summary that answers the topic directly — engines "
 "favour the lede."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:199
+#: src/Services/Aeo/Readiness.php:262
 msgid ""
 "The post opens with a self-contained summary an engine can quote as the "
 "answer."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:200
+#: src/Services/Aeo/Readiness.php:263
 msgid ""
 "Tighten the opening paragraph to a self-contained 40–360 character answer."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:226
+#: src/Services/Aeo/Readiness.php:289
 msgid ""
 "Question-style headings map cleanly onto the prompts users actually ask."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:227
+#: src/Services/Aeo/Readiness.php:290
 msgid ""
 "Phrase a few headings as the questions readers ask (e.g. “How does…”, “What "
 "is…?”)."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:229 src/Services/Aeo/SiteAudit.php:620
+#: src/Services/Aeo/Readiness.php:292 src/Services/Aeo/SiteAudit.php:621
 msgid "Question-style headings"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:238
+#: src/Services/Aeo/Readiness.php:301
 msgid "FAQ blocks were detected and are emitted as FAQPage structured data."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:239
+#: src/Services/Aeo/Readiness.php:302
 msgid ""
 "Add a core Details/FAQ block — each question becomes a citable FAQPage entry."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:241 src/Services/Aeo/SiteAudit.php:623
+#: src/Services/Aeo/Readiness.php:304 src/Services/Aeo/SiteAudit.php:624
 msgid "FAQ / Q&A blocks"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:251 src/Services/Aeo/Readiness.php:265
-#: src/Services/Aeo/Readiness.php:274
+#: src/Services/Aeo/Readiness.php:314 src/Services/Aeo/Readiness.php:328
+#: src/Services/Aeo/Readiness.php:337
 msgid "Listed in llms.txt"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:254
+#: src/Services/Aeo/Readiness.php:317
 msgid ""
 "Turn on AEO Core → llms.txt so this content is advertised to language models."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:255
+#: src/Services/Aeo/Readiness.php:318
 msgid "Enable llms.txt"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:268
+#: src/Services/Aeo/Readiness.php:331
 msgid ""
 "This post is excluded from llms.txt (its type is off or it is set to "
 "noindex)."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:277
+#: src/Services/Aeo/Readiness.php:340
 msgid "This post is advertised in /llms.txt for language models to discover."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:290
+#: src/Services/Aeo/Readiness.php:353
 msgid ""
 "A token-cheap Markdown alternate is exposed to AI crawlers via a Link header."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:293
+#: src/Services/Aeo/Readiness.php:356
 msgid ""
 "Enable both Agent Readiness and the Markdown export so crawlers can find and "
 "fetch it."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:296
+#: src/Services/Aeo/Readiness.php:359
 msgid ""
 "Enable AEO Core → Agent Readiness to serve a clean Markdown rendering for AI "
 "agents."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:302
+#: src/Services/Aeo/Readiness.php:365
 msgid "Enable Markdown alternate"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:311
+#: src/Services/Aeo/Readiness.php:374
 msgid "Markdown alternate"
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:320
+#: src/Services/Aeo/Readiness.php:383
 msgid ""
 "There is enough substance here for an engine to treat the page as "
 "authoritative."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:323
+#: src/Services/Aeo/Readiness.php:386
 msgid ""
 "Thin content is rarely cited — expand toward 300+ words of genuine detail."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:326
+#: src/Services/Aeo/Readiness.php:389
 msgid ""
 "This post is very short; engines seldom quote pages with little content."
 msgstr ""
 
-#: src/Services/Aeo/Readiness.php:329 src/Services/Aeo/SiteAudit.php:622
+#: src/Services/Aeo/Readiness.php:392 src/Services/Aeo/SiteAudit.php:623
 msgid "Content depth"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:268
+#: src/Services/Aeo/SiteAudit.php:269
 msgid "Titles & meta output"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:273
+#: src/Services/Aeo/SiteAudit.php:274
 msgid ""
 "Turn on Titles & meta so every page ships a <title> and meta description."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:277
+#: src/Services/Aeo/SiteAudit.php:278
 #: src/Services/Onboarding/Recommended.php:48
 msgid "XML sitemap"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:282
+#: src/Services/Aeo/SiteAudit.php:283
 msgid ""
 "Enable the XML sitemap so search and answer engines can discover every post."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:286
+#: src/Services/Aeo/SiteAudit.php:287
 msgid "Structured data (JSON-LD)"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:291
+#: src/Services/Aeo/SiteAudit.php:292
 msgid "Enable AEO structured data so engines can lift facts out as JSON-LD."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:295
+#: src/Services/Aeo/SiteAudit.php:296
 msgid "Open Graph tags"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:300
+#: src/Services/Aeo/SiteAudit.php:301
 msgid "Turn on Open Graph so shared links render a rich preview."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:304
+#: src/Services/Aeo/SiteAudit.php:305
 msgid "X (Twitter) Cards"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:309
+#: src/Services/Aeo/SiteAudit.php:310
 msgid "Enable X Cards for richer previews when content is shared on X."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:313
+#: src/Services/Aeo/SiteAudit.php:314
 msgid "Breadcrumbs"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:318
+#: src/Services/Aeo/SiteAudit.php:319
 msgid "Enable breadcrumbs to add BreadcrumbList schema and clearer navigation."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:322
+#: src/Services/Aeo/SiteAudit.php:323
 msgid "Image alt text"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:327
+#: src/Services/Aeo/SiteAudit.php:328
 msgid ""
 "Auto-fill missing image alt text so images are described for search and "
 "screen readers."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:331
+#: src/Services/Aeo/SiteAudit.php:332
 msgid "IndexNow"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:336
+#: src/Services/Aeo/SiteAudit.php:337
 msgid ""
 "Turn on IndexNow to push near-instant recrawl signals on publish and update."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:340
+#: src/Services/Aeo/SiteAudit.php:341
 msgid "llms.txt"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:345
+#: src/Services/Aeo/SiteAudit.php:346
 msgid "Serve /llms.txt so AI answer engines get a curated map of your content."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:352
+#: src/Services/Aeo/SiteAudit.php:353
 msgid "WooCommerce product schema"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:357
+#: src/Services/Aeo/SiteAudit.php:358
 msgid ""
 "Emit Product / Offer JSON-LD so products surface in AI shopping answers."
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:427
+#: src/Services/Aeo/SiteAudit.php:428
 msgid "Technical SEO"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:428
+#: src/Services/Aeo/SiteAudit.php:429
 msgid "Content SEO"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:429
+#: src/Services/Aeo/SiteAudit.php:430
 msgid "Schema"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:432
+#: src/Services/Aeo/SiteAudit.php:433
 msgid "Internal linking"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:488
+#: src/Services/Aeo/SiteAudit.php:489
 msgid "Answer readiness"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:490
+#: src/Services/Aeo/SiteAudit.php:491
 msgid "Content comprehensiveness"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:497
+#: src/Services/Aeo/SiteAudit.php:498
 msgid "Entity clarity"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:619
+#: src/Services/Aeo/SiteAudit.php:620
 msgid "Answer-first openings"
 msgstr ""
 
-#: src/Services/Aeo/SiteAudit.php:621
+#: src/Services/Aeo/SiteAudit.php:622
 msgid "Meta descriptions"
 msgstr ""
 
 #. translators: 1: number of posts, 2: signal name.
-#: src/Services/Aeo/SiteAudit.php:649
+#: src/Services/Aeo/SiteAudit.php:650
 msgid ""
 "%1$d scanned post needs work on %2$s — open each and follow the readiness "
 "checklist."
@@ -633,7 +633,7 @@ msgid ""
 "your site."
 msgstr ""
 
-#: views/admin-app.php:11 editor/sidebar.js:334 editor/sidebar.js:340
+#: views/admin-app.php:11 editor/sidebar.js:391 editor/sidebar.js:397
 msgid "Flexa SEO"
 msgstr ""
 
@@ -641,101 +641,127 @@ msgstr ""
 msgid "No published content to list yet."
 msgstr ""
 
-#: editor/sidebar.js:51
+#: editor/sidebar.js:59
+msgid "Documented"
+msgstr ""
+
+#: editor/sidebar.js:60
+msgid "Described in a search or AI vendor’s own published guidance."
+msgstr ""
+
+#: editor/sidebar.js:65
+msgid "Observed"
+msgstr ""
+
+#: editor/sidebar.js:66
+msgid ""
+"Associated with being quoted in testing and third-party studies, but not "
+"documented by any engine."
+msgstr ""
+
+#: editor/sidebar.js:71
+msgid "Heuristic"
+msgstr ""
+
+#: editor/sidebar.js:72
+msgid "Our own judgement call. No engine has confirmed it reads this signal."
+msgstr ""
+
+#: editor/sidebar.js:79
 msgid "Excellent"
 msgstr ""
 
-#: editor/sidebar.js:52
+#: editor/sidebar.js:80
 msgid "Good"
 msgstr ""
 
-#: editor/sidebar.js:53
+#: editor/sidebar.js:81
 msgid "Fair"
 msgstr ""
 
-#: editor/sidebar.js:54
+#: editor/sidebar.js:82
 msgid "Needs work"
 msgstr ""
 
-#: editor/sidebar.js:157
+#: editor/sidebar.js:213
 msgid "Scoring…"
 msgstr ""
 
-#: editor/sidebar.js:158
+#: editor/sidebar.js:214
 msgid "Save the post to calculate its readiness score."
 msgstr ""
 
-#: editor/sidebar.js:231
+#: editor/sidebar.js:288
 msgid "Enabling…"
 msgstr ""
 
-#: editor/sidebar.js:234
+#: editor/sidebar.js:291
 msgid "site-wide"
 msgstr ""
 
-#: editor/sidebar.js:261
+#: editor/sidebar.js:318
 msgid "Re-check readiness"
 msgstr ""
 
-#: editor/sidebar.js:267
+#: editor/sidebar.js:324
 msgid "Answer-Engine Readiness"
 msgstr ""
 
-#: editor/sidebar.js:346
+#: editor/sidebar.js:403
 msgid "Search Appearance"
 msgstr ""
 
-#: editor/sidebar.js:350
+#: editor/sidebar.js:407
 msgid "Overrides the computed <title>. Supports %%tokens%%."
 msgstr ""
 
-#: editor/sidebar.js:355
+#: editor/sidebar.js:412
 msgid "The snippet search and answer engines may show."
 msgstr ""
 
-#: editor/sidebar.js:360
+#: editor/sidebar.js:417
 msgid "Leave blank to use this post’s permalink."
 msgstr ""
 
-#: editor/sidebar.js:369
+#: editor/sidebar.js:426
 msgid ""
 "Ask engines not to index this page (also excludes it from the sitemap and "
 "llms.txt)."
 msgstr ""
 
-#: editor/sidebar.js:374
+#: editor/sidebar.js:431
 msgid "Ask engines not to follow links on this page."
 msgstr ""
 
-#: editor/sidebar.js:379
+#: editor/sidebar.js:436
 msgid "Open Graph"
 msgstr ""
 
-#: editor/sidebar.js:380
+#: editor/sidebar.js:437
 msgid "OG title"
 msgstr ""
 
-#: editor/sidebar.js:381
+#: editor/sidebar.js:438
 msgid "OG description"
 msgstr ""
 
-#: editor/sidebar.js:384
+#: editor/sidebar.js:441
 msgid "OG image URL"
 msgstr ""
 
-#: editor/sidebar.js:390
+#: editor/sidebar.js:447
 msgid "X (Twitter)"
 msgstr ""
 
-#: editor/sidebar.js:391
+#: editor/sidebar.js:448
 msgid "Card title"
 msgstr ""
 
-#: editor/sidebar.js:392
+#: editor/sidebar.js:449
 msgid "Card description"
 msgstr ""
 
-#: editor/sidebar.js:393
+#: editor/sidebar.js:450
 msgid "Card image URL"
 msgstr ""
 
@@ -815,7 +841,7 @@ msgid ""
 "%s is still active. Deactivate it after setup to avoid duplicate meta tags."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:795
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:844
 #: apps/admin/src/features/onboarding/ContentStep.tsx:99
 msgid "(no title)"
 msgstr ""
@@ -831,8 +857,8 @@ msgid ""
 "A short description answer engines can quote. Shown at the top of llms.txt."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:351
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:654
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:352
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:655
 #: apps/admin/src/features/onboarding/ReportStep.tsx:97
 msgid "AEO"
 msgstr ""
@@ -842,11 +868,11 @@ msgstr ""
 msgid "AEO Core"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:192
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:193
 msgid "AEO Health"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:169
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:170
 msgid "AEO Score"
 msgstr ""
 
@@ -866,7 +892,7 @@ msgstr ""
 msgid "AI readiness"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:660
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:661
 msgid "Action"
 msgstr ""
 
@@ -908,7 +934,7 @@ msgstr ""
 msgid "Agent Readiness"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:849
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:898
 msgid "All readiness checks pass now. 🎉"
 msgstr ""
 
@@ -995,7 +1021,7 @@ msgstr ""
 msgid "Clean up URLs and control how links behave on the front end."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:646
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:647
 msgid "Click a row to see what to fix."
 msgstr ""
 
@@ -1035,11 +1061,11 @@ msgstr ""
 msgid "Could not read the file."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:766
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:815
 msgid "Couldn’t apply that fix."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:428
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:429
 msgid "Critical"
 msgstr ""
 
@@ -1058,7 +1084,7 @@ msgstr ""
 
 #: apps/admin/src/app/App.tsx:15
 #: apps/admin/src/components/CommandPalette.tsx:56
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:126
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:127
 msgid "Dashboard"
 msgstr ""
 
@@ -1074,7 +1100,7 @@ msgstr ""
 msgid "Destructive actions"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:850
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:899
 msgid ""
 "Details aren’t loaded yet — run “Scan now” at the top to refresh this list."
 msgstr ""
@@ -1107,7 +1133,7 @@ msgstr ""
 msgid "Download the current configuration as a JSON file."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:834
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:883
 msgid "Edit"
 msgstr ""
 
@@ -1137,11 +1163,11 @@ msgstr ""
 msgid "Enabled during setup"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:761
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:810
 msgid "Enabled site-wide — your pages are being re-scored."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:641
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:642
 msgid "Every scanned page is in good shape. 🎉"
 msgstr ""
 
@@ -1173,11 +1199,11 @@ msgstr ""
 msgid "Failed to load settings:"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:93
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:94
 msgid "Failed to load the dashboard:"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:914
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:964
 msgid "Fix in editor"
 msgstr ""
 
@@ -1221,7 +1247,7 @@ msgstr ""
 msgid "Homepage title"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:129
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:130
 msgid "How healthy is your site, what is wrong, and what to fix next."
 msgstr ""
 
@@ -1278,11 +1304,11 @@ msgstr ""
 msgid "Indexing"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:657
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:658
 msgid "Issues"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:466
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:467
 msgid "Issues overview"
 msgstr ""
 
@@ -1302,7 +1328,7 @@ msgstr ""
 msgid "Language: %s"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:137
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:138
 msgid "Last scan analysed %d posts."
 msgstr ""
 
@@ -1323,7 +1349,7 @@ msgstr ""
 msgid "Links"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:86
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:87
 msgid "Loading dashboard…"
 msgstr ""
 
@@ -1375,7 +1401,7 @@ msgstr ""
 msgid "No matching commands."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:138
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:139
 msgid "No scan yet."
 msgstr ""
 
@@ -1391,7 +1417,7 @@ msgstr ""
 msgid "Nothing available."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:590
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:591
 msgid "Nothing urgent — your configuration looks healthy."
 msgstr ""
 
@@ -1424,7 +1450,7 @@ msgstr ""
 msgid "Opens /sitemap.xml"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:442
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:443
 msgid "Opportunities"
 msgstr ""
 
@@ -1457,7 +1483,7 @@ msgstr ""
 msgid "Overwrite existing Flexa values"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:652
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:653
 msgid "Page"
 msgstr ""
 
@@ -1468,11 +1494,11 @@ msgid ""
 "builds are not rebuilt on every visit."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:636
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:637
 msgid "Pages needing attention"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:449
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:450
 msgid "Passed"
 msgstr ""
 
@@ -1516,7 +1542,7 @@ msgid ""
 "values."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:585
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:586
 msgid "Recommended actions"
 msgstr ""
 
@@ -1564,15 +1590,15 @@ msgstr ""
 msgid "Report"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:747
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:796
 msgid "Rescan failed."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:929
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:979
 msgid "Rescan this page"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:929
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:979
 msgid "Rescanning…"
 msgstr ""
 
@@ -1622,32 +1648,32 @@ msgstr ""
 msgid "Rich preview cards on X."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:640
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:641
 msgid "Run a scan to surface the pages that need work."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:344
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:345
 msgid "Run “Scan now” a few times to build a score history here."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:350
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:351
 #: apps/admin/src/features/onboarding/ReportStep.tsx:92
 msgid "SEO"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:340
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:341
 msgid "SEO & AEO trend"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:191
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:192
 msgid "SEO Health"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:163
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:164
 msgid "SEO Score"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:385
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:386
 msgid "SEO and AEO score history"
 msgstr ""
 
@@ -1671,7 +1697,7 @@ msgstr ""
 msgid "Scan incomplete. Retry from the Dashboard."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:153
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:154
 msgid "Scan now"
 msgstr ""
 
@@ -1684,7 +1710,7 @@ msgstr ""
 msgid "Scanning your content…"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:153
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:154
 msgid "Scanning…"
 msgstr ""
 
@@ -1863,7 +1889,7 @@ msgid ""
 "Fill-gaps keeps anything Flexa already has."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:783
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:832
 msgid "Toggle issue details"
 msgstr ""
 
@@ -1883,7 +1909,7 @@ msgstr ""
 msgid "URLs & link attributes"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:94
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:95
 #: apps/admin/src/features/onboarding/OnboardingPage.tsx:71
 msgid "Unknown error."
 msgstr ""
@@ -1904,7 +1930,7 @@ msgstr ""
 msgid "View on WordPress.org"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:435
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:436
 msgid "Warnings"
 msgstr ""
 
@@ -2000,7 +2026,7 @@ msgstr ""
 msgid "good"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:559
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:560
 msgid "n/a"
 msgstr ""
 
@@ -2016,7 +2042,7 @@ msgstr ""
 msgid "to confirm"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:898
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:948
 msgid "· site-wide"
 msgstr ""
 

@@ -26,6 +26,7 @@ import { SetupCard } from "./SetupCard";
 import {
   type AttentionPage,
   type DashboardReport,
+  type EvidenceLevel,
   type HealthGroup,
   type PageIssue,
   type Recommendation,
@@ -689,6 +690,53 @@ const ISSUE_STATUS: Record<
 
 type PageIssueStatus = "warn" | "fail";
 
+/**
+ * Badge wording for how well-founded a check is. Kept beside the check so the
+ * score is read as an argued position: a vendor-documented requirement and a
+ * bet of ours should not look the same on screen. docs/SCORING.md carries the
+ * full rubric, including why each weight is what it is.
+ */
+const EVIDENCE_BADGE: Record<
+  EvidenceLevel,
+  { label: string; title: string; className: string }
+> = {
+  documented: {
+    label: __("Documented"),
+    title: __("Described in a search or AI vendor’s own published guidance."),
+    className: "fsa:bg-teal-100 fsa:text-teal-700",
+  },
+  observed: {
+    label: __("Observed"),
+    title: __(
+      "Associated with being quoted in testing and third-party studies, but not documented by any engine.",
+    ),
+    className: "fsa:bg-indigo-100 fsa:text-indigo-700",
+  },
+  heuristic: {
+    label: __("Heuristic"),
+    title: __(
+      "Our own judgement call. No engine has confirmed it reads this signal.",
+    ),
+    className: "fsa:bg-orange-100 fsa:text-orange-800",
+  },
+};
+
+function EvidenceBadge({ level }: { level: EvidenceLevel | undefined }) {
+  const meta = EVIDENCE_BADGE[level ?? "heuristic"] ?? EVIDENCE_BADGE.heuristic;
+
+  return (
+    <span
+      title={meta.title}
+      className={cn(
+        "fsa:ml-1.5 fsa:inline-block fsa:rounded-full fsa:px-1.5 fsa:py-px fsa:align-middle fsa:text-[10px] fsa:font-semibold fsa:uppercase fsa:tracking-wide",
+        meta.className,
+      )}
+    >
+      {meta.label}
+    </span>
+  );
+}
+
 function PageRow({
   page,
   expanded,
@@ -733,6 +781,7 @@ function PageRow({
           status: c.status as PageIssueStatus,
           hint: c.hint,
           fix: c.fix,
+          evidence: c.evidence,
         }))
         .sort(
           (a, b) =>
@@ -873,6 +922,7 @@ function PageRow({
                       <div className="fsa:min-w-0">
                         <div className="fsa:text-sm fsa:font-semibold fsa:text-slate-800">
                           {c.label}
+                          <EvidenceBadge level={c.evidence} />
                         </div>
                         <div className="fsa:text-xs fsa:text-slate-500">
                           {c.hint}

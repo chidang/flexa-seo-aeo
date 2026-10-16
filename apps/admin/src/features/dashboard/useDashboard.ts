@@ -30,6 +30,14 @@ export interface SettingFix {
     patch: Record<string, unknown>;
 }
 
+/**
+ * How well-founded a readiness check is. Mirrors Services\Aeo\Readiness::EVIDENCE:
+ * `documented` tracks a vendor's published guidance, `observed` tracks a
+ * correlation no engine commits to, `heuristic` is our own call. The rubric and
+ * the reasoning behind every weight live in docs/SCORING.md.
+ */
+export type EvidenceLevel = "documented" | "observed" | "heuristic";
+
 /** A single failing/warning readiness check on a page, with its fix hint. */
 export interface PageIssue {
     id: string;
@@ -38,6 +46,7 @@ export interface PageIssue {
     hint: string;
     /** A one-click site-wide toggle that resolves this check, or null. */
     fix: SettingFix | null;
+    evidence: EvidenceLevel;
 }
 
 export interface AttentionPage {
@@ -90,6 +99,7 @@ export interface ReadinessCheck {
     hint: string;
     /** A one-click site-wide toggle that resolves this check, or null. */
     fix: SettingFix | null;
+    evidence: EvidenceLevel;
 }
 
 export interface ReadinessReport {

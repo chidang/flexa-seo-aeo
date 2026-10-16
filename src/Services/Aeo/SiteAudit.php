@@ -116,7 +116,7 @@ final class SiteAudit {
 		$posts     = $this->collect_posts();
 		$readiness = Readiness::instance();
 
-		/** @var list<array{id:int,title:string,url:string,edit_url:string,score:int,grade:string,issues:int,checks:list<array{id:string,label:string,status:string,hint:string,fix:array{label:string,scope:string,patch:array<string,mixed>}|null}>}> $pages */
+		/** @var list<array{id:int,title:string,url:string,edit_url:string,score:int,grade:string,issues:int,checks:list<array{id:string,label:string,status:string,hint:string,fix:array{label:string,scope:string,patch:array<string,mixed>}|null,evidence:string}>}> $pages */
 		$pages = [];
 		/** @var array<string,array{pass:int,warn:int,fail:int}> $tally */
 		$tally     = [];
@@ -127,7 +127,7 @@ final class SiteAudit {
 			$score_sum += (int) $rep['score'];
 
 			$issues = 0;
-			/** @var list<array{id:string,label:string,status:string,hint:string,fix:array{label:string,scope:string,patch:array<string,mixed>}|null}> $failing */
+			/** @var list<array{id:string,label:string,status:string,hint:string,fix:array{label:string,scope:string,patch:array<string,mixed>}|null,evidence:string}> $failing */
 			$failing = [];
 			foreach ( $rep['checks'] as $check ) {
 				$id     = (string) $check['id'];
@@ -149,11 +149,12 @@ final class SiteAudit {
 					// *what* is wrong and *how* to fix it, not just a count. Sorted
 					// fail-before-warn below.
 					$failing[] = [
-						'id'     => $id,
-						'label'  => (string) $check['label'],
-						'status' => $status,
-						'hint'   => (string) $check['hint'],
-						'fix'    => $check['fix'] ?? null,
+						'id'       => $id,
+						'label'    => (string) $check['label'],
+						'status'   => $status,
+						'hint'     => (string) $check['hint'],
+						'fix'      => $check['fix'] ?? null,
+						'evidence' => (string) ( $check['evidence'] ?? 'heuristic' ),
 					];
 				}
 			}
@@ -664,8 +665,8 @@ final class SiteAudit {
 	 * Lowest-scoring scanned posts that still have room to improve (score < 100),
 	 * capped to a short list for the "Pages needing attention" card.
 	 *
-	 * @param list<array{id:int,title:string,url:string,edit_url:string,score:int,grade:string,issues:int,checks:list<array{id:string,label:string,status:string,hint:string,fix:array{label:string,scope:string,patch:array<string,mixed>}|null}>}> $pages
-	 * @return list<array{id:int,title:string,url:string,edit_url:string,score:int,grade:string,issues:int,checks:list<array{id:string,label:string,status:string,hint:string,fix:array{label:string,scope:string,patch:array<string,mixed>}|null}>}>
+	 * @param list<array{id:int,title:string,url:string,edit_url:string,score:int,grade:string,issues:int,checks:list<array{id:string,label:string,status:string,hint:string,fix:array{label:string,scope:string,patch:array<string,mixed>}|null,evidence:string}>}> $pages
+	 * @return list<array{id:int,title:string,url:string,edit_url:string,score:int,grade:string,issues:int,checks:list<array{id:string,label:string,status:string,hint:string,fix:array{label:string,scope:string,patch:array<string,mixed>}|null,evidence:string}>}>
 	 */
 	private function attention_pages( array $pages ): array {
 		$needy = array_values( array_filter( $pages, static fn( array $p ): bool => $p['score'] < 100 ) );

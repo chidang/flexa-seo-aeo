@@ -47,6 +47,34 @@
 		fail: { icon: '✗', color: '#dc2626' },
 	};
 
+	/**
+	 * How well-founded each check is, mirroring Services\Aeo\Readiness::EVIDENCE.
+	 * Shown as a badge next to the check so the score reads as an argued opinion
+	 * rather than a measurement: `documented` tracks a vendor's published rule,
+	 * `observed` tracks a correlation nobody has committed to, `heuristic` is our
+	 * own bet. The full rubric, weights included, is in docs/SCORING.md.
+	 */
+	var EVIDENCE = {
+		documented: {
+			label: __( 'Documented', 'flexa-seo-aeo' ),
+			title: __( 'Described in a search or AI vendor\u2019s own published guidance.', 'flexa-seo-aeo' ),
+			color: '#0f766e',
+			background: '#ccfbf1',
+		},
+		observed: {
+			label: __( 'Observed', 'flexa-seo-aeo' ),
+			title: __( 'Associated with being quoted in testing and third-party studies, but not documented by any engine.', 'flexa-seo-aeo' ),
+			color: '#4338ca',
+			background: '#e0e7ff',
+		},
+		heuristic: {
+			label: __( 'Heuristic', 'flexa-seo-aeo' ),
+			title: __( 'Our own judgement call. No engine has confirmed it reads this signal.', 'flexa-seo-aeo' ),
+			color: '#9a3412',
+			background: '#ffedd5',
+		},
+	};
+
 	var GRADE_LABEL = {
 		excellent: __( 'Excellent', 'flexa-seo-aeo' ),
 		good: __( 'Good', 'flexa-seo-aeo' ),
@@ -62,6 +90,34 @@
 			return STATUS.warn.color;
 		}
 		return STATUS.fail.color;
+	}
+
+	/**
+	 * Small badge naming how well-founded a check is. An unknown level falls back
+	 * to the most cautious one, matching what the scorer does server-side.
+	 */
+	function evidenceBadge( level ) {
+		var meta = EVIDENCE[ level ] || EVIDENCE.heuristic;
+
+		return el(
+			'span',
+			{
+				title: meta.title,
+				style: {
+					marginLeft: '6px',
+					padding: '1px 6px',
+					borderRadius: '9px',
+					fontSize: '10px',
+					fontWeight: 600,
+					textTransform: 'uppercase',
+					letterSpacing: '0.03em',
+					color: meta.color,
+					background: meta.background,
+					whiteSpace: 'nowrap',
+				},
+			},
+			meta.label
+		);
 	}
 
 	/**
@@ -209,6 +265,7 @@
 						'span',
 						null,
 						el( 'span', { style: { fontWeight: 600 } }, check.label ),
+						evidenceBadge( check.evidence ),
 						el(
 							'span',
 							{ style: { display: 'block', color: '#64748b', fontSize: '12px', marginTop: '2px' } },

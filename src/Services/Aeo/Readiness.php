@@ -41,6 +41,43 @@ final class Readiness {
 	];
 
 	/**
+	 * How well-founded each check is, published alongside the score so a reader
+	 * can tell a vendor-documented requirement from our own judgement call.
+	 *
+	 * - `documented` — the signal is described in a search or AI vendor's own
+	 *   published guidance, so the check tracks a stated requirement.
+	 * - `observed` — third-party studies and our own testing associate the
+	 *   signal with being quoted, but no engine documents it as a rule.
+	 * - `heuristic` — a reasoned bet. Nobody has confirmed engines read it; we
+	 *   score it because the cost of doing it is low and the upside is real.
+	 *
+	 * The weights themselves are editorial throughout: no engine publishes how
+	 * it trades these signals off, so treat the rubric in docs/SCORING.md as a
+	 * stated opinion, not a measurement. A check added through
+	 * `flexa_seo_aeo/aeo/readiness_checks` that names no level is `heuristic`.
+	 *
+	 * @var array<string, string>
+	 */
+	private const EVIDENCE = [
+		'structured_data'    => 'documented',
+		'meta_description'   => 'documented',
+		'answer_first'       => 'observed',
+		'question_headings'  => 'observed',
+		'faq'                => 'observed',
+		'content_depth'      => 'observed',
+		'llms_txt'           => 'heuristic',
+		'markdown_alternate' => 'heuristic',
+	];
+
+	/**
+	 * The levels {@see self::EVIDENCE} may use; anything else is read as the
+	 * most cautious one so a third-party check cannot overstate its footing.
+	 *
+	 * @var list<string>
+	 */
+	private const EVIDENCE_LEVELS = [ 'documented', 'observed', 'heuristic' ];
+
+	/**
 	 * How many times {@see self::unwrap_shortcodes()} walks the content. Each
 	 * pass peels one nesting level off a shortcode-built layout; five is deeper
 	 * than any real page nests and keeps a pathological post bounded.
@@ -53,7 +90,7 @@ final class Readiness {
 	 * @return array{
 	 *     score: int,
 	 *     grade: string,
-	 *     checks: list<array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}>
+	 *     checks: list<array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}>
 	 * }
 	 */
 	public function report( WP_Post $post ): array {
@@ -72,12 +109,16 @@ final class Readiness {
 
 		/**
 		 * Filters the readiness checks for a post before they are scored. Add-ons
-		 * (or Pro) can append their own `{id,label,status,weight,hint,fix}` rows.
+		 * (or Pro) can append their own `{id,label,status,weight,hint,fix}` rows,
+		 * optionally with an `evidence` of `documented`, `observed` or
+		 * `heuristic`; anything missing or unrecognised is read as `heuristic`.
 		 *
-		 * @param list<array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}> $checks
+		 * @param list<array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}> $checks
 		 * @param WP_Post                                                                            $post
 		 */
-		$checks = array_values( (array) apply_filters( 'flexa_seo_aeo/aeo/readiness_checks', $checks, $post ) );
+		$checks = $this->stamp_evidence(
+			array_values( (array) apply_filters( 'flexa_seo_aeo/aeo/readiness_checks', $checks, $post ) )
+		);
 
 		$score = $this->score( $checks );
 
@@ -86,6 +127,28 @@ final class Readiness {
 			'grade'  => $this->grade( $score ),
 			'checks' => $checks,
 		];
+	}
+
+	/**
+	 * Guarantee every row carries an evidence level, including rows a filter
+	 * appended. A level we do not recognise is read as `heuristic` rather than
+	 * dropped: the published rubric says what each label means, so an add-on
+	 * must not be able to invent a stronger-sounding one.
+	 *
+	 * @param list<array<string, mixed>> $checks
+	 * @return list<array<string, mixed>>
+	 */
+	private function stamp_evidence( array $checks ): array {
+		foreach ( $checks as $index => $check ) {
+			$level = isset( $check['evidence'] ) ? (string) $check['evidence'] : '';
+
+			if ( ! in_array( $level, self::EVIDENCE_LEVELS, true ) ) {
+				$id                           = isset( $check['id'] ) ? (string) $check['id'] : '';
+				$checks[ $index ]['evidence'] = self::EVIDENCE[ $id ] ?? 'heuristic';
+			}
+		}
+
+		return $checks;
 	}
 
 	/**
@@ -131,7 +194,7 @@ final class Readiness {
 	}
 
 	/**
-	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}
+	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}
 	 */
 	private function check_structured_data(): array {
 		$enabled = (bool) Settings::get_aeo( 'schema' );
@@ -147,7 +210,7 @@ final class Readiness {
 	}
 
 	/**
-	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}
+	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}
 	 */
 	private function check_meta_description( WP_Post $post ): array {
 		$meta = PostMetaRepository::instance()->get( $post->ID );
@@ -180,7 +243,7 @@ final class Readiness {
 	}
 
 	/**
-	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}
+	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}
 	 */
 	private function check_answer_first( string $paragraph ): array {
 		$length = $this->length( $paragraph );
@@ -204,7 +267,7 @@ final class Readiness {
 
 	/**
 	 * @param list<string> $headings
-	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}
+	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}
 	 */
 	private function check_question_headings( array $headings ): array {
 		$questions = 0;
@@ -230,7 +293,7 @@ final class Readiness {
 	}
 
 	/**
-	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}
+	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}
 	 */
 	private function check_faq( WP_Post $post ): array {
 		$status = $this->has_faq_blocks( $post ) ? 'pass' : 'warn';
@@ -242,7 +305,7 @@ final class Readiness {
 	}
 
 	/**
-	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}
+	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}
 	 */
 	private function check_llms_txt( WP_Post $post ): array {
 		if ( ! (bool) Settings::get_aeo( 'enabled' ) ) {
@@ -279,7 +342,7 @@ final class Readiness {
 	}
 
 	/**
-	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}
+	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}
 	 */
 	private function check_markdown_alternate(): array {
 		$advertised = (bool) Settings::get_aeo( 'agent_readiness' );
@@ -312,7 +375,7 @@ final class Readiness {
 	}
 
 	/**
-	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}
+	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}
 	 */
 	private function check_depth( int $words ): array {
 		if ( $words >= 300 ) {
@@ -331,16 +394,17 @@ final class Readiness {
 
 	/**
 	 * @param array{label: string, scope: string, patch: array<string, mixed>}|null $fix
-	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null}
+	 * @return array{id: string, label: string, status: string, weight: int, hint: string, fix: array{label: string, scope: string, patch: array<string, mixed>}|null, evidence: string}
 	 */
 	private function row( string $id, string $label, string $status, int $weight, string $hint, ?array $fix = null ): array {
 		return [
-			'id'     => $id,
-			'label'  => $label,
-			'status' => $status,
-			'weight' => $weight,
-			'hint'   => $hint,
-			'fix'    => $fix,
+			'id'       => $id,
+			'label'    => $label,
+			'status'   => $status,
+			'weight'   => $weight,
+			'hint'     => $hint,
+			'fix'      => $fix,
+			'evidence' => self::EVIDENCE[ $id ] ?? 'heuristic',
 		];
 	}
 
