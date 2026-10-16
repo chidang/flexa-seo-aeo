@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flexa\SeoAeo\Services\Aeo;
 
+use Flexa\SeoAeo\Services\Breadcrumbs as BreadcrumbsService;
 use Flexa\SeoAeo\Services\Metas as MetasService;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
@@ -63,6 +64,11 @@ final class Schema {
 			}
 		}
 
+		$breadcrumbs = $this->breadcrumb_list();
+		if ( [] !== $breadcrumbs ) {
+			$nodes[] = $breadcrumbs;
+		}
+
 		if ( [] !== $nodes && [] !== $publisher ) {
 			$nodes[] = $publisher;
 		}
@@ -80,6 +86,55 @@ final class Schema {
 		return [
 			'@context' => 'https://schema.org',
 			'@graph'   => $nodes,
+		];
+	}
+
+	/**
+	 * `BreadcrumbList` for the current view, built from the same trail the
+	 * visible breadcrumbs render, so the markup and the structured data cannot
+	 * describe different paths.
+	 *
+	 * The final crumb keeps its `name` but carries no `item`: it is the page
+	 * being viewed, and Google's guidance is to leave the last URL off.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function breadcrumb_list(): array {
+		if ( ! (bool) Settings::get( 'breadcrumbs' ) ) {
+			return [];
+		}
+
+		$trail = BreadcrumbsService::instance()->trail();
+		if ( count( $trail ) < 2 ) {
+			return [];
+		}
+
+		$elements = [];
+		$position = 1;
+
+		foreach ( $trail as $crumb ) {
+			$element = [
+				'@type'    => 'ListItem',
+				'position' => $position,
+				'name'     => $crumb['name'],
+			];
+
+			if ( '' !== $crumb['url'] ) {
+				$element['item'] = $crumb['url'];
+			}
+
+			$elements[] = $element;
+			++$position;
+		}
+
+		// Anchor the node on the page's canonical, which is the same URL the
+		// other nodes on this page are keyed to.
+		$canonical = MetasService::instance()->resolve()->canonical;
+
+		return [
+			'@type'           => 'BreadcrumbList',
+			'@id'             => ( '' !== $canonical ? $canonical : home_url( '/' ) ) . '#breadcrumb',
+			'itemListElement' => $elements,
 		];
 	}
 

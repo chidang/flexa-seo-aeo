@@ -87,6 +87,15 @@ final class Plugin {
 			Actions\Links\LinkAttributes::instance()->register();
 		}
 
+		// Breadcrumbs (shortcode + template tag; the BreadcrumbList node is
+		// emitted by the schema service) and missing-alt backfill.
+		if ( class_exists( Actions\Front\Breadcrumbs::class ) ) {
+			Actions\Front\Breadcrumbs::instance()->register();
+		}
+		if ( class_exists( Actions\Front\ImageAlt::class ) ) {
+			Actions\Front\ImageAlt::instance()->register();
+		}
+
 		// Strip-category-base rewrites depend on the current category set, so a
 		// flush is deferred to a flag that we honour once per request on init.
 		add_action( 'init', [ $this, 'maybe_flush_rewrites' ], 99 );

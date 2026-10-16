@@ -72,6 +72,28 @@ add_action(
 // vote. The survey's own config is set up in Engine\DeactivationSurvey.
 \Flexa\SeoAeo\Engine\DeactivationSurvey::preload();
 
+if ( ! function_exists( 'flexa_seo_aeo_breadcrumbs' ) ) {
+	/**
+	 * Template tag for the breadcrumb trail. Returns the markup when $echo is
+	 * false, so a theme can wrap it. Empty string when the Breadcrumbs module
+	 * is off or the current view has no trail (the front page, for one).
+	 */
+	function flexa_seo_aeo_breadcrumbs( bool $echo = true ): string {
+		if ( ! class_exists( \Flexa\SeoAeo\Actions\Front\Breadcrumbs::class ) ) {
+			return '';
+		}
+
+		$html = \Flexa\SeoAeo\Actions\Front\Breadcrumbs::instance()->html();
+
+		if ( $echo ) {
+			// Assembled from escaped parts inside html().
+			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+
+		return $html;
+	}
+}
+
 register_activation_hook( __FILE__, [ \Flexa\SeoAeo\Install\Activator::class, 'activate' ] );
 register_deactivation_hook( __FILE__, [ \Flexa\SeoAeo\Install\Deactivator::class, 'deactivate' ] );
 
