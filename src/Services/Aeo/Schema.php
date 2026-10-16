@@ -90,6 +90,17 @@ final class Schema {
 	}
 
 	/**
+	 * Whether this request carries a `BreadcrumbList` of its own.
+	 *
+	 * Themes and plugins that emit their own trail (WooCommerce does, on every
+	 * shop view) need to know, so two lists describing the same page don't end
+	 * up in the markup.
+	 */
+	public function emits_breadcrumb_list(): bool {
+		return [] !== $this->breadcrumb_list();
+	}
+
+	/**
 	 * `BreadcrumbList` for the current view, built from the same trail the
 	 * visible breadcrumbs render, so the markup and the structured data cannot
 	 * describe different paths.
@@ -106,6 +117,17 @@ final class Schema {
 
 		$trail = BreadcrumbsService::instance()->trail();
 		if ( count( $trail ) < 2 ) {
+			return [];
+		}
+
+		// Anchor the node on the page's canonical, which is the same URL the
+		// other nodes on this page are keyed to. A view with no canonical (a
+		// 404, a search result) has no stable URL to key on, and every such
+		// view would otherwise share one `@id` built from the home URL, which
+		// turns unrelated pages into the same entity. Those views have nothing
+		// worth indexing anyway, so the node is simply left off.
+		$canonical = MetasService::instance()->resolve()->canonical;
+		if ( '' === $canonical ) {
 			return [];
 		}
 
@@ -127,13 +149,9 @@ final class Schema {
 			++$position;
 		}
 
-		// Anchor the node on the page's canonical, which is the same URL the
-		// other nodes on this page are keyed to.
-		$canonical = MetasService::instance()->resolve()->canonical;
-
 		return [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => ( '' !== $canonical ? $canonical : home_url( '/' ) ) . '#breadcrumb',
+			'@id'             => $canonical . '#breadcrumb',
 			'itemListElement' => $elements,
 		];
 	}

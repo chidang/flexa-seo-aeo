@@ -126,6 +126,9 @@ final class Plugin {
 			if ( class_exists( Actions\Woo\ProductMeta::class ) ) {
 				Actions\Woo\ProductMeta::instance()->register();
 			}
+			if ( class_exists( Actions\Woo\BreadcrumbSchema::class ) ) {
+				Actions\Woo\BreadcrumbSchema::instance()->register();
+			}
 		}
 
 		// Phase 4 — admin React app.
