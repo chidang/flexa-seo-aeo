@@ -43,16 +43,20 @@ final class PostMetaController extends BaseRestController {
 		);
 	}
 
+	/**
+	 * The capability is the only check, and it runs before anything looks the
+	 * post up.
+	 *
+	 * Resolving the post first meant a caller without rights could tell a
+	 * missing id (404) from a real one (403) and walk the id space that way.
+	 * `edit_post` already answers both questions at once: WordPress maps it to
+	 * `do_not_allow` when the post does not exist, so one failure mode and one
+	 * response code cover "no such post" and "not yours". A caller that passes
+	 * this check is guaranteed a real post, which is why the handlers below do
+	 * not re-check.
+	 */
 	public function post_permission( WP_REST_Request $request ): bool|WP_Error {
 		$post_id = (int) $request['id'];
-
-		if ( ! get_post( $post_id ) instanceof \WP_Post ) {
-			return new WP_Error(
-				'flexa_seo_aeo_not_found',
-				__( 'Post not found.', 'flexa-seo-aeo' ),
-				[ 'status' => 404 ]
-			);
-		}
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return new WP_Error(
