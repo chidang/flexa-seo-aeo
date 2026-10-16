@@ -54,6 +54,13 @@ This turns "AEO" from a file you generate once into a workflow your team improve
 
 * No account, no telemetry, no phone-home. The only outbound request is the optional IndexNow ping you enable yourself (disclosed below).
 
+**Documentation**
+
+Full documentation is at https://flexa-seo-aeo.vercel.app/. Two parts of this plugin ask you to take its word for something, so both are written up there rather than left as a claim:
+
+* The [scoring rubric](https://flexa-seo-aeo.vercel.app/) gives all eight readiness checks: the weight each one carries, the exact thresholds that separate pass from warn, the evidence label behind the signal, and the reasoning for the weight. The score is editorial, and the rubric is where you can disagree with it on the specifics.
+* The [compatibility matrix](https://flexa-seo-aeo.vercel.app/compatibility) records what happens when Flexa SEO runs next to Yoast, Rank Math, SEOPress or All in One SEO: the exact versions tested, how many of each head tag the pairing produces, what the sitemap and `robots.txt` end up advertising, and which fields migration and the read-fallback cover. Every count was measured rather than assumed, and the page hands you the one-line curl to check it on your own site.
+
 == External services ==
 
 This plugin connects to two external services: IndexNow, only when you explicitly enable it, and an optional deactivation feedback survey that runs only in the admin.
