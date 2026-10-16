@@ -35,6 +35,7 @@ final class Router {
 		add_action( 'init', [ $this, 'add_rewrite_rules' ] );
 		add_filter( 'query_vars', [ $this, 'register_query_vars' ] );
 		add_action( 'template_redirect', [ $this, 'render' ], 0 );
+		add_action( 'template_redirect', [ $this, 'redirect_legacy' ], 1 );
 		add_filter( 'wp_sitemaps_enabled', [ $this, 'disable_core_sitemaps' ] );
 	}
 
@@ -90,6 +91,7 @@ final class Router {
 			'index.php?flexa_sitemap=$matches[1]&flexa_sitemap_subtype=$matches[2]&flexa_sitemap_page=$matches[3]',
 			'top'
 		);
+
 	}
 
 	/**
@@ -147,6 +149,66 @@ final class Router {
 		);
 
 		$this->send( 'application/xml', $body, CacheHeaders::newest_lastmod( $entries ) );
+	}
+
+	/**
+	 * Point an old Yoast or Rank Math sitemap URL at the matching Flexa one
+	 * with a 301.
+	 *
+	 * `sitemap_index.xml` and `post-sitemap.xml` are the paths a migrating site
+	 * has already submitted to Search Console and linked from robots.txt, and
+	 * they were answering 404.
+	 *
+	 * This runs on a request WordPress has already decided is a 404, rather
+	 * than from a rewrite rule, for two reasons: a site with a real page at
+	 * `/anything-sitemap.xml` keeps it, and a name that matches the pattern but
+	 * maps to nothing we publish stays the 404 it always was instead of
+	 * quietly rendering the homepage at a junk URL.
+	 */
+	public function redirect_legacy(): void {
+		if ( ! is_404() || ! isset( $_SERVER['REQUEST_URI'] ) ) {
+			return;
+		}
+
+		$path = (string) wp_parse_url( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), PHP_URL_PATH );
+		$file = strtolower( basename( rawurldecode( $path ) ) );
+		if ( '' === $file ) {
+			return;
+		}
+
+		$sitemap = SitemapService::instance();
+
+		if ( 'sitemap_index.xml' === $file ) {
+			wp_safe_redirect( $sitemap->index_url(), 301 );
+			exit;
+		}
+
+		if ( 1 !== preg_match( '/^([a-z0-9_-]+)-sitemap([0-9]*)\.xml$/', $file, $match ) ) {
+			return;
+		}
+
+		$subtype = $match[1];
+		$page    = max( 1, (int) $match[2] );
+
+		if ( in_array( $subtype, $sitemap->post_types(), true ) ) {
+			$object_type = 'posts';
+			$has_entries = [] !== $sitemap->posts( $subtype, $page );
+		} elseif ( in_array( $subtype, $sitemap->taxonomies(), true ) ) {
+			$object_type = 'taxonomies';
+			$has_entries = [] !== $sitemap->terms( $subtype, $page );
+		} else {
+			return;
+		}
+
+		// The old URL named something we publish, but this particular document
+		// has no URLs on this site (an empty taxonomy, a page number past the
+		// end). Sending the crawler to the index beats a 301 into a 404.
+		$target = $has_entries
+			? $sitemap->entry_url( $object_type, $subtype, $page )
+			: $sitemap->index_url();
+
+		wp_safe_redirect( $target, 301 );
+		exit;
 	}
 
 	/**
