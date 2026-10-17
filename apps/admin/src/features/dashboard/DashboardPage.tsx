@@ -257,6 +257,33 @@ function CardHeader({
   );
 }
 
+/**
+ * A link out to the published rubric, for the reader who would rather argue
+ * with a weight than take the score on trust.
+ *
+ * Renders nothing when `docs` is null, which is what a white-labelled install
+ * gets: sending somebody else's client to our documentation site would defeat
+ * the setting.
+ */
+function RubricLink() {
+  const docs = getPluginGlobal().docs;
+  if (!docs) {
+    return null;
+  }
+
+  return (
+    <a
+      href={docs.rubric}
+      target="_blank"
+      rel="noreferrer"
+      className="fsa:flex fsa:shrink-0 fsa:items-center fsa:gap-1 fsa:text-xs fsa:font-medium fsa:text-slate-500 fsa:hover:text-brand-600"
+    >
+      {__("How this is scored")}
+      <ExternalLink className="fsa:h-3 fsa:w-3" aria-hidden />
+    </a>
+  );
+}
+
 function ScoreCard({
   icon: Icon,
   label,
@@ -634,7 +661,11 @@ function PagesCard({ data }: { data: DashboardReport }) {
 
   return (
     <Card>
-      <CardHeader icon={AlertTriangle} title={__("Pages needing attention")} />
+      <CardHeader
+        icon={AlertTriangle}
+        title={__("Pages needing attention")}
+        action={<RubricLink />}
+      />
       {pages.length === 0 ? (
         <div className="fsa:p-5 fsa:text-sm fsa:text-slate-500">
           {data.scanned === 0

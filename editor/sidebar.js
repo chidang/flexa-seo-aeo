@@ -38,6 +38,11 @@
 		return;
 	}
 
+	// Published documentation links, localized by Admin\EditorAssets. Null on a
+	// white-labelled install, and absent entirely if the localize call ever
+	// fails to run, so every use is guarded.
+	var DOCS = ( window.flexaSeoAeoEditor && window.flexaSeoAeoEditor.docs ) || null;
+
 	var PREFIX = '_flexa_seo_aeo_';
 	var SIDEBAR = 'flexa-seo-aeo-sidebar';
 
@@ -304,18 +309,44 @@
 			);
 		}
 
+		// The weights and thresholds behind these eight rows are editorial, and
+		// the evidence badge above says so without saying why. The link goes
+		// where somebody who has just read a score will be looking.
 		body.push(
 			el(
-				comp.Button,
+				'div',
 				{
-					key: 'refresh',
-					variant: 'link',
-					isBusy: loading,
-					disabled: loading || ! postId,
-					onClick: load,
-					style: { marginTop: '8px' },
+					key: 'footer',
+					style: {
+						display: 'flex',
+						alignItems: 'center',
+						gap: '12px',
+						flexWrap: 'wrap',
+						marginTop: '8px',
+					},
 				},
-				__( 'Re-check readiness', 'flexa-seo-aeo' )
+				el(
+					comp.Button,
+					{
+						variant: 'link',
+						isBusy: loading,
+						disabled: loading || ! postId,
+						onClick: load,
+					},
+					__( 'Re-check readiness', 'flexa-seo-aeo' )
+				),
+				DOCS
+					? el(
+							'a',
+							{
+								href: DOCS.rubric,
+								target: '_blank',
+								rel: 'noopener noreferrer',
+								style: { fontSize: '12px' },
+							},
+							__( 'How this is scored', 'flexa-seo-aeo' )
+					  )
+					: null
 			)
 		);
 

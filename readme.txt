@@ -4,7 +4,7 @@ Tags: seo, schema, sitemap, aeo, woocommerce
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 0.6.0
+Stable tag: 0.6.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.0
@@ -153,6 +153,10 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 
 == Changelog ==
 
+= 0.6.1 =
+* New: the Dashboard, the block-editor sidebar and the duplicate-tag warning now link to the published documentation. The readiness checklist gets a "How this is scored" link to the rubric, which gives every weight and threshold and the reasoning behind it, and the conflict warning links to the compatibility matrix, so you can see which tag each pairing really duplicates and at which versions. A white-labelled install gets no links at all, and `flexa_seo_aeo/docs/base_url` points them at your own copy if you host one.
+* Docs: the compatibility matrix had been measured against 0.5.5, and one row of it had gone stale. The whole page was measured again. With Rank Math or All in One SEO active a page now carries one `meta name=robots` tag instead of two, because all three plugins write through the `wp_robots` filter. One tag is not automatically the right tag, though: the page now records whose directives survive, which with All in One SEO on an unconfigured install is not this plugin's.
+
 = 0.6.0 =
 * Security: a password-protected post could have its contents read by anyone, with no password. The first 160 characters of the body were published as the meta description and repeated in the Open Graph and Twitter tags, `/llms.txt` carried a 150-character extract next to the URL, the XML and HTML sitemaps advertised the post, and a post using Details blocks had its questions and answers published in full as FAQ structured data, with no length limit at all. All of those now treat a protected post as having nothing quotable, and the sitemaps leave it out. If you want protected posts listed in the sitemap anyway, because only the body is meant to be private, `add_filter( 'flexa_seo_aeo/sitemap/include_password_protected', '__return_true' );` brings that part back.
 * Fix: the site served two sitemap indexes at once, WordPress's own at `/wp-sitemap.xml` and this plugin's at `/sitemap.xml`, listing the same content under two sets of URLs and leaving search engines to pick. WordPress's is switched off now whenever the plugin's sitemap is on, so there is one index to submit. The `flexa_seo_aeo/sitemap/keep_core_sitemap` filter keeps both if you need them.
@@ -235,6 +239,9 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 * Initial release: **Answer-Engine Readiness Score** (per-post 0–100 grade + actionable checklist in the block editor), title/meta templating, Open Graph & Twitter, canonical & robots, XML/HTML sitemaps, robots.txt, IndexNow, llms.txt, Agent Readiness Markdown export, JSON-LD schema (Article/WebPage/WebSite/Organization/FAQ), one-click migration from Yoast and Rank Math, optional WooCommerce Product schema, and a React admin app.
 
 == Upgrade Notice ==
+
+= 0.6.1 =
+Links the Dashboard, the editor sidebar and the conflict warning to the published scoring rubric and compatibility matrix. No change to anything the front end sends. The matrix has been re-measured.
 
 = 0.6.0 =
 Security: password-protected posts had their contents published in meta tags, FAQ structured data, sitemaps and llms.txt. Also ends the duplicate robots tag, canonicals paginated archives, and makes Breadcrumbs and Image SEO work. Update if you use post passwords or IndexNow.

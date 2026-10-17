@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flexa\SeoAeo\Admin;
 
+use Flexa\SeoAeo\Support\Docs;
 use Flexa\SeoAeo\Support\SeoConflicts;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
@@ -52,8 +53,19 @@ final class ConflictNotice {
 			? __( 'This plugin', 'flexa-seo-aeo' )
 			: 'Flexa SEO';
 
+		// "Often" and "pick between them" are the honest words for it, so the
+		// notice offers the measurements behind them rather than asking to be
+		// believed: which tag each pairing duplicates, at which versions.
+		$evidence = Docs::is_visible()
+			? sprintf(
+				'<p><a href="%s" target="_blank" rel="noopener noreferrer">%s</a></p>',
+				esc_url( Docs::compatibility() ),
+				esc_html__( 'See which tags each pairing actually duplicates', 'flexa-seo-aeo' )
+			)
+			: '';
+
 		printf(
-			'<div class="notice notice-warning"><p><strong>%s</strong> %s</p><p>%s</p><p><a href="%s" class="button button-secondary">%s</a></p></div>',
+			'<div class="notice notice-warning"><p><strong>%s</strong> %s</p><p>%s</p>%s<p><a href="%s" class="button button-secondary">%s</a></p></div>',
 			esc_html( $brand ),
 			esc_html(
 				sprintf(
@@ -63,6 +75,9 @@ final class ConflictNotice {
 				)
 			),
 			esc_html__( 'Two SEO plugins on one site means two canonical tags, two sets of Open Graph tags and often two JSON-LD graphs, and search engines pick between them. Run one and deactivate the other.', 'flexa-seo-aeo' ),
+			// Assembled just above from esc_url() and esc_html__(); escaping the
+			// whole string again would print the markup instead of rendering it.
+			$evidence, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			esc_url( $this->dismiss_url() ),
 			esc_html__( 'I know, hide this', 'flexa-seo-aeo' )
 		);

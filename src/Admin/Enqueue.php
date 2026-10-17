@@ -6,6 +6,7 @@ namespace Flexa\SeoAeo\Admin;
 
 use Flexa\SeoAeo\Support\Capabilities;
 use Flexa\SeoAeo\Support\CachePlugin;
+use Flexa\SeoAeo\Support\Docs;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 
@@ -72,6 +73,9 @@ final class Enqueue {
 				// Null unless Flexa Cache is worth suggesting: absent or switched
 				// off, and the white-label setting is not hiding our branding.
 				'cachePlugin'       => CachePlugin::hint(),
+				// Links to the published rubric and compatibility matrix. Null
+				// on a white-labelled install, where the UI drops them.
+				'docs'              => Docs::for_script(),
 				'postTypes'         => $this->public_objects( 'post_types' ),
 				'taxonomies'        => $this->public_objects( 'taxonomies' ),
 			]

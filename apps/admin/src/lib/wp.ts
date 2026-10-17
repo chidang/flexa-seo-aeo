@@ -20,6 +20,14 @@ export interface CachePluginHint {
   infoUrl: string;
 }
 
+/** Links to the published documentation site. */
+export interface DocsLinks {
+  /** The scoring rubric: every readiness weight, threshold and its reasoning. */
+  rubric: string;
+  /** The tested compatibility matrix for the other major SEO plugins. */
+  compatibility: string;
+}
+
 export interface PluginGlobal {
   restUrl: string;
   restNonce: string;
@@ -48,6 +56,11 @@ export interface PluginGlobal {
    * plugin is already active, or white-label is hiding our branding.
    */
   cachePlugin: CachePluginHint | null;
+  /**
+   * Documentation links, or null when white-label is on and pointing somebody
+   * else's client at our site would defeat the setting.
+   */
+  docs: DocsLinks | null;
   /** Public post types as `slug => label`, for the sitemap multi-select. */
   postTypes: Record<string, string>;
   /** Public taxonomies as `slug => label`, for the sitemap multi-select. */

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flexa\SeoAeo\Admin;
 
+use Flexa\SeoAeo\Support\Docs;
 use Flexa\SeoAeo\Support\SingletonTrait;
 
 defined( 'ABSPATH' ) || exit;
@@ -40,6 +41,14 @@ final class EditorAssets {
 			],
 			FLEXA_SEO_AEO_VERSION,
 			true
+		);
+
+		wp_localize_script(
+			self::HANDLE,
+			'flexaSeoAeoEditor',
+			[
+				'docs' => Docs::for_script(),
+			]
 		);
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {

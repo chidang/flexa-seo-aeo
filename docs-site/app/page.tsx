@@ -47,7 +47,7 @@ export default function Scoring() {
       <Sidebar
         items={SCORING_NAV}
         title="Flexa SEO - AEO"
-        subtitle="Scoring rubric · v0.6.0"
+        subtitle="Scoring rubric · v0.6.1"
         crossLinkHref="/compatibility"
         crossLinkLabel="Compatibility matrix →"
         secondaryLink={{ href: '/services', label: 'Need a custom build?' }}
@@ -57,7 +57,7 @@ export default function Scoring() {
         {/* ── Hero ─────────────────────────────────────────────── */}
         <header className="py-14">
           <p className="text-xs font-semibold uppercase tracking-widest text-brand-600">
-            Scoring rubric · v0.6.0
+            Scoring rubric · v0.6.1
           </p>
           <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
             How the Answer-Engine Readiness Score is calculated

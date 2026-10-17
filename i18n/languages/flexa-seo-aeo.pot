@@ -3,14 +3,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Flexa SEO - AEO | AI SEO & Answer Engine Optimization "
-"0.6.0\n"
+"0.6.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/flexa-seo-aeo\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-16T08:54:07+00:00\n"
+"POT-Creation-Date: 2026-10-17T01:12:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: flexa-seo-aeo\n"
@@ -155,27 +155,31 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/Admin/ConflictNotice.php:52
+#: src/Admin/ConflictNotice.php:53
 msgid "This plugin"
 msgstr ""
 
+#: src/Admin/ConflictNotice.php:63
+msgid "See which tags each pairing actually duplicates"
+msgstr ""
+
 #. translators: %s: comma-separated list of SEO plugin names.
-#: src/Admin/ConflictNotice.php:61
+#: src/Admin/ConflictNotice.php:73
 msgid "is running alongside %s."
 msgstr ""
 
-#: src/Admin/ConflictNotice.php:65
+#: src/Admin/ConflictNotice.php:77
 msgid ""
 "Two SEO plugins on one site means two canonical tags, two sets of Open Graph "
 "tags and often two JSON-LD graphs, and search engines pick between them. Run "
 "one and deactivate the other."
 msgstr ""
 
-#: src/Admin/ConflictNotice.php:67
+#: src/Admin/ConflictNotice.php:82
 msgid "I know, hide this"
 msgstr ""
 
-#: src/Admin/ConflictNotice.php:73
+#: src/Admin/ConflictNotice.php:88
 msgid "You are not allowed to do that."
 msgstr ""
 
@@ -183,7 +187,7 @@ msgstr ""
 msgid "Flexa SEO: Search & AI"
 msgstr ""
 
-#: src/Admin/PostMetabox.php:55 editor/sidebar.js:406
+#: src/Admin/PostMetabox.php:55 editor/sidebar.js:437
 msgid "SEO title"
 msgstr ""
 
@@ -192,7 +196,7 @@ msgid "Leave blank to use the default title template."
 msgstr ""
 
 #: src/Admin/PostMetabox.php:56 src/Services/Aeo/Readiness.php:241
-#: src/Services/Aeo/Readiness.php:249 editor/sidebar.js:411
+#: src/Services/Aeo/Readiness.php:249 editor/sidebar.js:442
 msgid "Meta description"
 msgstr ""
 
@@ -200,7 +204,7 @@ msgstr ""
 msgid "Leave blank to use the excerpt."
 msgstr ""
 
-#: src/Admin/PostMetabox.php:57 editor/sidebar.js:416
+#: src/Admin/PostMetabox.php:57 editor/sidebar.js:447
 msgid "Canonical URL"
 msgstr ""
 
@@ -208,15 +212,15 @@ msgstr ""
 msgid "Override only if this content canonicalises elsewhere."
 msgstr ""
 
-#: src/Admin/PostMetabox.php:59 editor/sidebar.js:422
+#: src/Admin/PostMetabox.php:59 editor/sidebar.js:453
 msgid "Robots"
 msgstr ""
 
-#: src/Admin/PostMetabox.php:60 editor/sidebar.js:425
+#: src/Admin/PostMetabox.php:60 editor/sidebar.js:456
 msgid "No index"
 msgstr ""
 
-#: src/Admin/PostMetabox.php:61 editor/sidebar.js:430
+#: src/Admin/PostMetabox.php:61 editor/sidebar.js:461
 msgid "No follow"
 msgstr ""
 
@@ -236,7 +240,7 @@ msgstr ""
 msgid "Social image URL"
 msgstr ""
 
-#: src/Admin/PostMetabox.php:67 editor/sidebar.js:442
+#: src/Admin/PostMetabox.php:67 editor/sidebar.js:473
 msgid "Falls back to the featured image."
 msgstr ""
 
@@ -687,7 +691,7 @@ msgid ""
 "your site."
 msgstr ""
 
-#: views/admin-app.php:11 editor/sidebar.js:391 editor/sidebar.js:397
+#: views/admin-app.php:11 editor/sidebar.js:422 editor/sidebar.js:428
 msgid "Flexa SEO"
 msgstr ""
 
@@ -695,127 +699,131 @@ msgstr ""
 msgid "No published content to list yet."
 msgstr ""
 
-#: editor/sidebar.js:59
+#: editor/sidebar.js:64
 msgid "Documented"
 msgstr ""
 
-#: editor/sidebar.js:60
+#: editor/sidebar.js:65
 msgid "Described in a search or AI vendor’s own published guidance."
 msgstr ""
 
-#: editor/sidebar.js:65
+#: editor/sidebar.js:70
 msgid "Observed"
 msgstr ""
 
-#: editor/sidebar.js:66
+#: editor/sidebar.js:71
 msgid ""
 "Associated with being quoted in testing and third-party studies, but not "
 "documented by any engine."
 msgstr ""
 
-#: editor/sidebar.js:71
+#: editor/sidebar.js:76
 msgid "Heuristic"
 msgstr ""
 
-#: editor/sidebar.js:72
+#: editor/sidebar.js:77
 msgid "Our own judgement call. No engine has confirmed it reads this signal."
 msgstr ""
 
-#: editor/sidebar.js:79
+#: editor/sidebar.js:84
 msgid "Excellent"
 msgstr ""
 
-#: editor/sidebar.js:80
+#: editor/sidebar.js:85
 msgid "Good"
 msgstr ""
 
-#: editor/sidebar.js:81
+#: editor/sidebar.js:86
 msgid "Fair"
 msgstr ""
 
-#: editor/sidebar.js:82
+#: editor/sidebar.js:87
 msgid "Needs work"
 msgstr ""
 
-#: editor/sidebar.js:213
+#: editor/sidebar.js:218
 msgid "Scoring…"
 msgstr ""
 
-#: editor/sidebar.js:214
+#: editor/sidebar.js:219
 msgid "Save the post to calculate its readiness score."
 msgstr ""
 
-#: editor/sidebar.js:288
+#: editor/sidebar.js:293
 msgid "Enabling…"
 msgstr ""
 
-#: editor/sidebar.js:291
+#: editor/sidebar.js:296
 msgid "site-wide"
 msgstr ""
 
-#: editor/sidebar.js:318
+#: editor/sidebar.js:336
 msgid "Re-check readiness"
 msgstr ""
 
-#: editor/sidebar.js:324
+#: editor/sidebar.js:347
+msgid "How this is scored"
+msgstr ""
+
+#: editor/sidebar.js:355
 msgid "Answer-Engine Readiness"
 msgstr ""
 
-#: editor/sidebar.js:403
+#: editor/sidebar.js:434
 msgid "Search Appearance"
 msgstr ""
 
-#: editor/sidebar.js:407
+#: editor/sidebar.js:438
 msgid "Overrides the computed <title>. Supports %%tokens%%."
 msgstr ""
 
-#: editor/sidebar.js:412
+#: editor/sidebar.js:443
 msgid "The snippet search and answer engines may show."
 msgstr ""
 
-#: editor/sidebar.js:417
+#: editor/sidebar.js:448
 msgid "Leave blank to use this post’s permalink."
 msgstr ""
 
-#: editor/sidebar.js:426
+#: editor/sidebar.js:457
 msgid ""
 "Ask engines not to index this page (also excludes it from the sitemap and "
 "llms.txt)."
 msgstr ""
 
-#: editor/sidebar.js:431
+#: editor/sidebar.js:462
 msgid "Ask engines not to follow links on this page."
 msgstr ""
 
-#: editor/sidebar.js:436
+#: editor/sidebar.js:467
 msgid "Open Graph"
 msgstr ""
 
-#: editor/sidebar.js:437
+#: editor/sidebar.js:468
 msgid "OG title"
 msgstr ""
 
-#: editor/sidebar.js:438
+#: editor/sidebar.js:469
 msgid "OG description"
 msgstr ""
 
-#: editor/sidebar.js:441
+#: editor/sidebar.js:472
 msgid "OG image URL"
 msgstr ""
 
-#: editor/sidebar.js:447
+#: editor/sidebar.js:478
 msgid "X (Twitter)"
 msgstr ""
 
-#: editor/sidebar.js:448
+#: editor/sidebar.js:479
 msgid "Card title"
 msgstr ""
 
-#: editor/sidebar.js:449
+#: editor/sidebar.js:480
 msgid "Card description"
 msgstr ""
 
-#: editor/sidebar.js:450
+#: editor/sidebar.js:481
 msgid "Card image URL"
 msgstr ""
 
@@ -895,7 +903,7 @@ msgid ""
 "%s is still active. Deactivate it after setup to avoid duplicate meta tags."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:844
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:875
 #: apps/admin/src/features/onboarding/ContentStep.tsx:99
 msgid "(no title)"
 msgstr ""
@@ -911,8 +919,8 @@ msgid ""
 "A short description answer engines can quote. Shown at the top of llms.txt."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:352
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:655
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:379
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:686
 #: apps/admin/src/features/onboarding/ReportStep.tsx:97
 msgid "AEO"
 msgstr ""
@@ -946,7 +954,7 @@ msgstr ""
 msgid "AI readiness"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:661
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:692
 msgid "Action"
 msgstr ""
 
@@ -988,7 +996,7 @@ msgstr ""
 msgid "Agent Readiness"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:898
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:929
 msgid "All readiness checks pass now. 🎉"
 msgstr ""
 
@@ -1075,7 +1083,7 @@ msgstr ""
 msgid "Clean up URLs and control how links behave on the front end."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:647
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:678
 msgid "Click a row to see what to fix."
 msgstr ""
 
@@ -1115,11 +1123,11 @@ msgstr ""
 msgid "Could not read the file."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:815
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:846
 msgid "Couldn’t apply that fix."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:429
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:456
 msgid "Critical"
 msgstr ""
 
@@ -1154,7 +1162,7 @@ msgstr ""
 msgid "Destructive actions"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:899
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:930
 msgid ""
 "Details aren’t loaded yet. Run “Scan now” at the top to refresh this list."
 msgstr ""
@@ -1187,7 +1195,7 @@ msgstr ""
 msgid "Download the current configuration as a JSON file."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:883
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:914
 msgid "Edit"
 msgstr ""
 
@@ -1217,11 +1225,11 @@ msgstr ""
 msgid "Enabled during setup"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:810
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:841
 msgid "Enabled site-wide: your pages are being re-scored."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:642
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:673
 msgid "Every scanned page is in good shape. 🎉"
 msgstr ""
 
@@ -1257,7 +1265,7 @@ msgstr ""
 msgid "Failed to load the dashboard:"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:964
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:995
 msgid "Fix in editor"
 msgstr ""
 
@@ -1358,11 +1366,11 @@ msgstr ""
 msgid "Indexing"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:658
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:689
 msgid "Issues"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:467
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:494
 msgid "Issues overview"
 msgstr ""
 
@@ -1475,7 +1483,7 @@ msgstr ""
 msgid "Nothing available."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:591
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:618
 msgid "Nothing urgent: your configuration looks healthy."
 msgstr ""
 
@@ -1508,7 +1516,7 @@ msgstr ""
 msgid "Opens /sitemap.xml"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:443
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:470
 msgid "Opportunities"
 msgstr ""
 
@@ -1541,7 +1549,7 @@ msgstr ""
 msgid "Overwrite existing Flexa values"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:653
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:684
 msgid "Page"
 msgstr ""
 
@@ -1552,11 +1560,11 @@ msgid ""
 "builds are not rebuilt on every visit."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:637
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:666
 msgid "Pages needing attention"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:450
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:477
 msgid "Passed"
 msgstr ""
 
@@ -1600,7 +1608,7 @@ msgid ""
 "values."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:586
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:613
 msgid "Recommended actions"
 msgstr ""
 
@@ -1648,15 +1656,15 @@ msgstr ""
 msgid "Report"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:796
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:827
 msgid "Rescan failed."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:979
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:1010
 msgid "Rescan this page"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:979
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:1010
 msgid "Rescanning…"
 msgstr ""
 
@@ -1706,20 +1714,20 @@ msgstr ""
 msgid "Rich preview cards on X."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:641
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:672
 msgid "Run a scan to surface the pages that need work."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:345
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:372
 msgid "Run “Scan now” a few times to build a score history here."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:351
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:378
 #: apps/admin/src/features/onboarding/ReportStep.tsx:92
 msgid "SEO"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:341
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:368
 msgid "SEO & AEO trend"
 msgstr ""
 
@@ -1731,7 +1739,7 @@ msgstr ""
 msgid "SEO Score"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:386
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:413
 msgid "SEO and AEO score history"
 msgstr ""
 
@@ -1953,7 +1961,7 @@ msgid ""
 "Fill-gaps keeps anything Flexa already has."
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:832
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:863
 msgid "Toggle issue details"
 msgstr ""
 
@@ -1994,7 +2002,7 @@ msgstr ""
 msgid "View on WordPress.org"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:436
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:463
 msgid "Warnings"
 msgstr ""
 
@@ -2090,7 +2098,7 @@ msgstr ""
 msgid "good"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:560
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:587
 msgid "n/a"
 msgstr ""
 
@@ -2106,7 +2114,7 @@ msgstr ""
 msgid "to confirm"
 msgstr ""
 
-#: apps/admin/src/features/dashboard/DashboardPage.tsx:948
+#: apps/admin/src/features/dashboard/DashboardPage.tsx:979
 msgid "· site-wide"
 msgstr ""
 

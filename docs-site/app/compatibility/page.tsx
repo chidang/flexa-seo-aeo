@@ -51,7 +51,7 @@ export default function Compatibility() {
       <Sidebar
         items={COMPATIBILITY_NAV}
         title="Flexa SEO - AEO"
-        subtitle="Compatibility · v0.6.0"
+        subtitle="Compatibility · v0.6.1"
         crossLinkHref="/"
         crossLinkLabel="← Back to the scoring rubric"
         secondaryLink={{ href: '/services', label: 'Need a custom build?' }}
@@ -61,7 +61,7 @@ export default function Compatibility() {
         {/* ── Hero ─────────────────────────────────────────────── */}
         <header className="py-14">
           <p className="text-xs font-semibold uppercase tracking-widest text-brand-600">
-            Compatibility · v0.6.0
+            Compatibility · v0.6.1
           </p>
           <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
             Running alongside the other SEO plugins
@@ -102,7 +102,7 @@ export default function Compatibility() {
 
         <Section id="baseline" kicker="Reproducibility" title="The test baseline">
           <p>
-            Results below were produced on 16 October 2026 against these exact
+            Results below were produced on 17 October 2026 against these exact
             versions. If you are reporting something that disagrees with this
             page, please include your equivalent list.
           </p>
@@ -112,7 +112,7 @@ export default function Compatibility() {
               ['WordPress', '7.1.3'],
               ['PHP', '8.5.3'],
               ['WooCommerce', '11.0.1'],
-              [<strong key="f">Flexa SEO - AEO</strong>, <strong key="v">0.5.5</strong>],
+              [<strong key="f">Flexa SEO - AEO</strong>, <strong key="v">0.6.1</strong>],
               ['Yoast SEO', '28.7'],
               ['Rank Math', '1.0.270'],
               ['All in One SEO', '5.0.3'],
@@ -133,30 +133,26 @@ export default function Compatibility() {
               as the floor.
             </p>
           </Callout>
-          <Callout tone="info" title="What has changed since this run">
+          <Callout tone="info" title="What this re-run changed">
             <p>
-              The numbers on this page were measured against Flexa SEO 0.5.5
-              and have been left exactly as they came out. Two things about
-              Flexa itself changed in 0.6.0, after the run:
+              Every number on this page was measured again for 0.6.1, on the
+              same install and the same post as the 0.5.5 run. One of them
+              moved. Flexa now writes its robots directives through
+              WordPress&rsquo;s own <Code>wp_robots</Code> filter, and so do
+              Rank Math and All in One SEO, so each of those two pairings now
+              produces one <Code>meta name=robots</Code> tag where it used to
+              produce two. Read the note under the table before counting that
+              as a clean result.
             </p>
-            <ul>
-              <li>
-                The robots directives are now written through WordPress&rsquo;s
-                own <Code>wp_robots</Code> filter instead of being printed
-                separately, so a page carries one{' '}
-                <Code>meta name=robots</Code> tag rather than two. The row for
-                that tag in the table below predates the change and is the one
-                number here worth re-measuring on your own install.
-              </li>
-              <li>
-                The conflict warning now covers all four plugins. SEOPress and
-                All in One SEO used to go unmentioned; the matrix column below
-                reflects 0.6.0, not the 0.5.5 run.
-              </li>
-            </ul>
             <p>
-              Nothing else moved. The full matrix gets re-measured next release,
-              against whatever versions the four competitors are on then.
+              Sitemap ownership and the <Code>robots.txt</Code> lines were
+              measured again and came out the same. The migration and
+              read-fallback tables below were not re-run on a test post this
+              time; they were checked against the field maps 0.6.1 actually
+              ships, which are the same maps the 0.5.5 run measured. Rank Math
+              1.0.280 and SEOPress 10.3 were released after this run and have
+              not been tested, so the versions in the table above are the ones
+              every number below came from.
             </p>
           </Callout>
         </Section>
@@ -319,8 +315,8 @@ export default function Compatibility() {
                 <Code key="t">meta name=robots</Code>,
                 <Count key="b" n={1} />,
                 <Count key="y" n={1} />,
-                <Count key="r" n={2} />,
-                <Count key="a" n={2} />,
+                <Count key="r" n={1} />,
+                <Count key="a" n={1} />,
                 <Count key="s" n={2} />,
               ],
               [
@@ -334,11 +330,30 @@ export default function Compatibility() {
             ]}
           />
           <p>
-            The three ones in the Yoast column are not Yoast behaving better.
-            They are Yoast declining to emit a tag it had no value for on an
+            The ones in the Yoast column are not Yoast behaving better. They
+            are Yoast declining to emit a tag it had no value for on an
             unconfigured install. Give it a description and the count goes to
             two like the rest.
           </p>
+          <Callout tone="warn" title="One robots tag is not the same as the right robots tag">
+            <p>
+              Four of the five columns show a single{' '}
+              <Code>meta name=robots</Code> tag, because Flexa, Yoast, Rank
+              Math and All in One SEO all write their directives through
+              WordPress&rsquo;s <Code>wp_robots</Code> filter and the filter
+              returns one array. That removes the duplicate tag. It does not
+              decide whose directives survive: whichever plugin filters last
+              owns the value.
+            </p>
+            <p>
+              With All in One SEO 5.0.3 active and unconfigured, the single tag
+              came out as <Code>max-image-preview:large</Code> and nothing
+              else. Flexa&rsquo;s <Code>index, follow</Code> had been dropped
+              on the way through. SEOPress is the opposite case: it prints its
+              own tag instead of filtering, so the page carries two, one from
+              each plugin, with the same directives in both.
+            </p>
+          </Callout>
           <p>
             Reproduce it on your own site with nothing more than curl:
           </p>
@@ -500,12 +515,23 @@ export default function Compatibility() {
               ],
               [
                 <span key="i">
-                  SEOPress and All in One SEO are not detected by the Setup
-                  Assistant, so no duplicate-output warning appears when they
-                  are active.
+                  Moving off SEOPress has to be done by hand. Flexa reads
+                  SEOPress&rsquo;s meta while both are installed, but there is
+                  no migration to copy it, so the fields are lost the moment
+                  SEOPress is deactivated.
                 </span>,
-                'Flexa + SEOPress, Flexa + AIOSEO',
+                'Flexa + SEOPress',
                 'Open',
+              ],
+              [
+                <span key="i">
+                  With All in One SEO active, the single{' '}
+                  <Code>meta name=robots</Code> tag carries AIOSEO&rsquo;s
+                  directives and Flexa&rsquo;s are dropped. Two plugins
+                  filtering <Code>wp_robots</Code> means one of them loses.
+                </span>,
+                'Flexa + AIOSEO',
+                'Open, will not be fixed: run one SEO plugin',
               ],
             ]}
           />
