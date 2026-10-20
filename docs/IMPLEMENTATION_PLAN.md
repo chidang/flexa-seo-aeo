@@ -45,7 +45,7 @@ Canonical reference: `../flexa-cache/` and `../flexa-media-folders-pro/`.
 - [x] HTML sitemap `[flexa_seo_aeo_sitemap]` shortcode (`Actions\Sitemap\HtmlSitemap`, reuses the same `Sitemap::html_tree()`). Gutenberg block wrapper deferred to Phase 4 (needs build step).
 - [x] robots.txt filter (`Actions\RobotsTxt`: `Sitemap:` line + custom `robots_txt` append, skipped on non-public sites) + IndexNow (`Services\IndexNow` submit + auto key, `Actions\IndexNow` publish/update ping + `/{key}.txt` rewrite + flush-on-toggle).
 - [x] Settings extended: `indexnow` toggle, `robots_txt`, `indexnow_key` (schema/coerce/sanitize).
-- [ ] **Deferred:** Google Indexing API ping (needs OAuth service-account) → Pro/later. Sitemap image entries currently featured-image only (content-image extraction later).
+- [ ] **Deferred:** Google Indexing API ping (needs OAuth service-account) → Pro/later. Sitemap image entries: featured image plus every `<img>` in the stored content (`Support\ContentImages`, added 2026-10-20).
 - [ ] Verify phpstan L6 clean once `composer install` runs (shared Phase 0 TODO).
 
 ### Phase 3 — AEO core (differentiator, high priority) — code DONE (phpstan pending vendor)

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flexa\SeoAeo\Services;
 
+use Flexa\SeoAeo\Support\ContentImages;
 use Flexa\SeoAeo\Support\Settings;
 use Flexa\SeoAeo\Support\SingletonTrait;
 use WP_Post;
@@ -27,6 +28,11 @@ final class Sitemap {
 	 * document small and matches WordPress core's own default.
 	 */
 	public const MAX_PER_PAGE = 2000;
+
+	/**
+	 * Google's limit on `<image:image>` entries for a single `<url>`.
+	 */
+	private const MAX_IMAGES_PER_URL = 1000;
 
 	private const NOINDEX_META = '_flexa_seo_aeo_noindex';
 
@@ -601,6 +607,8 @@ final class Sitemap {
 	}
 
 	/**
+	 * The featured image first, then every image the content itself shows.
+	 *
 	 * @return list<string>
 	 */
 	private function post_images( WP_Post $post ): array {
@@ -613,6 +621,8 @@ final class Sitemap {
 			}
 		}
 
+		$images = array_merge( $images, ContentImages::extract( (string) $post->post_content, home_url( '/' ) ) );
+
 		/**
 		 * Filters the image URLs advertised for a post in the sitemap.
 		 *
@@ -621,7 +631,9 @@ final class Sitemap {
 		 */
 		$images = (array) apply_filters( 'flexa_seo_aeo/sitemap/post_images', $images, $post );
 
-		return array_values( array_unique( array_filter( array_map( 'strval', $images ) ) ) );
+		$images = array_values( array_unique( array_filter( array_map( 'strval', $images ) ) ) );
+
+		return array_slice( $images, 0, self::MAX_IMAGES_PER_URL );
 	}
 
 	private function to_iso( string $gmt_datetime ): string {
