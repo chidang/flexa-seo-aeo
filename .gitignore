@@ -35,3 +35,6 @@ Thumbs.db
 # Release artifacts
 /build/
 *.zip
+
+# Local QA reports
+/docs/QA_*.md
