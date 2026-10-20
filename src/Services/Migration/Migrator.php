@@ -11,8 +11,8 @@ use Flexa\SeoAeo\Support\SingletonTrait;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Bulk-imports per-post SEO meta from another plugin (Yoast SEO, Rank Math)
- * into Flexa's `_flexa_seo_aeo_*` keys. This is the write-side counterpart to
+ * Bulk-imports per-post SEO meta from another plugin (Yoast SEO, Rank Math,
+ * SEOPress) into Flexa's `_flexa_seo_aeo_*` keys. This is the write-side counterpart to
  * the read fallback in {@see PostMetaRepository}: the fallback keeps output
  * working while both plugins coexist; this copies the data across so the site
  * can deactivate the old plugin.

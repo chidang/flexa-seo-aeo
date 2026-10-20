@@ -12,9 +12,9 @@ defined( 'ABSPATH' ) || exit;
  * Kept apart from the migration sources in
  * {@see \Flexa\SeoAeo\Services\Migration\LegacyMapper} on purpose. Those two
  * lists answer different questions: "can we import your old data" and "is
- * something else writing the same tags right now". SEOPress and All in One SEO
- * are the clear case, since the plugin can read SEOPress meta but has never
- * warned about either of them being switched on.
+ * something else writing the same tags right now". All in One SEO is the
+ * clear case: it collides with this plugin, but there is nothing of its to
+ * import.
  *
  * Each entry lists every main-file path the plugin has shipped under, because
  * folder names differ between the free and pro builds.

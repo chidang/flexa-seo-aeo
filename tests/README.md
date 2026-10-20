@@ -22,6 +22,7 @@ No database, no WordPress install, no network. The suite runs in about 30ms.
 | `Unit/SettingsSchemaTest.php` | What a REST write is allowed to persist: unknown keys, boolean coercion, separator and IndexNow key sanitising |
 | `Unit/SitemapExclusionTest.php` | Keeping noindexed and password-protected posts out of the sitemap, in both the inline-list and subquery modes, including the single-join query shape |
 | `Unit/BreadcrumbsTest.php` | The posts-page trail, Home then the page itself, and the views that correctly get none (the `/blog/` missing JSON-LD backlog item from the 0.5.6 retests) |
+| `Unit/LegacyMapperTest.php` | Migration mapping from SEOPress (all nine string fields, the `'yes'` robots checkboxes, its `%%post_title%%`-style tokens), with Yoast and Rank Math pinned so the per-source token table cannot leak between them |
 
 ## How the WordPress side is faked
 

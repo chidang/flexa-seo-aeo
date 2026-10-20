@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * WP-CLI commands for Flexa SEO.
  *
  *     wp flexa-seo-aeo status
- *     wp flexa-seo-aeo migrate --source=<yoast|rankmath|all> [--overwrite] [--dry-run]
+ *     wp flexa-seo-aeo migrate --source=<yoast|rankmath|seopress|all> [--overwrite] [--dry-run]
  *     wp flexa-seo-aeo reset [--yes]
  *     wp flexa-seo-aeo ping
  */
@@ -87,12 +87,13 @@ final class PluginCommand {
 	 * ## OPTIONS
 	 *
 	 * [--source=<source>]
-	 * : Which plugin to migrate from. One of: yoast, rankmath, all.
+	 * : Which plugin to migrate from. One of: yoast, rankmath, seopress, all.
 	 * ---
 	 * default: all
 	 * options:
 	 *   - yoast
 	 *   - rankmath
+	 *   - seopress
 	 *   - all
 	 * ---
 	 *
@@ -121,7 +122,7 @@ final class PluginCommand {
 		$sources = 'all' === $source ? LegacyMapper::source_ids() : [ $source ];
 		foreach ( $sources as $candidate ) {
 			if ( ! LegacyMapper::is_source( $candidate ) ) {
-				WP_CLI::error( sprintf( 'Unknown source "%s". Use yoast, rankmath, or all.', $candidate ) );
+				WP_CLI::error( sprintf( 'Unknown source "%s". Use yoast, rankmath, seopress, or all.', $candidate ) );
 			}
 		}
 

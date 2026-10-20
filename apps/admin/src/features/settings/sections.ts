@@ -104,10 +104,10 @@ export const SECTIONS: SectionMeta[] = [
     {
         id: "migrate",
         title: __("Migrate"),
-        subtitle: __("Import from Yoast & Rank Math"),
+        subtitle: __("Import from Yoast, Rank Math & SEOPress"),
         icon: ArrowLeftRight,
         paneTitle: __("Migrate from another plugin"),
-        paneSubtitle: __("Bring your existing SEO meta over from Yoast SEO or Rank Math."),
+        paneSubtitle: __("Bring your existing SEO meta over from Yoast SEO, Rank Math or SEOPress."),
     },
     {
         id: "tools",

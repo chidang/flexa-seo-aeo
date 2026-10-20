@@ -14,7 +14,7 @@ Complete WordPress SEO (schema, sitemaps, meta, Open Graph), plus an Answer-Engi
 
 == Description ==
 
-Flexa SEO is a complete, privacy-first SEO plugin: title & meta templating, JSON-LD schema, XML sitemaps, Open Graph, `robots.txt`, IndexNow, and one-click migration from Yoast and Rank Math. It covers the SEO baseline you expect, and then goes one step further than any of them.
+Flexa SEO is a complete, privacy-first SEO plugin: title & meta templating, JSON-LD schema, XML sitemaps, Open Graph, `robots.txt`, IndexNow, and one-click migration from Yoast, Rank Math and SEOPress. It covers the SEO baseline you expect, and then goes one step further than any of them.
 
 A guided **Setup Assistant** takes you from activation to a configured, answer-engine-ready site in a few minutes: it detects your setup, recommends the SEO and AEO settings that fit, and applies them in one click. Every recommendation is compared against the defaults, so you see exactly which settings will change before anything is applied and any value you set yourself is kept.
 
@@ -36,7 +36,7 @@ This turns "AEO" from a file you generate once into a workflow your team improve
 * JSON-LD structured data (`@graph`): Article / BlogPosting / WebPage, WebSite + SearchAction, Organization / Person publisher, and automatic FAQPage from core FAQ blocks.
 * Open Graph and Twitter Card tags, canonical URLs, and configurable robots directives (AEO-friendly defaults: `max-snippet:-1`, `max-image-preview:large`).
 * XML sitemaps (index + per-type sub-sitemaps, image entries) with a branded XSL stylesheet, plus an HTML sitemap shortcode `[flexa_seo_aeo_sitemap]` and a sitemap block.
-* Per-post editing in a classic metabox **and** a Gutenberg editor sidebar, with one-click **migration from Yoast and Rank Math**, and a read-fallback that also covers SEOPress so nothing breaks mid-move.
+* Per-post editing in a classic metabox **and** a Gutenberg editor sidebar, with one-click **migration from Yoast, Rank Math and SEOPress**, and a read-fallback for all three so nothing breaks mid-move.
 * `robots.txt` management and optional **IndexNow** ping on publish/update (see *External services* below).
 * **Links** controls: strip the category base from archive URLs, redirect attachment pages to their parent (with an orphan fallback), and add `nofollow` / `target="_blank"` to external links at display time.
 
@@ -128,7 +128,7 @@ No account is required, and no content is sent anywhere. There are only two opti
 
 Run one SEO plugin at a time. With two active you get two canonical tags, two sets of Open Graph tags and often two JSON-LD graphs, and search engines pick between them. A tested compatibility matrix, with exact plugin versions and the duplicate tags each pairing produces, is published at https://flexa-seo-aeo.vercel.app/compatibility.
 
-While you are still moving, Flexa SEO reads existing per-post meta from Yoast, Rank Math and SEOPress as a fallback, so the front end keeps working. One-click migration covers Yoast and Rank Math.
+While you are still moving, Flexa SEO reads existing per-post meta from Yoast, Rank Math and SEOPress as a fallback, so the front end keeps working. The fallback does not carry robots settings, so run the one-click migration (it covers all three) before you deactivate the old plugin.
 
 = Does it work without WooCommerce? =
 

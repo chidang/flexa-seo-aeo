@@ -25,6 +25,7 @@ final class LegacyMapper {
 	public const SOURCES = [
 		'yoast'    => 'Yoast SEO',
 		'rankmath' => 'Rank Math',
+		'seopress' => 'SEOPress',
 	];
 
 	/**
@@ -56,6 +57,17 @@ final class LegacyMapper {
 			'twitter_description' => 'rank_math_twitter_description',
 			'twitter_image'       => 'rank_math_twitter_image',
 		],
+		'seopress' => [
+			'title'               => '_seopress_titles_title',
+			'description'         => '_seopress_titles_desc',
+			'canonical'           => '_seopress_robots_canonical',
+			'og_title'            => '_seopress_social_fb_title',
+			'og_description'      => '_seopress_social_fb_desc',
+			'og_image'            => '_seopress_social_fb_img',
+			'twitter_title'       => '_seopress_social_twitter_title',
+			'twitter_description' => '_seopress_social_twitter_desc',
+			'twitter_image'       => '_seopress_social_twitter_img',
+		],
 	];
 
 	/**
@@ -67,6 +79,7 @@ final class LegacyMapper {
 	private const ROBOTS_KEYS = [
 		'yoast'    => [ '_yoast_wpseo_meta-robots-noindex', '_yoast_wpseo_meta-robots-nofollow', '_yoast_wpseo_meta-robots-adv' ],
 		'rankmath' => [ 'rank_math_robots' ],
+		'seopress' => [ '_seopress_robots_index', '_seopress_robots_follow' ],
 	];
 
 	/**
@@ -83,6 +96,26 @@ final class LegacyMapper {
 		'seo_title'    => 'title',    // Rank Math self-reference.
 		'term'         => 'term_title',
 		'category'     => 'term_title',
+	];
+
+	/**
+	 * Token renames that only hold for one source, checked before
+	 * {@see self::TOKEN_MAP}. SEOPress already uses `%%token%%` delimiters but
+	 * prefixes most names, so its vocabulary needs its own table.
+	 *
+	 * @var array<string, array<string, string>>
+	 */
+	private const SOURCE_TOKEN_MAP = [
+		'seopress' => [
+			'post_title'         => 'title',
+			'sitetitle'          => 'sitename',
+			'post_excerpt'       => 'excerpt',
+			'post_author'        => 'author',
+			'_category_title'    => 'term_title',
+			'tag_title'          => 'term_title',
+			'search_keywords'    => 'searchphrase',
+			'current_pagination' => 'page',
+		],
 	];
 
 	/**
@@ -188,11 +221,13 @@ final class LegacyMapper {
 			$value = (string) preg_replace( '/%([a-z0-9_]+)(?:\([^)]*\))?%/i', '%%$1%%', $value );
 		}
 
+		$renames = ( self::SOURCE_TOKEN_MAP[ $source ] ?? [] ) + self::TOKEN_MAP;
+
 		return (string) preg_replace_callback(
 			'/%%([a-z0-9_]+)%%/i',
-			static function ( array $matches ): string {
+			static function ( array $matches ) use ( $renames ): string {
 				$name   = strtolower( $matches[1] );
-				$mapped = self::TOKEN_MAP[ $name ] ?? $name;
+				$mapped = $renames[ $name ] ?? $name;
 
 				return '' === $mapped ? '' : '%%' . $mapped . '%%';
 			},
@@ -221,6 +256,16 @@ final class LegacyMapper {
 			$nofollow = '1' === $nofollow_flag || str_contains( $advanced, 'nofollow' );
 
 			return [ $noindex, $nofollow ];
+		}
+
+		// SEOPress stores each checkbox as 'yes' when ticked, and the boxes
+		// are worded negatively: "Do not display this page in search engine
+		// results" is `_seopress_robots_index`.
+		if ( 'seopress' === $source ) {
+			return [
+				'yes' === ( $meta['_seopress_robots_index'] ?? '' ),
+				'yes' === ( $meta['_seopress_robots_follow'] ?? '' ),
+			];
 		}
 
 		// Rank Math stores rank_math_robots as an array of directive strings

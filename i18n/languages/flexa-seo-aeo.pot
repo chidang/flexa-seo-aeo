@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-17T01:12:34+00:00\n"
+"POT-Creation-Date: 2026-10-20T04:54:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: flexa-seo-aeo\n"
@@ -565,15 +565,15 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: the search term.
-#: src/Services/Breadcrumbs.php:91
+#: src/Services/Breadcrumbs.php:93
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: src/Services/Breadcrumbs.php:93 src/Services/Metas.php:169
+#: src/Services/Breadcrumbs.php:95 src/Services/Metas.php:169
 msgid "Page not found"
 msgstr ""
 
-#: src/Services/Breadcrumbs.php:213
+#: src/Services/Breadcrumbs.php:237
 msgid "Home"
 msgstr ""
 
@@ -1070,7 +1070,8 @@ msgid "Bring your existing SEO data over"
 msgstr ""
 
 #: apps/admin/src/features/settings/sections.ts:110
-msgid "Bring your existing SEO meta over from Yoast SEO or Rank Math."
+msgid ""
+"Bring your existing SEO meta over from Yoast SEO, Rank Math or SEOPress."
 msgstr ""
 
 #: apps/admin/src/features/onboarding/AeoStep.tsx:33
@@ -1334,7 +1335,7 @@ msgid "Import & export settings"
 msgstr ""
 
 #: apps/admin/src/features/settings/sections.ts:107
-msgid "Import from Yoast & Rank Math"
+msgid "Import from Yoast, Rank Math & SEOPress"
 msgstr ""
 
 #: apps/admin/src/features/settings/ToolsPane.tsx:163

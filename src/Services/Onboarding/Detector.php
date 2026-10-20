@@ -16,9 +16,10 @@ defined( 'ABSPATH' ) || exit;
  * from WordPress core APIs and services the plugin already ships, so a re-run
  * always sees current reality and nothing needs persisting.
  *
- * The whole payload is cheap: two bounded COUNT queries via {@see Migrator}
- * (single-JOIN `meta_key IN (…)`, never a multi-key OR meta_query), core's
- * cached `wp_count_posts()`, and a one-row latest-post lookup.
+ * The whole payload is cheap: one bounded COUNT query per migration source
+ * via {@see Migrator} (single-JOIN `meta_key IN (…)`, never a multi-key OR
+ * meta_query), core's cached `wp_count_posts()`, and a one-row latest-post
+ * lookup.
  */
 final class Detector {
 	use SingletonTrait;

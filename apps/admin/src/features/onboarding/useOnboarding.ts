@@ -22,7 +22,7 @@ export interface OnboardingStateData {
   dismissed_at: number | null;
 }
 
-/** A detected legacy SEO plugin (Yoast / Rank Math). */
+/** A detected legacy SEO plugin (Yoast / Rank Math / SEOPress). */
 export interface SeoPlugin {
   id: string;
   label: string;
