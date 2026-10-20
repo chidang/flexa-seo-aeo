@@ -4,7 +4,7 @@ Tags: seo, schema, sitemap, aeo, woocommerce
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 0.6.1
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 8.0
@@ -144,7 +144,7 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 6. Settings: indexing controls, IndexNow, and custom robots.txt rules.
 7. Settings: AEO Core options: llms.txt, the plain-text and Markdown alternates for AI crawlers, Agent Readiness, and JSON-LD schema.
 8. Settings: branding and white-label, to replace the plugin name across the admin.
-9. Settings: one-click migration of titles, meta and settings from Yoast SEO or Rank Math.
+9. Settings: one-click migration of per-post titles, descriptions, robots and social fields from Yoast SEO, Rank Math or SEOPress.
 10. Settings: import and export the full plugin configuration to move it between sites.
 11. Settings: Danger Zone, to restore defaults and clear per-post SEO overrides.
 12. Block editor: the Search & AI panel, editing title, meta description and canonical URL per page.
@@ -152,6 +152,11 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 14. Settings: social sharing with Open Graph and X (Twitter) Cards, card type, and a default share image.
 
 == Changelog ==
+
+= 1.0.0 =
+* New: one-click migration from SEOPress. Until now the plugin only read SEOPress meta as a fallback, so deactivating SEOPress took every custom title with it. Migration now copies the title, meta description, canonical URL, the noindex and nofollow boxes, and the Facebook and X title, description and image, then converts SEOPress variables such as `%%post_title%%` and `%%sitetitle%%` into their Flexa equivalents. It runs from Settings, from the Setup Assistant or with `wp flexa-seo-aeo migrate --source=seopress`, and posts already migrated are skipped on a second run.
+* New: the image sitemap lists the images in a post's content, not only its featured image. Every `<img>` saved by the Image, Gallery, Cover and Media & Text blocks or the classic editor is included, relative paths are made absolute, and duplicates are dropped, up to 1,000 images per URL. Images a shortcode or dynamic block adds at render time can still be supplied through `flexa_seo_aeo/sitemap/post_images`.
+* Fix: the posts page (the "Blog" page under Settings > Reading) carried no structured data at all. Its breadcrumb trail stopped at Home, so it was dropped, and the Organization node went with it. The page now gets a Home > Blog trail and prints BreadcrumbList and Organization JSON-LD like every other page.
 
 = 0.6.1 =
 * New: the Dashboard, the block-editor sidebar and the duplicate-tag warning now link to the published documentation. The readiness checklist gets a "How this is scored" link to the rubric, which gives every weight and threshold and the reasoning behind it, and the conflict warning links to the compatibility matrix, so you can see which tag each pairing really duplicates and at which versions. A white-labelled install gets no links at all, and `flexa_seo_aeo/docs/base_url` points them at your own copy if you host one.
@@ -239,6 +244,9 @@ Yes. WooCommerce product schema is an optional layer that activates only when Wo
 * Initial release: **Answer-Engine Readiness Score** (per-post 0–100 grade + actionable checklist in the block editor), title/meta templating, Open Graph & Twitter, canonical & robots, XML/HTML sitemaps, robots.txt, IndexNow, llms.txt, Agent Readiness Markdown export, JSON-LD schema (Article/WebPage/WebSite/Organization/FAQ), one-click migration from Yoast and Rank Math, optional WooCommerce Product schema, and a React admin app.
 
 == Upgrade Notice ==
+
+= 1.0.0 =
+Adds one-click migration from SEOPress, lists images from post content in the image sitemap, and restores structured data on the posts page. Leaving SEOPress? Run the migration before you deactivate it.
 
 = 0.6.1 =
 Links the Dashboard, the editor sidebar and the conflict warning to the published scoring rubric and compatibility matrix. No change to anything the front end sends. The matrix has been re-measured.
