@@ -184,7 +184,7 @@ export default function Compatibility() {
               [
                 <strong key="n">SEOPress 10.1</strong>,
                 <No key="s" />,
-                <No key="m" />,
+                <Yes key="m" />,
                 <Yes key="r" />,
                 <Yes key="d" />,
               ],
@@ -218,13 +218,7 @@ export default function Compatibility() {
               ],
             ]}
           />
-          <Callout tone="warn" title="Two gaps worth knowing about">
-            <p>
-              SEOPress has a read-fallback but no migration, so moving from it
-              means Flexa keeps reading SEOPress&rsquo;s meta rather than
-              owning a copy. Deactivating SEOPress leaves those posts without
-              their titles and descriptions.
-            </p>
+          <Callout tone="warn" title="One gap worth knowing about">
             <p>
               All in One SEO is not supported in either direction. Flexa warns
               you that it is active, so you will not be left guessing why the
@@ -442,25 +436,35 @@ export default function Compatibility() {
           <Table
             head={['Field', 'Yoast', 'Rank Math', 'SEOPress', 'AIOSEO']}
             rows={[
-              ['SEO title', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
-              ['Meta description', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
-              ['Canonical URL', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
-              ['OG title', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
-              ['OG description', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
-              ['OG image', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
-              ['Twitter title', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
-              ['Twitter description', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
-              ['Twitter image', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
-              ['noindex', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
-              ['nofollow', <Yes key="y" />, <Yes key="r" />, <No key="s" />, <No key="a" />],
+              ['SEO title', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
+              ['Meta description', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
+              ['Canonical URL', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
+              ['OG title', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
+              ['OG description', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
+              ['OG image', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
+              ['Twitter title', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
+              ['Twitter description', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
+              ['Twitter image', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
+              ['noindex', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
+              ['nofollow', <Yes key="y" />, <Yes key="r" />, <Yes key="s" />, <No key="a" />],
             ]}
           />
           <p>
             Template tokens are converted as part of the move. Rank
             Math&rsquo;s single-delimiter <Code>%sitename%</Code> becomes{' '}
             <Code>%%sitename%%</Code>, and names that differ between
-            vocabularies are mapped across. A token with no equivalent resolves
-            to an empty string rather than printing itself.
+            vocabularies are mapped across, so SEOPress&rsquo;s{' '}
+            <Code>%%post_title%%</Code> becomes <Code>%%title%%</Code> and its{' '}
+            <Code>%%sitetitle%%</Code> becomes <Code>%%sitename%%</Code>. A
+            token with no equivalent resolves to an empty string rather than
+            printing itself.
+          </p>
+          <p>
+            SEOPress migration shipped in 1.0.0. Its column was measured on 20
+            October 2026, against SEOPress 10.1 on the same install: all eleven
+            fields were written on a test post, migrated and read back, and a
+            second run skipped the post as already migrated. The Yoast and Rank
+            Math columns are from the earlier runs described above.
           </p>
           <p>
             Migration never deletes the source plugin&rsquo;s meta. You can run
@@ -493,9 +497,9 @@ export default function Compatibility() {
             <p>
               A post you marked <Code>noindex</Code> in Yoast, Rank Math or
               SEOPress is <strong>not</strong> noindex to Flexa until you either
-              run the migration or tick the box again. On Yoast and Rank Math
-              the migration carries it. On SEOPress there is no migration, so
-              the flag has to be set by hand.
+              run the migration or tick the box again. The migration carries
+              it from all three, so run it before you deactivate the old
+              plugin.
             </p>
           </Callout>
         </Section>
@@ -512,16 +516,6 @@ export default function Compatibility() {
                 </span>,
                 'Flexa + All in One SEO',
                 'Open, will not be fixed: run one SEO plugin',
-              ],
-              [
-                <span key="i">
-                  Moving off SEOPress has to be done by hand. Flexa reads
-                  SEOPress&rsquo;s meta while both are installed, but there is
-                  no migration to copy it, so the fields are lost the moment
-                  SEOPress is deactivated.
-                </span>,
-                'Flexa + SEOPress',
-                'Open',
               ],
               [
                 <span key="i">
