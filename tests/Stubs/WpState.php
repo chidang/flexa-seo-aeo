@@ -114,6 +114,20 @@ final class WpState {
 
 	public static bool $is_front_page = false;
 
+	public static bool $is_home = false;
+
+	/**
+	 * `get_the_title()` and `get_permalink()` answers, keyed by post ID.
+	 *
+	 * @var array<int, string>
+	 */
+	public static array $post_titles = [];
+
+	/**
+	 * @var array<int, string>
+	 */
+	public static array $permalinks = [];
+
 	public static bool $is_404 = false;
 
 	public static string $search_query = '';
@@ -142,6 +156,9 @@ final class WpState {
 		self::$queried_object    = null;
 		self::$is_singular       = false;
 		self::$is_front_page     = false;
+		self::$is_home           = false;
+		self::$post_titles       = [];
+		self::$permalinks        = [];
 		self::$is_404            = false;
 		self::$search_query      = '';
 		self::$home_url          = 'https://example.test/';

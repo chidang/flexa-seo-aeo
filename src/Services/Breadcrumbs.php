@@ -71,6 +71,8 @@ final class Breadcrumbs {
 			if ( $post instanceof WP_Post ) {
 				$crumbs = array_merge( $crumbs, $this->singular( $post ) );
 			}
+		} elseif ( is_home() ) {
+			$crumbs = array_merge( $crumbs, $this->posts_page() );
 		} elseif ( is_category() || is_tag() || is_tax() ) {
 			$term = get_queried_object();
 			if ( $term instanceof WP_Term ) {
@@ -105,6 +107,28 @@ final class Breadcrumbs {
 		$crumbs[ count( $crumbs ) - 1 ]['url'] = '';
 
 		return $crumbs;
+	}
+
+	/**
+	 * The posts page, when a static front page sends the blog index to a page
+	 * of its own. With `show_on_front = posts` the index is the front page and
+	 * {@see self::trail()} never builds a trail for it. An untitled posts page
+	 * has no name to give its crumb, so it gets no trail rather than a blank one.
+	 *
+	 * @return list<array{name: string, url: string}>
+	 */
+	private function posts_page(): array {
+		$page_id = (int) get_option( 'page_for_posts' );
+		if ( $page_id <= 0 ) {
+			return [];
+		}
+
+		$title = (string) get_the_title( $page_id );
+		if ( '' === trim( $title ) ) {
+			return [];
+		}
+
+		return [ $this->crumb( $title, (string) get_permalink( $page_id ) ) ];
 	}
 
 	/**

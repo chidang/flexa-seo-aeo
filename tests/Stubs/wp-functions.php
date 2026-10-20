@@ -260,6 +260,28 @@ if ( ! function_exists( 'is_front_page' ) ) {
 	}
 }
 
+if ( ! function_exists( 'is_home' ) ) {
+	function is_home(): bool {
+		return WpState::$is_home;
+	}
+}
+
+if ( ! function_exists( 'get_the_title' ) ) {
+	function get_the_title( mixed $post = 0 ): string {
+		$id = is_object( $post ) ? (int) ( $post->ID ?? 0 ) : (int) $post;
+
+		return WpState::$post_titles[ $id ] ?? '';
+	}
+}
+
+if ( ! function_exists( 'get_permalink' ) ) {
+	function get_permalink( mixed $post = 0 ): string|false {
+		$id = is_object( $post ) ? (int) ( $post->ID ?? 0 ) : (int) $post;
+
+		return WpState::$permalinks[ $id ] ?? false;
+	}
+}
+
 if ( ! function_exists( 'is_404' ) ) {
 	function is_404(): bool {
 		return WpState::$is_404;

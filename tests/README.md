@@ -21,6 +21,7 @@ No database, no WordPress install, no network. The suite runs in about 30ms.
 | `Unit/SettingsMemoTest.php` | The per-request settings memo, its invalidation, and post-type pruning across the `init` boundary (defects P-07, R-02, R-07) |
 | `Unit/SettingsSchemaTest.php` | What a REST write is allowed to persist: unknown keys, boolean coercion, separator and IndexNow key sanitising |
 | `Unit/SitemapExclusionTest.php` | Keeping noindexed and password-protected posts out of the sitemap, in both the inline-list and subquery modes, including the single-join query shape |
+| `Unit/BreadcrumbsTest.php` | The posts-page trail, Home then the page itself, and the views that correctly get none (the `/blog/` missing JSON-LD backlog item from the 0.5.6 retests) |
 
 ## How the WordPress side is faked
 
@@ -57,6 +58,7 @@ relevant tests fail:
 | An early-resolved settings memo never rebuilt after `init` | 2 |
 | `Variables` without the sentinel for an empty token | 48 |
 | The sitemap keeping password-protected posts | 1 |
+| `Breadcrumbs::build()` without the `is_home()` branch | 3 |
 
 Worth repeating for any new test: break the code on purpose, watch the test
 fail, put it back.
