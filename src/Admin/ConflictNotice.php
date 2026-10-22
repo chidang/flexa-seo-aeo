@@ -64,8 +64,10 @@ final class ConflictNotice {
 			)
 			: '';
 
+		$robots = $this->robots_warning();
+
 		printf(
-			'<div class="notice notice-warning"><p><strong>%s</strong> %s</p><p>%s</p>%s<p><a href="%s" class="button button-secondary">%s</a></p></div>',
+			'<div class="notice notice-warning"><p><strong>%s</strong> %s</p><p>%s</p>%s%s<p><a href="%s" class="button button-secondary">%s</a></p></div>',
 			esc_html( $brand ),
 			esc_html(
 				sprintf(
@@ -75,12 +77,53 @@ final class ConflictNotice {
 				)
 			),
 			esc_html__( 'Two SEO plugins on one site means two canonical tags, two sets of Open Graph tags and often two JSON-LD graphs, and search engines pick between them. Run one and deactivate the other.', 'flexa-seo-aeo' ),
+			// Built from esc_html() in robots_warning().
+			$robots, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			// Assembled just above from esc_url() and esc_html__(); escaping the
 			// whole string again would print the markup instead of rendering it.
 			$evidence, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			esc_url( $this->dismiss_url() ),
 			esc_html__( 'I know, hide this', 'flexa-seo-aeo' )
 		);
+	}
+
+	/**
+	 * The one consequence of a pairing that is worse than a duplicate tag: a
+	 * post set to noindex here can still be indexed. Said per plugin, because
+	 * the advice differs: where the other plugin owns the tag, the setting has
+	 * to be made there until it is switched off.
+	 */
+	private function robots_warning(): string {
+		// Mid-sentence, so lower case under white-label.
+		$brand = (bool) Settings::get( 'whitelabel' )
+			? __( 'this plugin', 'flexa-seo-aeo' )
+			: 'Flexa SEO';
+
+		$html = '';
+
+		foreach ( SeoConflicts::robots_replaced() as $name ) {
+			$html .= '<p>' . esc_html(
+				sprintf(
+					/* translators: 1: an SEO plugin's name, 2: this plugin's name. */
+					__( 'While %1$s is active, noindex and nofollow set in %2$s are not applied: it removes WordPress\'s robots output and prints its own robots tag. A post you set to noindex here can still be indexed. Set them in %1$s until you switch that plugin off.', 'flexa-seo-aeo' ),
+					$name,
+					$brand
+				)
+			) . '</p>';
+		}
+
+		$duplicated = SeoConflicts::robots_duplicated();
+		if ( [] !== $duplicated ) {
+			$html .= '<p>' . esc_html(
+				sprintf(
+					/* translators: %s: comma-separated list of SEO plugin names. */
+					__( '%s prints a second robots tag, so a post set to noindex here carries one tag saying noindex and another saying index.', 'flexa-seo-aeo' ),
+					implode( ', ', $duplicated )
+				)
+			) . '</p>';
+		}
+
+		return $html;
 	}
 
 	public function dismiss(): void {

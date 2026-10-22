@@ -108,6 +108,13 @@ final class WpState {
 	 */
 	public static array $get_posts_args = [];
 
+	/**
+	 * Plugin main files that `is_plugin_active()` answers true for.
+	 *
+	 * @var list<string>
+	 */
+	public static array $active_plugins = [];
+
 	public static ?object $queried_object = null;
 
 	public static bool $is_singular = false;
@@ -153,6 +160,7 @@ final class WpState {
 		self::$password_required = [];
 		self::$get_posts_results = [];
 		self::$get_posts_args    = [];
+		self::$active_plugins    = [];
 		self::$queried_object    = null;
 		self::$is_singular       = false;
 		self::$is_front_page     = false;

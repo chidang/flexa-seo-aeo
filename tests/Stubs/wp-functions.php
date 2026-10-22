@@ -141,6 +141,12 @@ if ( ! function_exists( 'get_taxonomies' ) ) {
 	}
 }
 
+if ( ! function_exists( 'is_plugin_active' ) ) {
+	function is_plugin_active( string $plugin ): bool {
+		return in_array( $plugin, WpState::$active_plugins, true );
+	}
+}
+
 if ( ! function_exists( 'get_posts' ) ) {
 	function get_posts( array $args = [] ): array {
 		WpState::$get_posts_args[] = $args;

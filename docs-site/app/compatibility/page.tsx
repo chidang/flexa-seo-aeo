@@ -138,11 +138,12 @@ export default function Compatibility() {
               Every number on this page was measured again for 0.6.1, on the
               same install and the same post as the 0.5.5 run. One of them
               moved. Flexa now writes its robots directives through
-              WordPress&rsquo;s own <Code>wp_robots</Code> filter, and so do
-              Rank Math and All in One SEO, so each of those two pairings now
-              produces one <Code>meta name=robots</Code> tag where it used to
-              produce two. Read the note under the table before counting that
-              as a clean result.
+              WordPress&rsquo;s own <Code>wp_robots</Code> filter instead of
+              printing its own tag, so the Rank Math and All in One SEO
+              pairings now produce one <Code>meta name=robots</Code> tag where
+              they used to produce two. That one tag is theirs, not a merged
+              one. Read the note under the table before counting it as a clean
+              result.
             </p>
             <p>
               Sitemap ownership and the <Code>robots.txt</Code> lines were
@@ -332,20 +333,56 @@ export default function Compatibility() {
           <Callout tone="warn" title="One robots tag is not the same as the right robots tag">
             <p>
               Four of the five columns show a single{' '}
-              <Code>meta name=robots</Code> tag, because Flexa, Yoast, Rank
-              Math and All in One SEO all write their directives through
-              WordPress&rsquo;s <Code>wp_robots</Code> filter and the filter
-              returns one array. That removes the duplicate tag. It does not
-              decide whose directives survive: whichever plugin filters last
-              owns the value.
+              <Code>meta name=robots</Code> tag, but not for one reason. Flexa
+              and Yoast both write their directives through WordPress&rsquo;s{' '}
+              <Code>wp_robots</Code> filter, so their directives end up merged
+              in core&rsquo;s one tag. Rank Math and All in One SEO call{' '}
+              <Code>remove_all_filters( &apos;wp_robots&apos; )</Code>, which
+              takes out Flexa&rsquo;s filter along with core&rsquo;s, and
+              print a tag of their own. The one tag on the page is theirs, and
+              Flexa&rsquo;s directives are not in it.
             </p>
             <p>
-              With All in One SEO 5.0.3 active and unconfigured, the single tag
-              came out as <Code>max-image-preview:large</Code> and nothing
-              else. Flexa&rsquo;s <Code>index, follow</Code> had been dropped
-              on the way through. SEOPress is the opposite case: it prints its
-              own tag instead of filtering, so the page carries two, one from
+              With All in One SEO 5.0.3 active and unconfigured, that tag came
+              out as <Code>max-image-preview:large</Code> and nothing else.
+              SEOPress does something else again: it prints its own tag and
+              leaves core&rsquo;s in place, so the page carries two, one from
               each plugin, with the same directives in both.
+            </p>
+          </Callout>
+          <Callout tone="warn" title="A post set to noindex can still be indexed">
+            <p>
+              The counts above are for a post with default settings. On 22
+              October 2026 the same pairings were run again with Flexa 1.0.0
+              on a post set to <Code>noindex</Code> in Flexa, against the
+              competitor versions in the baseline table. What the page said:
+            </p>
+            <Table
+              head={['Active alongside', 'Robots tags on the page']}
+              rows={[
+                [<strong key="n">Nothing</strong>, <Code key="t">noindex, follow</Code>],
+                [<strong key="n">Yoast</strong>, <Code key="t">noindex, follow</Code>],
+                [
+                  <strong key="n">Rank Math</strong>,
+                  <Code key="t">index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large</Code>,
+                ],
+                [<strong key="n">All in One SEO</strong>, <Code key="t">max-image-preview:large</Code>],
+                [
+                  <strong key="n">SEOPress</strong>,
+                  <span key="t">
+                    <Code>noindex, follow</Code> and a second tag,{' '}
+                    <Code>index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1</Code>
+                  </span>,
+                ],
+              ]}
+            />
+            <p>
+              With Rank Math or All in One SEO active, a noindex or nofollow
+              set in Flexa never reaches the page, so set it in the other
+              plugin until you switch that one off. With SEOPress the page
+              carries two tags that disagree. These cases are kept as
+              versioned fixtures and run again whenever one of the four
+              plugins ships a new version.
             </p>
           </Callout>
           <p>
@@ -354,6 +391,10 @@ export default function Compatibility() {
           <CodeBlock caption="Count canonical tags on a post">
             {`curl -s https://example.com/your-post/ \\
   | grep -c '<link rel="canonical"'`}
+          </CodeBlock>
+          <CodeBlock caption="Print every robots tag on a post">
+            {`curl -s https://example.com/your-post/ \\
+  | grep -io '<meta name=.robots.[^>]*>'`}
           </CodeBlock>
         </Section>
 
@@ -519,12 +560,21 @@ export default function Compatibility() {
               ],
               [
                 <span key="i">
-                  With All in One SEO active, the single{' '}
-                  <Code>meta name=robots</Code> tag carries AIOSEO&rsquo;s
-                  directives and Flexa&rsquo;s are dropped. Two plugins
-                  filtering <Code>wp_robots</Code> means one of them loses.
+                  The single <Code>meta name=robots</Code> tag is the other
+                  plugin&rsquo;s. Both remove every <Code>wp_robots</Code>{' '}
+                  filter, Flexa&rsquo;s included, so a post set to noindex in
+                  Flexa can still be indexed.
                 </span>,
-                'Flexa + AIOSEO',
+                'Flexa + Rank Math, Flexa + AIOSEO',
+                'Open, will not be fixed: run one SEO plugin',
+              ],
+              [
+                <span key="i">
+                  SEOPress prints a second robots tag. On a post set to noindex
+                  in Flexa, one tag says <Code>noindex</Code> and the other
+                  says <Code>index</Code>.
+                </span>,
+                'Flexa + SEOPress',
                 'Open, will not be fixed: run one SEO plugin',
               ],
             ]}

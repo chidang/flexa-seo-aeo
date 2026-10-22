@@ -45,6 +45,25 @@ final class SeoConflicts {
 	];
 
 	/**
+	 * Plugins that take the robots tag away from this one. Rank Math and All in
+	 * One SEO both call `remove_all_filters( 'wp_robots' )` and print a tag of
+	 * their own, so a noindex or nofollow set here never reaches the page.
+	 * Measured on a post set to noindex: Rank Math 1.0.270 printed `index`, All
+	 * in One SEO 5.0.3 printed neither.
+	 *
+	 * @var list<string>
+	 */
+	private const ROBOTS_REPLACED = [ 'rankmath', 'aioseo' ];
+
+	/**
+	 * Plugins that print a robots tag of their own next to core's. The page
+	 * carries both, and on a post set to noindex here they disagree.
+	 *
+	 * @var list<string>
+	 */
+	private const ROBOTS_DUPLICATED = [ 'seopress' ];
+
+	/**
 	 * Every known SEO plugin currently active, as id => label.
 	 *
 	 * @return array<string, string>
@@ -70,6 +89,25 @@ final class SeoConflicts {
 	 */
 	public static function is_plugin_active( string $id ): bool {
 		return isset( self::active()[ $id ] );
+	}
+
+	/**
+	 * Active plugins that stop this plugin's noindex and nofollow reaching the
+	 * page, as id => label.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function robots_replaced(): array {
+		return array_intersect_key( self::active(), array_flip( self::ROBOTS_REPLACED ) );
+	}
+
+	/**
+	 * Active plugins that print a second robots tag, as id => label.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function robots_duplicated(): array {
+		return array_intersect_key( self::active(), array_flip( self::ROBOTS_DUPLICATED ) );
 	}
 
 	/**
