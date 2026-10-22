@@ -20,7 +20,9 @@ defined( 'ABSPATH' ) || exit;
  * onboarding, so anything switched on afterwards went unnoticed for good.
  *
  * The dismissal records which plugins were active at the time, so hiding the
- * notice for Yoast does not also hide it when Rank Math turns up later.
+ * notice for Yoast does not also hide it when Rank Math turns up later. It also
+ * records which revision of the notice was hidden, so a warning added later is
+ * seen by people who dismissed the earlier text.
  */
 final class ConflictNotice {
 	use SingletonTrait;
@@ -29,6 +31,14 @@ final class ConflictNotice {
 	public const OPTION_KEY = 'flexa_seo_aeo_conflict_dismissed';
 
 	private const ACTION = 'flexa_seo_aeo_dismiss_conflict';
+
+	/**
+	 * Bump when the notice gains something a past dismissal should not hide.
+	 * Not the plugin version: that would bring the notice back on every update.
+	 *
+	 * 2: the noindex warning for Rank Math, All in One SEO and SEOPress.
+	 */
+	private const REVISION = 2;
 
 	public function register(): void {
 		add_action( 'admin_notices', [ $this, 'maybe_render' ] );
@@ -45,7 +55,7 @@ final class ConflictNotice {
 			return;
 		}
 
-		if ( SeoConflicts::signature() === (string) get_option( self::OPTION_KEY, '' ) ) {
+		if ( $this->dismissal_key() === (string) get_option( self::OPTION_KEY, '' ) ) {
 			return;
 		}
 
@@ -133,11 +143,20 @@ final class ConflictNotice {
 
 		check_admin_referer( self::ACTION );
 
-		update_option( self::OPTION_KEY, SeoConflicts::signature(), false );
+		update_option( self::OPTION_KEY, $this->dismissal_key(), false );
 
 		$referer = wp_get_referer();
 		wp_safe_redirect( is_string( $referer ) && '' !== $referer ? $referer : admin_url() );
 		exit;
+	}
+
+	/**
+	 * What a dismissal is stored as: the active plugins plus the notice
+	 * revision, e.g. `rankmath,yoast@2`. Values saved before revisions existed
+	 * carry no suffix, so they no longer match and the notice shows once more.
+	 */
+	private function dismissal_key(): string {
+		return SeoConflicts::signature() . '@' . self::REVISION;
 	}
 
 	private function dismiss_url(): string {
