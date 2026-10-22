@@ -24,6 +24,7 @@ No database, no WordPress install, no network. The suite runs in about 30ms.
 | `Unit/BreadcrumbsTest.php` | The posts-page trail, Home then the page itself, and the views that correctly get none (the `/blog/` missing JSON-LD backlog item from the 0.5.6 retests) |
 | `Unit/LegacyMapperTest.php` | Migration mapping from SEOPress (all nine string fields, the `'yes'` robots checkboxes, its `%%post_title%%`-style tokens), with Yoast and Rank Math pinned so the per-source token table cannot leak between them |
 | `Unit/ContentImagesTest.php` | Image URLs read out of stored post content for the image sitemap: block and classic markup, relative and protocol-relative paths, entities, and what is left out (`data:` URIs, `data-src`, directory-relative paths) |
+| `Unit/RobotsMergeTest.php` | How Flexa's directives merge into core's `wp_robots` array: noindex and nofollow as one-way latches from either side, preview hints dropped on noindex, directives Flexa never sets left alone, and the Flexa-alone values in `Compat/fixtures/robots.json` |
 
 ## How the WordPress side is faked
 
