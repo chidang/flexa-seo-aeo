@@ -35,6 +35,7 @@
         "lint": "phpcs",
         "lint:fix": "phpcbf",
         "analyse": "phpstan analyse --memory-limit=3G",
-        "test": "phpunit"
+        "test": "phpunit",
+        "compat:robots": "php tests/Compat/run-robots.php"
     }
 }
