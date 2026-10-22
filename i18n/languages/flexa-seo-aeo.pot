@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-20T05:09:45+00:00\n"
+"POT-Creation-Date: 2026-10-22T02:15:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: flexa-seo-aeo\n"
@@ -155,31 +155,51 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/Admin/ConflictNotice.php:53
+#: src/Admin/ConflictNotice.php:63
 msgid "This plugin"
 msgstr ""
 
-#: src/Admin/ConflictNotice.php:63
+#: src/Admin/ConflictNotice.php:73
 msgid "See which tags each pairing actually duplicates"
 msgstr ""
 
 #. translators: %s: comma-separated list of SEO plugin names.
-#: src/Admin/ConflictNotice.php:73
+#: src/Admin/ConflictNotice.php:85
 msgid "is running alongside %s."
 msgstr ""
 
-#: src/Admin/ConflictNotice.php:77
+#: src/Admin/ConflictNotice.php:89
 msgid ""
 "Two SEO plugins on one site means two canonical tags, two sets of Open Graph "
 "tags and often two JSON-LD graphs, and search engines pick between them. Run "
 "one and deactivate the other."
 msgstr ""
 
-#: src/Admin/ConflictNotice.php:82
+#: src/Admin/ConflictNotice.php:96
 msgid "I know, hide this"
 msgstr ""
 
-#: src/Admin/ConflictNotice.php:88
+#: src/Admin/ConflictNotice.php:109
+msgid "this plugin"
+msgstr ""
+
+#. translators: 1: an SEO plugin's name, 2: this plugin's name.
+#: src/Admin/ConflictNotice.php:118
+msgid ""
+"While %1$s is active, noindex and nofollow set in %2$s are not applied: it "
+"removes WordPress's robots output and prints its own robots tag. A post you "
+"set to noindex here can still be indexed. Set them in %1$s until you switch "
+"that plugin off."
+msgstr ""
+
+#. translators: %s: comma-separated list of SEO plugin names.
+#: src/Admin/ConflictNotice.php:130
+msgid ""
+"%s prints a second robots tag, so a post set to noindex here carries one tag "
+"saying noindex and another saying index."
+msgstr ""
+
+#: src/Admin/ConflictNotice.php:141
 msgid "You are not allowed to do that."
 msgstr ""
 

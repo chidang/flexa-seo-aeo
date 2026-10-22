@@ -380,7 +380,10 @@ export default function Compatibility() {
               With Rank Math or All in One SEO active, a noindex or nofollow
               set in Flexa never reaches the page, so set it in the other
               plugin until you switch that one off. With SEOPress the page
-              carries two tags that disagree. These cases are kept as
+              carries two tags that disagree. From the release after 1.0.0,
+              the conflict notice in wp-admin says this for whichever of
+              these plugins is active, and it shows again for anyone who
+              dismissed the earlier notice. These cases are kept as
               versioned fixtures and run again whenever one of the four
               plugins ships a new version.
             </p>
